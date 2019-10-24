@@ -83,15 +83,16 @@ class GetMessageController extends Controller
      */
 
    
-    //  public function index(){
-
-    //     $conn_string = "host=ec2-54-227-247-225.compute-1.amazonaws.com port=5432 dbname=d6sqa1kjuhkplb user=kdhscmqukijgmf password=69ed8377f66479ac6222f469c6fa6cd2b2318b0ce23fd6a3f0cd7b94f18606ca";
-    //     $dbconn = pg_pconnect($conn_string);
+     public function index(){
+        echo '5555';
+        // $conn_string = "host=ec2-54-227-247-225.compute-1.amazonaws.com port=5432 dbname=d6sqa1kjuhkplb user=kdhscmqukijgmf password=69ed8377f66479ac6222f469c6fa6cd2b2318b0ce23fd6a3f0cd7b94f18606ca";
+        // $dbconn = pg_pconnect($conn_string);
             
-    //       $user = 'U2dc636d2cd052e82c29f5284e00f69b9';
-    //         echo $user;
-                   
-    //  }
+        //   $user = 'U2dc636d2cd052e82c29f5284e00f69b9';
+        //     echo $user;
+        // $users_register = users_register::insert(['user_id'=>'$user','user_name' =>' $user_name' ,'status' => '4','user_age'=>'0','user_height'=>'0','user_Pre_weight'=>'0','user_weight'=>'0','preg_week'=>'0', 'phone_number'=>'NULL','email' =>'NULL','hospital_name'=>'NULL','hospital_number'=>'NULL','history_medicine'=>'NULL', 'history_food'=>'NULL','active_lifestyle'=>'0','created_at'=>NOW(),'updated_at' =>NOW(),'date_preg'=>'NULL','dateofbirth'=>'NULL','ulife_connect'=>'0']);
+        //  dd($users_register);          
+     }
      public function getmessage()
     {         
             // เชื่อมต่อกับ LINE Messaging API
