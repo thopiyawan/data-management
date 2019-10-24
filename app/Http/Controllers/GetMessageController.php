@@ -90,9 +90,20 @@ class GetMessageController extends Controller
             
         //   $user = 'U2dc636d2cd052e82c29f5284e00f69b9';
         //     echo $user;
-        $users_register = users_register::insert(['user_id'=>'$user','user_name' =>' $user_name' ,'status' => '4','user_age'=>'0','user_height'=>'0','user_Pre_weight'=>'0','user_weight'=>'0','preg_week'=>'0', 'phone_number'=>'NULL','email' =>'NULL','hospital_name'=>'NULL','hospital_number'=>'NULL','history_medicine'=>'NULL', 'history_food'=>'NULL','active_lifestyle'=>'0','created_at'=>Carbon::now(),'updated_at' =>Carbon::now(),'date_preg'=>'NULL','dateofbirth'=>'NULL','ulife_connect'=>'0']);
-        dd($users_register);          
-     }
+        // $users_register = users_register::insert(['user_id'=>'$user','user_name' =>' $user_name' ,'status' => '4','user_age'=>'0','user_height'=>'0','user_Pre_weight'=>'0','user_weight'=>'0','preg_week'=>'0', 'phone_number'=>'NULL','email' =>'NULL','hospital_name'=>'NULL','hospital_number'=>'NULL','history_medicine'=>'NULL', 'history_food'=>'NULL','active_lifestyle'=>'0','created_at'=>Carbon::now(),'updated_at' =>Carbon::now(),'date_preg'=>'NULL','dateofbirth'=>'NULL','ulife_connect'=>'0']);
+        // dd($users_register);      
+
+        $conn_string = "host=us-cdbr-iron-east-05.cleardb.net port=3306 dbname=heroku_152036fbd3b9020 user=b1129a9edff08e password=bc3a0532";
+        $conn = mysqli_connect($conn_string);
+        $sql = "INSERT INTO users (lineid, fullname, email, tel, dActive, dCreated)
+                VALUES ('u2333','John','john@example.com','0896543322',1,Carbon::now())";
+
+                if ($conn->query($sql) === TRUE) {
+                    echo "New record created successfully";
+                } else {
+                    echo "Error: " . $sql . "<br>" . $conn->error;
+                }    
+        }
      public function getmessage()
     {         
             // เชื่อมต่อกับ LINE Messaging API
