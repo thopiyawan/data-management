@@ -97,7 +97,8 @@ class GetMessageController extends Controller
                 }
 
 
-                users::insert(['lineid'=>'a','fullname' => 'b','email' => 'c','tel' =>'0000000000','dActive'=>0,'dCreated'=>NOW()]);
+                $a= users::insert(['lineid'=>'a','fullname' => 'b','email' => 'c','tel' =>'0000000000','dActive'=>0,'dCreated'=>NOW()]);
+                dd($a);
                 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
                 $textMessageBuilder = new TextMessageBuilder(json_encode($events));
                
