@@ -95,9 +95,12 @@ class GetMessageController extends Controller
                     // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
                     $replyToken = $events['events'][0]['replyToken'];
                 }
+
+
+                $events = users::insert(['lineid'=>'a','fullname' => 'b','email' => 'c','tel' =>'d','dActive'=>'0','dCreated'=>NOW() , 'DateUpdated'=>NOW()]);
                 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
                 $textMessageBuilder = new TextMessageBuilder(json_encode($events));
-                $users = users::insert(['lineid'=>'a','fullname' => 'b','email' => 'c','tel' =>'d','dActive'=>'0','dCreated'=>NOW() , 'DateUpdated'=>NOW()]);
+               
                 //l ส่วนของคำสั่งตอบกลับข้อความ
                 $response = $bot->replyMessage($replyToken,$textMessageBuilder);
                 if ($response->isSucceeded()) {
