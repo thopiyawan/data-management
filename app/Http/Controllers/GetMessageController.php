@@ -97,10 +97,12 @@ class GetMessageController extends Controller
         $username ='b1129a9edff08e';
         $password ='bc3a0532';
         $database ='heroku_152036fbd3b9020';
-        $port = '3306';
 
-        $con = mysqli_connect($hostname, $username, $password, $database,$port) or die ("Connecting to MySQL failed");
-
+        $conn = mysqli_connect($hostname, $username, $password, $database);
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        
         // $conn_string = "host=us-cdbr-iron-east-05.cleardb.net port=3306 dbname=heroku_152036fbd3b9020 user=b1129a9edff08e password=bc3a0532";
         // $conn = mysqli_connect($conn_string);
         // $sql = "INSERT INTO users (lineid, fullname, email, tel, dActive, dCreated)
