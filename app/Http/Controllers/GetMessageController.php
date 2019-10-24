@@ -94,9 +94,9 @@ class GetMessageController extends Controller
         // dd($users_register); 
         
         $hostname ='us-cdbr-iron-east-05.cleardb.net';
-        $username ='b1129a9edff08e';
-        $password ='bc3a0532';
-        $database ='heroku_152036fbd3b9020';
+        $username ='b74ad905a9cc1e';
+        $password ='bf1cdf81';
+        $database ='heroku_0f89376d5e06de8';
 
         $conn = mysqli_connect($hostname, $username, $password, $database);
         if (!$conn) {
