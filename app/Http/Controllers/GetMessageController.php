@@ -105,7 +105,7 @@ class GetMessageController extends Controller
     
         // $conn = mysqli_connect($conn);
         $sql = "INSERT INTO users (lineid, fullname, email, tel, dActive, dCreated)
-                 VALUES ('u2333','John','john@example.com','0896543322',1,Carbon::now())";
+                 VALUES ('u2333','John','john@example.com','0896543322',1,now()";
 
                 if ($conn->query($sql) === TRUE) {
                     echo "New record created successfully";
