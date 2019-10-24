@@ -102,11 +102,10 @@ class GetMessageController extends Controller
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }
-        
-        // $conn_string = "host=us-cdbr-iron-east-05.cleardb.net port=3306 dbname=heroku_152036fbd3b9020 user=b1129a9edff08e password=bc3a0532";
-        // $conn = mysqli_connect($conn_string);
-        // $sql = "INSERT INTO users (lineid, fullname, email, tel, dActive, dCreated)
-        //         VALUES ('u2333','John','john@example.com','0896543322',1,Carbon::now())";
+    
+        // $conn = mysqli_connect($conn);
+        $sql = "INSERT INTO users (lineid, fullname, email, tel, dActive, dCreated)
+                 VALUES ('u2333','John','john@example.com','0896543322',1,Carbon::now())";
 
         //         if ($conn->query($sql) === TRUE) {
         //             echo "New record created successfully";
