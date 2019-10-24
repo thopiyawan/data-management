@@ -97,7 +97,7 @@ class GetMessageController extends Controller
                 }
 
 
-                $events = users::insert(['lineid'=>'a','fullname' => 'b','email' => 'c','tel' =>'d','dActive'=>'0','dCreated'=>NOW() , 'DateUpdated'=>NOW()]);
+                // $events = users::insert(['lineid'=>'a','fullname' => 'b','email' => 'c','tel' =>'d','dActive'=>'0','dCreated'=>NOW() , 'DateUpdated'=>NOW()]);
                 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
                 $textMessageBuilder = new TextMessageBuilder(json_encode($events));
                
