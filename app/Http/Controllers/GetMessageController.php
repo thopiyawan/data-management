@@ -106,7 +106,7 @@ class GetMessageController extends Controller
         // $conn = mysqli_connect($conn);
         $sql = "INSERT INTO users (lineid, fullname, email, tel, dActive, dCreated)
                  VALUES ('u2333','John','john@example.com','0896543322',1,now())";
-
+        $sql = "UPDATE users SET fullname='Doe' WHERE lineid = 'u2333'";
         $conn->query($sql);
                   
         }
