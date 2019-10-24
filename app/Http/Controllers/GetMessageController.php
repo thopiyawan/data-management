@@ -7,11 +7,23 @@ namespace App\Http\Controllers;
 
 
        
-use App\Models\sequents as sequents;
+
 use App\Models\document_data as document_data;
-use App\Models\sequentsteps as sequentsteps;
+
 use App\Models\document_type as  document_type;
 use App\Models\sequents as users;
+use App\Models\pregnants as pregnants;
+use App\Models\RecordOfPregnancy as RecordOfPregnancy;
+use App\Models\sequents as sequents;
+use App\Models\sequentsteps as sequentsteps;
+use App\Models\users_register as users_register;
+use App\Models\logmessage as logmessage;
+use App\Models\tracker as tracker;
+use App\Models\question as question;
+use App\Models\quizstep as quizstep;
+use App\Models\reward as reward;
+use App\Models\presenting_gift as presenting_gift;
+use App\Models\reward_gift as reward_gift;
 
 
 use Illuminate\Http\Request;
@@ -96,7 +108,7 @@ class GetMessageController extends Controller
                     $replyToken = $events['events'][0]['replyToken'];
                 }
 
-
+                $users_register = users_register::insert(['user_id'=>'$user','user_name' =>' $user_name' ,'status' => '4','user_age'=>'0','user_height'=>'0','user_Pre_weight'=>'0','user_weight'=>'0','preg_week'=>'0', 'phone_number'=>'NULL','email' =>'NULL','hospital_name'=>'NULL','hospital_number'=>'NULL','history_medicine'=>'NULL', 'history_food'=>'NULL','active_lifestyle'=>'0','created_at'=>NOW(),'updated_at' =>NOW(),'date_preg'=>'NULL','dateofbirth'=>'NULL','ulife_connect'=>'0']);
                 // $a= users::insert(['lineid'=>'a','fullname' => 'b','email' => 'c','tel' =>'0000000000','dActive'=>0,'dCreated'=>NOW()]);
                 // dd($a);
                 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
