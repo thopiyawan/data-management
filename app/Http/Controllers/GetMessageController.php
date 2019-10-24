@@ -11,6 +11,7 @@ use App\Models\sequents as sequents;
 use App\Models\document_data as document_data;
 use App\Models\sequentsteps as sequentsteps;
 use App\Models\document_type as  document_type;
+use App\Models\sequents as users;
 
 
 use Illuminate\Http\Request;
@@ -81,27 +82,6 @@ class GetMessageController extends Controller
     //  }
      public function getmessage()
     {         
-    
-        //     $httpClient = new CurlHTTPClient('UNACfqO1IKjufn4f6OfHZPuXnlKXsQBXgSd0Vl7uE+O2YuDAlk1obk36GW9D6WtGtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi6l3MeZt++4skzCQ8zdtmbIyCY/15AZOWKxKw1VGdep0wdB04t89/1O/w1cDnyilFU=');
-        //     $bot = new LINEBot($httpClient, array('channelSecret' => '572a7adea7a0959295e21cb626dae011'));
-        //     // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
-        //     $content = file_get_contents('php://input');
-        //     // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
-        //     $events = json_decode($content, true);
-        //     if(!is_null($events)){
-        //     // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
-        //     $replyToken  = $events['events'][0]['replyToken'];
-        //     $user        = $events['events'][0]['source']['userId'];
-        //    // $userMessage = $events['events'][0]['message']['text'];
-        //     $typeMessage = $events['events'][0]['message']['type'];
-        //     $idMessage   = $events['events'][0]['message']['id']; 
-        //     }
-        //     $userMessage =  $typeMessage;
-        //     return $this->replymessage($replyToken,$userMessage);
-
-
-
-
             // เชื่อมต่อกับ LINE Messaging API
                 $httpClient = new CurlHTTPClient('+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=');
                 $bot = new LINEBot($httpClient, array('channelSecret' => '572a7adea7a0959295e21cb626dae011'));
@@ -117,18 +97,16 @@ class GetMessageController extends Controller
                 }
                 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
                 $textMessageBuilder = new TextMessageBuilder(json_encode($events));
-                
+                $users = users::insert(['lineid'=>'a','fullname' => 'b','email' => 'c','tel' =>'d','dActive'=>'0','dCreated'=>NOW() , 'DateUpdated'=>NOW()]);
                 //l ส่วนของคำสั่งตอบกลับข้อความ
                 $response = $bot->replyMessage($replyToken,$textMessageBuilder);
                 if ($response->isSucceeded()) {
                     echo 'Succeeded!';
                     return;
                 }
-                
+               // $users = users::insert(['sender_id'=>$user,'seqcode' => $seqcode,'answer' => 'NULL','nextseqcode' =>$nextseqcode,'status'=>'0','created_at'=>NOW() , 'updated_at'=>NOW()]);
                 // Failed
                 echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
-
-
 
     }
             // $case = 1;
