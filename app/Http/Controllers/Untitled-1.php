@@ -183,357 +183,357 @@ class GetMessageController extends Controller
         
 //////////////////////////////////////////////////////////////////
 
-if($typeMessage=='text'){
-      if(!is_null($events)){
-            $userMessage = $events['events'][0]['message']['text'];
-            }
+// if($typeMessage=='text'){
+//       if(!is_null($events)){
+//             $userMessage = $events['events'][0]['message']['text'];
+//             }
 
-        if((strpos($userMessage, 'hi') !== false )|| (strpos($userMessage, 'มีเคส') !== false && $seqcode == '0000') || (strpos($userMessage, 'ขอนัด') !== false && $seqcode == '0000')||(strpos($userMessage, 'ส่งเคส') !== false && $seqcode == '0000')){
-               $case = 12;
-            //    $seqcode = '0001_1';
-            //    $nextseqcode = '0002';
+//         if((strpos($userMessage, 'ขอนัดกลืนแร่') !== false && $seqcode == '0000')|| (strpos($userMessage, 'มีเคส') !== false && $seqcode == '0000') || (strpos($userMessage, 'ขอนัด') !== false && $seqcode == '0000')||(strpos($userMessage, 'ส่งเคส') !== false && $seqcode == '0000')){
+//                $case = 12;
+//                $seqcode = '0001_1';
+//                $nextseqcode = '0002';
             
-            //    $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-               $userMessage = 'สวัสดีค่ะ ต้องการนัดกลืนแร่ไหมคะ';
+//                $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                $userMessage = 'สวัสดีค่ะ ต้องการนัดกลืนแร่ไหมคะ';
 
-        }elseif ($userMessage == 'q' || $userMessage == 'Q' || $userMessage == 'เริ่มต้นการใช้งาน' ){
-                //   $seqcode = '0000';
-                //   $nextseqcode = '0000';
-                //   $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                  $case = 1;
-                  $userMessage = 'ออกจากการนัดกลืนแร่เรียบร้อย';
+//         }elseif ($userMessage == 'q' || $userMessage == 'Q' || $userMessage == 'เริ่มต้นการใช้งาน' ){
+//                   $seqcode = '0000';
+//                   $nextseqcode = '0000';
+//                   $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                   $case = 1;
+//                   $userMessage = 'ออกจากการนัดกลืนแร่เรียบร้อย';
 
-    //      }elseif(is_string($userMessage) !== false &&   $seqcode== '0001_1'){
+//          }elseif(is_string($userMessage) !== false &&   $seqcode== '0001_1'){
                 
-    //             if($userMessage == '1'){
-    //                 $case = 2;
-    //                 $seqcode = '0001';
-    //                 $nextseqcode = '0002';
+//                 if($userMessage == '1'){
+//                     $case = 2;
+//                     $seqcode = '0001';
+//                     $nextseqcode = '0002';
             
-    //                $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                $question = $this->sequents_question($seqcode);
-    //                $userMessage = $question;
+//                    $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                    $question = $this->sequents_question($seqcode);
+//                    $userMessage = $question;
                     
-    //             }elseif($userMessage == '2'){
-    //                 $case = 13;
-    //                 $seqcode = '0005';
-    //                 //$nextseqcode = '0006';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $seqcode = '0000';
-    //                 $nextseqcode = '0006';
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 }elseif($userMessage == '2'){
+//                     $case = 13;
+//                     $seqcode = '0005';
+//                     //$nextseqcode = '0006';
+//                     $question = $this->sequents_question($seqcode);
+//                     $seqcode = '0000';
+//                     $nextseqcode = '0006';
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
-    //             }else{
-    //                 $case = 1;
-    //                 $userMessage ='กรุณากดเลือกต้องการหรือ ไม่ต้องการ';
-    //             }
+//                 }else{
+//                     $case = 1;
+//                     $userMessage ='กรุณากดเลือกต้องการหรือ ไม่ต้องการ';
+//                 }
 
-    //         }elseif(is_string($userMessage)!== false &&  $seqcode == '0001'){
+//             }elseif(is_string($userMessage)!== false &&  $seqcode == '0001'){
                 
-    //             if($userMessage == '1'){
-    //                 $case = 4;
-    //                 $seqcode = '0006';
-    //                 $nextseqcode = '0007';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
-    //                 //รูป
+//                 if($userMessage == '1'){
+//                     $case = 4;
+//                     $seqcode = '0006';
+//                     $nextseqcode = '0007';
+//                     $question = $this->sequents_question($seqcode);
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
+//                     //รูป
                     
-    //             }elseif($userMessage == '2'){
-    //                 $case = 3;
-    //                 $seqcode = '0003';
-    //                 $nextseqcode = '0004';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 }elseif($userMessage == '2'){
+//                     $case = 3;
+//                     $seqcode = '0003';
+//                     $nextseqcode = '0004';
+//                     $question = $this->sequents_question($seqcode);
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
 
-    //             }elseif($userMessage == '3'){
-    //                 $case = 13;
-    //                 $seqcode = '0005';
-    //                 // $nextseqcode = '0006';
+//                 }elseif($userMessage == '3'){
+//                     $case = 13;
+//                     $seqcode = '0005';
+//                     // $nextseqcode = '0006';
 
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $seqcode = '0000';
-    //                 $nextseqcode = '0006';
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                     $question = $this->sequents_question($seqcode);
+//                     $seqcode = '0000';
+//                     $nextseqcode = '0006';
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
-    //             }else{
-    //                 $case = 1;
-    //                 $userMessage ='กรุณากดเลือกใช่,ไม่ใช่ หรือ ไม่แน่ใจ';
-    //             }
-    //          }elseif(is_string($userMessage) !== false &&   $seqcode== '0003'){
+//                 }else{
+//                     $case = 1;
+//                     $userMessage ='กรุณากดเลือกใช่,ไม่ใช่ หรือ ไม่แน่ใจ';
+//                 }
+//              }elseif(is_string($userMessage) !== false &&   $seqcode== '0003'){
                 
-    //             if($userMessage == '1'){
-    //                 $case = 13;
-    //                 $seqcode = '0004';
-    //                // $nextseqcode = '0005';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $seqcode = '0000';
-    //                 $nextseqcode = '0005';
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
-    //                 //รูป
+//                 if($userMessage == '1'){
+//                     $case = 13;
+//                     $seqcode = '0004';
+//                    // $nextseqcode = '0005';
+//                     $question = $this->sequents_question($seqcode);
+//                     $seqcode = '0000';
+//                     $nextseqcode = '0005';
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
+//                     //รูป
                     
-    //             }elseif($userMessage == '2'){
-    //                 $case = 13;
-    //                 $seqcode = '0005';
-    //                 // $nextseqcode = '0006';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $seqcode = '0000';
-    //                 $nextseqcode = '0006';
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 }elseif($userMessage == '2'){
+//                     $case = 13;
+//                     $seqcode = '0005';
+//                     // $nextseqcode = '0006';
+//                     $question = $this->sequents_question($seqcode);
+//                     $seqcode = '0000';
+//                     $nextseqcode = '0006';
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
-    //             }else{
-    //                 $case = 1;
-    //                 $userMessage ='กรุณากดเลือกตกลง หรือ มีปัญหาการคุมกำเนิด';
-    //             }
+//                 }else{
+//                     $case = 1;
+//                     $userMessage ='กรุณากดเลือกตกลง หรือ มีปัญหาการคุมกำเนิด';
+//                 }
             
-    //          }elseif(is_string($userMessage) !== false &&  $seqcode == '0007'){
+//              }elseif(is_string($userMessage) !== false &&  $seqcode == '0007'){
                 
-    //             if($userMessage == '1'){
-    //                 $case = 6;
-    //                 $seqcode = '0008';
-    //                 $nextseqcode = '0009';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
-    //                 //รูป
+//                 if($userMessage == '1'){
+//                     $case = 6;
+//                     $seqcode = '0008';
+//                     $nextseqcode = '0009';
+//                     $question = $this->sequents_question($seqcode);
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
+//                     //รูป
                     
-    //             }elseif($userMessage == '2'){
-    //                 $case = 4;
-    //                 $seqcode = '0006';
-    //                 $nextseqcode = '0007';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 }elseif($userMessage == '2'){
+//                     $case = 4;
+//                     $seqcode = '0006';
+//                     $nextseqcode = '0007';
+//                     $question = $this->sequents_question($seqcode);
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
 
-    //             }elseif($userMessage == '3'){
-    //                 $case = 13;
-    //                 $seqcode = '0005';
-    //                 // $nextseqcode = '0006';
+//                 }elseif($userMessage == '3'){
+//                     $case = 13;
+//                     $seqcode = '0005';
+//                     // $nextseqcode = '0006';
                   
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $seqcode = '0000';
-    //                 $nextseqcode = '0006';
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                     $question = $this->sequents_question($seqcode);
+//                     $seqcode = '0000';
+//                     $nextseqcode = '0006';
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
 
-    //             }else{
-    //                 $case = 1;
-    //                 $userMessage ='กรุณากดเลือกใช่,ไม่ใช่ หรือ เอกสารไม่ครบ';
-    //             }
+//                 }else{
+//                     $case = 1;
+//                     $userMessage ='กรุณากดเลือกใช่,ไม่ใช่ หรือ เอกสารไม่ครบ';
+//                 }
 
-    //   //*****///
-    //         }elseif(is_string($userMessage) !== false &&  $seqcode == '0008'){
+//       //*****///
+//             }elseif(is_string($userMessage) !== false &&  $seqcode == '0008'){
                 
-    //             if($userMessage == '1'){
-    //                 $case = 7;
-    //                 $seqcode = '0009';
-    //                 $nextseqcode = '0010';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 if($userMessage == '1'){
+//                     $case = 7;
+//                     $seqcode = '0009';
+//                     $nextseqcode = '0010';
+//                     $question = $this->sequents_question($seqcode);
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
                     
-    //             }elseif($userMessage == '2'){
-    //                 $case = 9;
-    //                 $seqcode = '0011';
-    //                 $nextseqcode = '0012';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 }elseif($userMessage == '2'){
+//                     $case = 9;
+//                     $seqcode = '0011';
+//                     $nextseqcode = '0012';
+//                     $question = $this->sequents_question($seqcode);
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
-    //             }else{
-    //                 $case = 1;
-    //                 $userMessage ='กรุณากดเลือกใช่ หรือ ไม่ใช่';
-    //             }
-    //         }elseif(is_string($userMessage) !== false &&  $seqcode == '0010'){
+//                 }else{
+//                     $case = 1;
+//                     $userMessage ='กรุณากดเลือกใช่ หรือ ไม่ใช่';
+//                 }
+//             }elseif(is_string($userMessage) !== false &&  $seqcode == '0010'){
                 
-    //             if($userMessage == '1'){
-    //                 $case = 9;
-    //                 $seqcode = '0011';
-    //                 $nextseqcode = '0012';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
-    //                 //รูป
+//                 if($userMessage == '1'){
+//                     $case = 9;
+//                     $seqcode = '0011';
+//                     $nextseqcode = '0012';
+//                     $question = $this->sequents_question($seqcode);
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
+//                     //รูป
                     
-    //             }elseif($userMessage == '2'){
-    //                 $case = 7;
-    //                 $seqcode = '0009';
-    //                 $nextseqcode = '0010';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 }elseif($userMessage == '2'){
+//                     $case = 7;
+//                     $seqcode = '0009';
+//                     $nextseqcode = '0010';
+//                     $question = $this->sequents_question($seqcode);
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
 
-    //             }elseif($userMessage == '3'){
-    //                 $case = 13;
-    //                 $seqcode = '0005';
-    //                 // $nextseqcode = '0006';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $seqcode = '0000';
-    //                 $nextseqcode = '0006';
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 }elseif($userMessage == '3'){
+//                     $case = 13;
+//                     $seqcode = '0005';
+//                     // $nextseqcode = '0006';
+//                     $question = $this->sequents_question($seqcode);
+//                     $seqcode = '0000';
+//                     $nextseqcode = '0006';
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
 
-    //             }else{
-    //                 $case = 1;
-    //                 $userMessage ='กรุณากดเลือกใช่,ไม่ใช่ หรือ เอกสารไม่ครบ';
-    //             }
+//                 }else{
+//                     $case = 1;
+//                     $userMessage ='กรุณากดเลือกใช่,ไม่ใช่ หรือ เอกสารไม่ครบ';
+//                 }
 
 
-    //          }elseif(is_string($userMessage) !== false &&  $seqcode == '0012'){
+//              }elseif(is_string($userMessage) !== false &&  $seqcode == '0012'){
                 
-    //             if($userMessage == '1'){
-    //                 $case = 6;
-    //                 $seqcode = '0013';
-    //                 $nextseqcode = '0018';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
-    //                 //รูป
+//                 if($userMessage == '1'){
+//                     $case = 6;
+//                     $seqcode = '0013';
+//                     $nextseqcode = '0018';
+//                     $question = $this->sequents_question($seqcode);
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
+//                     //รูป
                     
-    //             }elseif($userMessage == '2'){
-    //                 $case = 9;
-    //                 $seqcode = '0011';
-    //                 $nextseqcode = '0012';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 }elseif($userMessage == '2'){
+//                     $case = 9;
+//                     $seqcode = '0011';
+//                     $nextseqcode = '0012';
+//                     $question = $this->sequents_question($seqcode);
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
 
-    //             }elseif($userMessage == '3'){
-    //                 $case = 13;
-    //                 $seqcode = '0005';
-    //                 // $nextseqcode = '0006';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $seqcode = '0000';
-    //                 $nextseqcode = '0006';
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 }elseif($userMessage == '3'){
+//                     $case = 13;
+//                     $seqcode = '0005';
+//                     // $nextseqcode = '0006';
+//                     $question = $this->sequents_question($seqcode);
+//                     $seqcode = '0000';
+//                     $nextseqcode = '0006';
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
 
-    //             }else{
-    //                 $case = 1;
-    //                 $userMessage ='กรุณากดเลือกใช่,ไม่ใช่ หรือ เอกสารไม่ครบ';
-    //             }
+//                 }else{
+//                     $case = 1;
+//                     $userMessage ='กรุณากดเลือกใช่,ไม่ใช่ หรือ เอกสารไม่ครบ';
+//                 }
 
-    //         }elseif(is_string($userMessage) !== false &&  $seqcode == '0013'){
+//             }elseif(is_string($userMessage) !== false &&  $seqcode == '0013'){
                 
-    //             if($userMessage == '1'){
-    //                 $case = 13;
-    //                 $seqcode = '0018';
-    //                 // $nextseqcode = '0000';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $seqcode = '0000';
-    //                 $nextseqcode = '0000';
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 if($userMessage == '1'){
+//                     $case = 13;
+//                     $seqcode = '0018';
+//                     // $nextseqcode = '0000';
+//                     $question = $this->sequents_question($seqcode);
+//                     $seqcode = '0000';
+//                     $nextseqcode = '0000';
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
                     
-    //             }elseif($userMessage == '2'){
-    //                 $case = 10;
-    //                 $seqcode = '0014';
-    //                 $nextseqcode = '0015';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 }elseif($userMessage == '2'){
+//                     $case = 10;
+//                     $seqcode = '0014';
+//                     $nextseqcode = '0015';
+//                     $question = $this->sequents_question($seqcode);
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
-    //             }else{
-    //                 $case = 1;
-    //                 $userMessage ='กรุณากดเลือกใช่ หรือ ไม่ใช่';
-    //             }
+//                 }else{
+//                     $case = 1;
+//                     $userMessage ='กรุณากดเลือกใช่ หรือ ไม่ใช่';
+//                 }
 
-    //          }elseif(is_string($userMessage) !== false &&  $seqcode == '0015'){
+//              }elseif(is_string($userMessage) !== false &&  $seqcode == '0015'){
                 
-    //             if($userMessage == '1'){
-    //                 $case = 11;
-    //                 $seqcode = '0016';
-    //                 $nextseqcode = '0017';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
-    //                 //รูป
+//                 if($userMessage == '1'){
+//                     $case = 11;
+//                     $seqcode = '0016';
+//                     $nextseqcode = '0017';
+//                     $question = $this->sequents_question($seqcode);
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
+//                     //รูป
                     
-    //             }elseif($userMessage == '2'){
-    //                 $case = 10;
-    //                 $seqcode = '0014';
-    //                 $nextseqcode = '0015';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 }elseif($userMessage == '2'){
+//                     $case = 10;
+//                     $seqcode = '0014';
+//                     $nextseqcode = '0015';
+//                     $question = $this->sequents_question($seqcode);
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
 
-    //             }elseif($userMessage == '3'){
-    //                 $case = 13;
-    //                 $seqcode = '0005';
-    //                 // $nextseqcode = '0006';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $seqcode = '0000';
-    //                 $nextseqcode = '0006';
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 }elseif($userMessage == '3'){
+//                     $case = 13;
+//                     $seqcode = '0005';
+//                     // $nextseqcode = '0006';
+//                     $question = $this->sequents_question($seqcode);
+//                     $seqcode = '0000';
+//                     $nextseqcode = '0006';
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
 
-    //             }else{
-    //                 $case = 1;
-    //                 $userMessage ='กรุณากดเลือกใช่,ไม่ใช่ หรือ เอกสารไม่ครบ';
-    //             }
+//                 }else{
+//                     $case = 1;
+//                     $userMessage ='กรุณากดเลือกใช่,ไม่ใช่ หรือ เอกสารไม่ครบ';
+//                 }
 
-    //         }elseif(is_string($userMessage) !== false &&  $seqcode == '0017'){
+//             }elseif(is_string($userMessage) !== false &&  $seqcode == '0017'){
                 
-    //             if($userMessage == '1'){
-    //                 $case = 13;
-    //                 $seqcode = '0018';
-    //                 //$nextseqcode = '0000';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $seqcode = '0000';
-    //                 $nextseqcode = '0000';
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
-    //                 //รูป
+//                 if($userMessage == '1'){
+//                     $case = 13;
+//                     $seqcode = '0018';
+//                     //$nextseqcode = '0000';
+//                     $question = $this->sequents_question($seqcode);
+//                     $seqcode = '0000';
+//                     $nextseqcode = '0000';
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
+//                     //รูป
                     
-    //             }elseif($userMessage == '2'){
-    //                 $case = 11;
-    //                 $seqcode = '0016';
-    //                 $nextseqcode = '0017';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 }elseif($userMessage == '2'){
+//                     $case = 11;
+//                     $seqcode = '0016';
+//                     $nextseqcode = '0017';
+//                     $question = $this->sequents_question($seqcode);
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
 
-    //             }elseif($userMessage == '3'){
-    //                 $case = 13;
-    //                 $seqcode = '0005';
-    //                 // $nextseqcode = '0006';
-    //                 $question = $this->sequents_question($seqcode);
-    //                 $seqcode = '0000';
-    //                 $nextseqcode = '0006';
-    //                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-    //                 $userMessage =  $question;
+//                 }elseif($userMessage == '3'){
+//                     $case = 13;
+//                     $seqcode = '0005';
+//                     // $nextseqcode = '0006';
+//                     $question = $this->sequents_question($seqcode);
+//                     $seqcode = '0000';
+//                     $nextseqcode = '0006';
+//                     $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+//                     $userMessage =  $question;
 
 
-    //             }else{
-    //                 $case = 1;
-    //                 $userMessage ='กรุณากดเลือกใช่,ไม่ใช่ หรือ เอกสารไม่ครบ';
-    //             }
+//                 }else{
+//                     $case = 1;
+//                     $userMessage ='กรุณากดเลือกใช่,ไม่ใช่ หรือ เอกสารไม่ครบ';
+//                 }
 
-            // }elseif (strpos($userMessage, 'hello') !== false || strpos($userMessage, 'สวัสดี') !== false){
-            //     $userMessage  = 'สวัสดีค่ะ ';
-            //     $case = 1; 
+//             // }elseif (strpos($userMessage, 'hello') !== false || strpos($userMessage, 'สวัสดี') !== false){
+//             //     $userMessage  = 'สวัสดีค่ะ ';
+//             //     $case = 1; 
             
-            }
-            // else{
-            //     $userMessage  = 'ฉันไม่เข้าใจ';
-            //     $case = 1; 
-            // }     
-/////////////////*******image*****///////////////////////
+//             }
+//             // else{
+//             //     $userMessage  = 'ฉันไม่เข้าใจ';
+//             //     $case = 1; 
+//             // }     
+// /////////////////*******image*****///////////////////////
 // }elseif($typeMessage=='image'){
 //         switch ($seqcode) {
 //             case '0006':
@@ -591,15 +591,15 @@ if($typeMessage=='text'){
              
 // }
 
-// else{
-//       $userMessage  = 'สติ้กเกอร์น่ารักจัง';
-//                 $case = 1; 
+// // else{
+// //       $userMessage  = 'สติ้กเกอร์น่ารักจัง';
+// //                 $case = 1; 
              
-// }
+// // }
 
-//////////////////////////////////////////
+// //////////////////////////////////////////
 
-             return $this->replymessage($replyToken,$userMessage,$case);
+//              return $this->replymessage($replyToken,$userMessage,$case);
           
         
 
