@@ -122,48 +122,314 @@ class GetMessageController extends Controller
                 
                 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
                 $events = json_decode($content, true);
-                if(!is_null($events)){
-                    // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
-                    $replyToken = $events['events'][0]['replyToken'];
-                }
-
-               // $users_register = users_register::insert(['user_id'=>'$user','user_name' =>' $user_name' ,'status' => '4','user_age'=>'0','user_height'=>'0','user_Pre_weight'=>'0','user_weight'=>'0','preg_week'=>'0', 'phone_number'=>'NULL','email' =>'NULL','hospital_name'=>'NULL','hospital_number'=>'NULL','history_medicine'=>'NULL', 'history_food'=>'NULL','active_lifestyle'=>'0','created_at'=>NOW(),'updated_at' =>NOW(),'date_preg'=>'NULL','dateofbirth'=>'NULL','ulife_connect'=>'0']);
-                // $a= users::insert(['lineid'=>'a','fullname' => 'b','email' => 'c','tel' =>'0000000000','dActive'=>0,'dCreated'=>NOW()]);
-                // dd($a);
+                    if(!is_null($events)){
+                        // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
+                        $replyToken  = $events['events'][0]['replyToken'];
+                        $user        = $events['events'][0]['source']['userId'];
+                    // $userMessage = $events['events'][0]['message']['text'];
+                        $typeMessage = $events['events'][0]['message']['type'];
+                        $idMessage   = $events['events'][0]['message']['id']; 
+                    }
                 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
-                $textMessageBuilder = new TextMessageBuilder(json_encode($events));
+            //     $textMessageBuilder = new TextMessageBuilder(json_encode($events));
                
-                //l ส่วนของคำสั่งตอบกลับข้อความ
-                $response = $bot->replyMessage($replyToken,$textMessageBuilder);
-                if ($response->isSucceeded()) {
-                    echo 'Succeeded!';
-                    return;
-                }
-               // $users = users::insert(['sender_id'=>$user,'seqcode' => $seqcode,'answer' => 'NULL','nextseqcode' =>$nextseqcode,'status'=>'0','created_at'=>NOW() , 'updated_at'=>NOW()]);
-                // Failed
-                echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
+            //     //l ส่วนของคำสั่งตอบกลับข้อความ
+            //     $response = $bot->replyMessage($replyToken,$textMessageBuilder);
+            //     if ($response->isSucceeded()) {
+            //         echo 'Succeeded!';
+            //         return;
+            //     }
+            //    // $users = users::insert(['sender_id'=>$user,'seqcode' => $seqcode,'answer' => 'NULL','nextseqcode' =>$nextseqcode,'status'=>'0','created_at'=>NOW() , 'updated_at'=>NOW()]);
+            //     // Failed
+            //     echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
 
+///////////////////////////////////////////////////
+if($typeMessage=='text'){
+    if(!is_null($events)){
+          $userMessage = $events['events'][0]['message']['text'];
+          }
+      if(strpos($userMessage, 'hi') !== false){
+             $case = 12;
+             $seqcode = '0001_1';
+             $nextseqcode = '0002';
+          
+             $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+             $userMessage = 'สวัสดีค่ะ ต้องการนัดกลืนแร่ไหมคะ';
+      }else{
+                $case = 1;
+                $userMessage = 'ออกจากการนัดกลืนแร่เรียบร้อย';
+      }
     }
-            // $case = 1;
-            // return $this->replymessage($replyToken,$userMessage,$case);
-                // $conn_string = "host=ec2-54-227-247-225.compute-1.amazonaws.com port=5432 dbname=d6sqa1kjuhkplb user=kdhscmqukijgmf password=69ed8377f66479ac6222f469c6fa6cd2b2318b0ce23fd6a3f0cd7b94f18606ca";
-                // $dbconn = pg_pconnect($conn_string);
+  //////////////////////////////////////////////////////        
 
-                // $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
-                // $num = pg_num_rows($result);
-                //     if($num==0)         
-                //  {  
-                //      $seqcode = '0000';
-                //      $nextseqcode = '0000';             
-                //      $insert_sequentsteps = $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
-                //  }
-      
-                // $seqcode = $this->seqcode_select($user);
+  return $this->replymessage($replyToken,$userMessage,$case);
+
+}
+
+
+public function replymessage($replyToken,$userMessage,$case)
+{
+      $httpClient = new CurlHTTPClient('Vf5/E8YVJGtBLdDKO0KKypasAfw+x3BjBCXG18D602yuJsY5Jp+r/fS8jS54THIgGIlbySeNWH4k52hCcs+NM/zhWbdso+sw7Vwnt8sqaPBtze3kBiiQUNI4BI/oy+b5j5WlZnsV8yxL8ozCHMQUXwdB04t89/1O/w1cDnyilFU=');
+        $bot = new LINEBot($httpClient, array('channelSecret' => '96503ab7de564a74e4e13c5a7a3e0e40'));
         
+        switch($case) {
+ 
+            case 1 : 
+                    $textMessageBuilder = new TextMessageBuilder($userMessage);
+                break;
+            case 2 : 
+                    $textMessage1 = new TextMessageBuilder($userMessage);
+                    $actionBuilder = array(
+                                      new MessageTemplateActionBuilder(
+                                      'ใช่',// ข้อความแสดงในปุ่ม
+                                      '1' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      ),
+                                       new MessageTemplateActionBuilder(
+                                      'ไม่ใช่',// ข้อความแสดงในปุ่ม
+                                      '2' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      ),
+                                       new MessageTemplateActionBuilder(
+                                      'ไม่แน่ใจ',// ข้อความแสดงในปุ่ม
+                                      '3' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      ) 
+                                     );
+                $imageUrl = NULL;
+                $textMessage2 = new TemplateMessageBuilder('Template',
+                 new ButtonTemplateBuilder(
+                          NULL, // กำหนดหัวเรื่อง
+                          'ผู้ป่วยเป็นผู้ชายหรือผู้หญิงวัยหมดประจำเดือนหรือได้คุมกำเนิดด้วยวิธีทำหมัน, ฉีดยาคุม, ฝังยาคุมหรือใส่ห่วงอนามัยแล้วใช่หรือไม่?', // กำหนดรายละเอียด
+                           $imageUrl, // กำหนด url รุปภาพ
+                           $actionBuilder  // กำหนด action object
+                     )
+                  );    
+             $multiMessage = new MultiMessageBuilder;
+              $multiMessage->add($textMessage1);
+              $multiMessage->add($textMessage2);
+              $textMessageBuilder = $multiMessage; 
+                break;
+              case 3 : 
+                    $textMessage1 = new TextMessageBuilder($userMessage);
+                    $actionBuilder = array(
+                                      new MessageTemplateActionBuilder(
+                                      'ตกลง',// ข้อความแสดงในปุ่ม
+                                      '1' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      ),
+                                       new MessageTemplateActionBuilder(
+                                      'มีปัญหาการคุมกำเนิด',// ข้อความแสดงในปุ่ม
+                                      '2' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      )
+                                     );
+                $imageUrl = NULL;
+                $textMessage2 = new TemplateMessageBuilder('Template',
+                 new ButtonTemplateBuilder(
+                          'โปรดอ่านข้างบนก่อน', // กำหนดหัวเรื่อง
+                          'กดเลือกด้านล่างได้เลยค่ะ', // กำหนดรายละเอียด
+                           $imageUrl, // กำหนด url รุปภาพ
+                           $actionBuilder  // กำหนด action object
+                     )
+                  );    
+             $multiMessage = new MultiMessageBuilder;
+              $multiMessage->add($textMessage1);
+              $multiMessage->add($textMessage2);
+              $textMessageBuilder = $multiMessage; 
+                break;
+         case 4 : 
+                    $textMessage1 = new TextMessageBuilder($userMessage);
+                    $picFullSize = 'https://rajavithi-bot.herokuapp.com/images/1.png';
+                    $picThumbnail = 'https://rajavithi-bot.herokuapp.com/images/1.png';
+                    $textMessage2 = new ImageMessageBuilder($picFullSize,$picThumbnail);
+                  
+              $multiMessage = new MultiMessageBuilder;
+              $multiMessage->add($textMessage1);
+              $multiMessage->add($textMessage2);
+              $textMessageBuilder = $multiMessage; 
+                break;
+         case 5 : 
+                $actionBuilder = array(
+                                      new MessageTemplateActionBuilder(
+                                      'ใช่',// ข้อความแสดงในปุ่ม
+                                      '1' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      ),
+                                       new MessageTemplateActionBuilder(
+                                      'ไม่ใช่',// ข้อความแสดงในปุ่ม
+                                      '2' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      ),
+                                       new MessageTemplateActionBuilder(
+                                      'มีเอกสารไม่ครบ',// ข้อความแสดงในปุ่ม
+                                      '3' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      )
+                                     );
+                $imageUrl = NULL;
+                $textMessageBuilder = new TemplateMessageBuilder('Template',
+                 new ButtonTemplateBuilder(
+                           NULL, // กำหนดหัวเรื่อง
+                           $userMessage, // กำหนดรายละเอียด
+                           $imageUrl, // กำหนด url รุปภาพ
+                           $actionBuilder  // กำหนด action object
+                     )
+                  ); 
+                break;
+           case 6 : 
+                $actionBuilder = array(
+                                      new MessageTemplateActionBuilder(
+                                      'ใช่',// ข้อความแสดงในปุ่ม
+                                      '1' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      ),
+                                       new MessageTemplateActionBuilder(
+                                      'ไม่ใช่',// ข้อความแสดงในปุ่ม
+                                      '2' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      )
+                                     );
+                $imageUrl = NULL;
+                $textMessageBuilder = new TemplateMessageBuilder('Template',
+                 new ButtonTemplateBuilder(
+                          $userMessage, // กำหนดหัวเรื่อง
+                          'กดเลือกด้านล่างได้เลยค่ะ', // กำหนดรายละเอียด
+                           $imageUrl, // กำหนด url รุปภาพ
+                           $actionBuilder  // กำหนด action object
+                     )
+                  );    
+                break;
+            case 7 : 
+                    $textMessage1 = new TextMessageBuilder($userMessage);
+                    $picFullSize = 'https://rajavithi-bot.herokuapp.com/images/2-3.png';
+                    $picThumbnail = 'https://rajavithi-bot.herokuapp.com/images/2-3.png';
+                    $textMessage2 = new ImageMessageBuilder($picFullSize,$picThumbnail);
+                  
+              $multiMessage = new MultiMessageBuilder;
+              $multiMessage->add($textMessage1);
+              $multiMessage->add($textMessage2);
+              $textMessageBuilder = $multiMessage; 
+                break;  
+              case 8 : 
+                    $textMessage1 = new TextMessageBuilder($userMessage);
+                    $actionBuilder = array(
+                                       new MessageTemplateActionBuilder(
+                                      'ใช่',// ข้อความแสดงในปุ่ม
+                                      '1' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      ),
+                                       new MessageTemplateActionBuilder(
+                                      'ไม่ใช่',// ข้อความแสดงในปุ่ม
+                                      '2' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      ),
+                                       new MessageTemplateActionBuilder(
+                                      'มีเอกสารไม่ครบ',// ข้อความแสดงในปุ่ม
+                                      '3' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      )
+                                     );
+                $imageUrl = NULL;
+                $textMessage2 = new TemplateMessageBuilder('Template',
+                 new ButtonTemplateBuilder(
+                          'โปรดอ่านข้างบนก่อน', // กำหนดหัวเรื่อง
+                          'กดเลือกด้านล่างได้เลยค่ะ', // กำหนดรายละเอียด
+                           $imageUrl, // กำหนด url รุปภาพ
+                           $actionBuilder  // กำหนด action object
+                     )
+                  );    
+              $multiMessage = new MultiMessageBuilder;
+              $multiMessage->add($textMessage1);
+              $multiMessage->add($textMessage2);
+              $textMessageBuilder = $multiMessage; 
+                break; 
+            case 9 : 
+                    $textMessage1 = new TextMessageBuilder($userMessage);
+                    $picFullSize = 'https://rajavithi-bot.herokuapp.com/images/4.png';
+                    $picThumbnail = 'https://rajavithi-bot.herokuapp.com/images/4.png';
+                    $textMessage2 = new ImageMessageBuilder($picFullSize,$picThumbnail);
+                  
+              $multiMessage = new MultiMessageBuilder;
+              $multiMessage->add($textMessage1);
+              $multiMessage->add($textMessage2);
+              $textMessageBuilder = $multiMessage; 
+                break;  
+            case 10 : 
+                    $textMessage1 = new TextMessageBuilder($userMessage);
+                    $picFullSize = 'https://rajavithi-bot.herokuapp.com/images/5.png';
+                    $picThumbnail = 'https://rajavithi-bot.herokuapp.com/images/5.png';
+                    $textMessage2 = new ImageMessageBuilder($picFullSize,$picThumbnail);
+                  
+              $multiMessage = new MultiMessageBuilder;
+              $multiMessage->add($textMessage1);
+              $multiMessage->add($textMessage2);
+              $textMessageBuilder = $multiMessage; 
+                break;  
+            case 11 : 
+                    $textMessage1 = new TextMessageBuilder($userMessage);
+                    $picFullSize = 'https://rajavithi-bot.herokuapp.com/images/6.png';
+                    $picThumbnail = 'https://rajavithi-bot.herokuapp.com/images/6.png';
+                    $textMessage2 = new ImageMessageBuilder($picFullSize,$picThumbnail);
+                  
+              $multiMessage = new MultiMessageBuilder;
+              $multiMessage->add($textMessage1);
+              $multiMessage->add($textMessage2);
+              $textMessageBuilder = $multiMessage; 
+                break;  
+            case 12 : 
+                $actionBuilder = array(
+                                      new MessageTemplateActionBuilder(
+                                      'ต้องการ',// ข้อความแสดงในปุ่ม
+                                      '1' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      ),
+                                       new MessageTemplateActionBuilder(
+                                      'ไม่ต้องการ',// ข้อความแสดงในปุ่ม
+                                      '2' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      )
+                                     );
+                $imageUrl = NULL;
+                $textMessageBuilder = new TemplateMessageBuilder('Template',
+                 new ButtonTemplateBuilder(
+                          $userMessage, // กำหนดหัวเรื่อง
+                          'กดเลือกด้านล่างได้เลยค่ะ', // กำหนดรายละเอียด
+                           $imageUrl, // กำหนด url รุปภาพ
+                           $actionBuilder  // กำหนด action object
+                     )
+                  );    
+                break;
+            case 13 : 
+                    $textMessage1 = new TextMessageBuilder($userMessage);
+                    $Message = 'งั้นขอตัวไปก่อนจนกว่าจะมีเคสใหม่นะคะ/ครับ';
+                    $textMessage2 = new TextMessageBuilder($Message);
+                    $multiMessage = new MultiMessageBuilder;
+                    $multiMessage->add($textMessage1);
+                    $multiMessage->add($textMessage2);
+                    $textMessageBuilder = $multiMessage; 
+                break;
+            case 14 : 
+                    $textMessage1 = new TextMessageBuilder($userMessage);
+                    $Message = 'งั้นขอตัวไปก่อนจนกว่าจะมีเคสใหม่นะคะ/ครับ';
+                    $textMessage2 = new TextMessageBuilder($Message);
+                    $multiMessage = new MultiMessageBuilder;
+                    $multiMessage->add($textMessage1);
+                    $multiMessage->add($textMessage2);
+                    $textMessageBuilder = $multiMessage; 
+                break;
+            case 15 : 
+                    $textMessage1 = new TextMessageBuilder($userMessage);
+                    $Message = 'งั้นขอตัวไปก่อนจนกว่าจะมีเคสใหม่นะคะ/ครับ';
+                    $actionBuilder = array(
+                                      new MessageTemplateActionBuilder(
+                                      'ขอติดต่อพยาบาล',// ข้อความแสดงในปุ่ม
+                                      'ขอติดต่อพยาบาล' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                      ),
+                                     );
+                    $imageUrl = NULL;
+                    $textMessage2 = new TemplateMessageBuilder('Template',
+                    new ButtonTemplateBuilder(
+                          NULL, // กำหนดหัวเรื่อง
+                          'หากมีปัญหาในการส่งรูป กด "ขอติดต่อพยาบาล"', // กำหนดรายละเอียด
+                           $imageUrl, // กำหนด url รุปภาพ
+                           $actionBuilder  // กำหนด action object
+                       )
+                    );    
+                    $multiMessage = new MultiMessageBuilder;
+                    $multiMessage->add($textMessage1);
+                    $multiMessage->add($textMessage2);
+                    $textMessageBuilder = $multiMessage; 
+                break;
 
-
-
-   
-
+          
+        }
+        $response = $bot->replyMessage($replyToken,$textMessageBuilder); 
+}
 
 }
