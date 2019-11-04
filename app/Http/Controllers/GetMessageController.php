@@ -150,10 +150,10 @@ if($typeMessage=='text'){
           }
       if(strpos($userMessage, 'hi') !== false){
              $case = 12;
-             $seqcode = '0001_1';
-             $nextseqcode = '0002';
+            //  $seqcode = '0001_1';
+            //  $nextseqcode = '0002';
           
-             $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+            //  $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
              $userMessage = 'สวัสดีค่ะ ต้องการนัดกลืนแร่ไหมคะ';
       }else{
                 $case = 1;
