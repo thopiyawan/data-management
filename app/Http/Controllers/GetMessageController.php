@@ -149,7 +149,7 @@ if($typeMessage=='text'){
           $userMessage = $events['events'][0]['message']['text'];
           }
       if(strpos($userMessage, 'hi') !== false){
-             $case = 12;
+             $case = 1;
             //  $seqcode = '0001_1';
             //  $nextseqcode = '0002';
           
@@ -169,8 +169,8 @@ if($typeMessage=='text'){
 
 public function replymessage($replyToken,$userMessage,$case)
 {
-      $httpClient = new CurlHTTPClient('Vf5/E8YVJGtBLdDKO0KKypasAfw+x3BjBCXG18D602yuJsY5Jp+r/fS8jS54THIgGIlbySeNWH4k52hCcs+NM/zhWbdso+sw7Vwnt8sqaPBtze3kBiiQUNI4BI/oy+b5j5WlZnsV8yxL8ozCHMQUXwdB04t89/1O/w1cDnyilFU=');
-        $bot = new LINEBot($httpClient, array('channelSecret' => '96503ab7de564a74e4e13c5a7a3e0e40'));
+    $httpClient = new CurlHTTPClient('+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=');
+    $bot = new LINEBot($httpClient, array('channelSecret' => '572a7adea7a0959295e21cb626dae011'));
         
         switch($case) {
  
