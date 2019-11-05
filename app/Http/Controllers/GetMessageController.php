@@ -205,6 +205,9 @@ class GetMessageController extends Controller
             //     echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
 
 ///////////////////////////////////////////////////
+if(!is_null($eventMessage)) {
+    // สร้างตัวแปรเก็ยค่าประเภทของ Message จากทั้งหมด 8 ประเภท
+    $typeMessage = $eventObj->getMessageType();  
     if($typeMessage=='text'){
                 if(!is_null($events)){
                     $userMessage = $events['events'][0]['message']['text'];
@@ -216,7 +219,7 @@ class GetMessageController extends Controller
                             $case = 1;
                             $userMessage = 'ออกจากการนัดกลืนแร่เรียบร้อย';
                     }
-    }
+    }}
   //////////////////////////////////////////////////////        
 
   return $this->replymessage($replyToken,$userMessage,$case);
