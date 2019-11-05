@@ -152,7 +152,7 @@ class GetMessageController extends Controller
             if(!is_null($events)){
                 $userMessage = $events['events'][0]['message']['text'];
             }
-                if(strpos($userMessage, 'ลงทะเบียน') !== false){
+                if(strpos($userMessage, 'hi') !== false){
                         $case = 1;
                         $userMessage = 'สวัสดีค่ะ ต้องการนัดกลืนแร่ไหมคะ';
                 }else{
