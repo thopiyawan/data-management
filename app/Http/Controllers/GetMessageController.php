@@ -152,33 +152,15 @@ class GetMessageController extends Controller
             if(!is_null($events)){
                 $userMessage = $events['events'][0]['message']['text'];
             }
-
-//ลงทะเบียน
                 if(strpos($userMessage, 'ลงทะเบียน') !== false){
                     $case = 1;
                     $userMessage = 'ขอทราบชื่อและนามสกุลค่ะ';
-//ชื่อ-นามสกุล
                 }elseif(is_string($userMessage) !== false){
                     $case = 1;
-                    $userMessage = 'ขอทราบEmailค่ะ';
-//Email
-                }elseif(is_string($userMessage)!== false){
-                    if(strpos($userMessage, '@') !== false || strpos($userMessage, '-') !== false){
-                        $userMessage = 'ขอทราบหมายเลขโทรศัพท์ค่ะ';
-                        $case = 1;       
-                    }else{
-                        $case = 1;
-                        $userMessage = 'ฉันคิดว่าคุณพิมพ์Emailผิดนะ กรุณาพิมพ์ใหม่';
-                    }
-//หมายเลขโทรศัพท์
+                    $userMessage = 'ออกจากการนัดกลืนแร่เรียบร้อย';
                 }elseif(is_string($userMessage) !== false){
-                    if(is_numeric($userMessage) !== false && strlen($userMessage) == 10){
-                        $userMessage = 'การลงทะเบียนเรียบร้อยแล้วนะคะ';
-                        $case = 1;
-                    }else{
-                        $case = 1;
-                        $userMessage = 'ฉันคิดว่าคุณพิมพ์เบอร์โทรศัพท์ผิดนะคะ กรุณาพิมพ์ใหม่';
-                    }
+                    $case = 1;
+                    $userMessage = 'ออกจากการนัดกลืนแร่เรียบร้อย';
                 }else{
                     $case = 1;
                     $userMessage = 'ออกจากการนัดกลืนแร่เรียบร้อย';
