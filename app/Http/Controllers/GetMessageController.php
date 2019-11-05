@@ -125,15 +125,72 @@ class GetMessageController extends Controller
                 $content = file_get_contents('php://input');
                 
                 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
-                $events = json_decode($content, true);
-                    if(!is_null($events)){
-                        // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
-                        $replyToken  = $events['events'][0]['replyToken'];
-                        $user        = $events['events'][0]['source']['userId'];
-                    // $userMessage = $events['events'][0]['message']['text'];
-                        $typeMessage = $events['events'][0]['message']['type'];
-                        $idMessage   = $events['events'][0]['message']['id']; 
-                    }
+
+    ///////////////////////////////////////////////////
+                // $events = json_decode($content, true);
+                //     if(!is_null($events)){
+                //         // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
+                //         $replyToken  = $events['events'][0]['replyToken'];
+                //         $user        = $events['events'][0]['source']['userId'];
+                //     // $userMessage = $events['events'][0]['message']['text'];
+                //         $typeMessage = $events['events'][0]['message']['type'];
+                //         $idMessage   = $events['events'][0]['message']['id']; 
+                //     }
+    ////////////////////////////////////////////////////////
+
+       
+    // กำหนดค่า signature สำหรับตรวจสอบข้อมูลที่ส่งมาว่าเป็นข้อมูลจาก LINE
+    $hash = hash_hmac('sha256', $content, LINE_MESSAGE_CHANNEL_SECRET, true);
+    $signature = base64_encode($hash);
+               
+    // แปลงค่าข้อมูลที่ได้รับจาก LINE เป็น array ของ Event Object
+    $events = $bot->parseEventRequest($content, $signature);
+    $eventObj = $events[0]; // Event Object ของ array แรก
+               
+    // ดึงค่าประเภทของ Event มาไว้ในตัวแปร มีทั้งหมด 7 event
+    $eventType = $eventObj->getType();
+               
+    // สร้างตัวแปร ไว้เก็บ sourceId ของแต่ละประเภท
+    $userId = NULL;
+    $groupId = NULL;
+    $roomId = NULL;
+    // สร้างตัวแปร replyToken สำหรับกรณีใช้ตอบกลับข้อความ
+    $replyToken = NULL;
+    // สร้างตัวแปร ไว้เก็บค่าว่าเป้น Event ประเภทไหน
+    $eventMessage = NULL;
+    $eventPostback = NULL;
+    $eventJoin = NULL;
+    $eventLeave = NULL;
+    $eventFollow = NULL;
+    $eventUnfollow = NULL;
+    $eventBeacon = NULL;
+    // เงื่อนไขการกำหนดประเภท Event 
+      switch($eventType){
+        case 'message': $eventMessage = true; break;    
+        case 'postback': $eventPostback = true; break;  
+        case 'join': $eventJoin = true; break;  
+        case 'leave': $eventLeave = true; break;    
+        case 'follow': $eventFollow = true; break;  
+        case 'unfollow': $eventUnfollow = true; break;  
+        case 'beacon': $eventBeacon = true; break;                          
+      }
+    $user = $eventObj->getUserId();
+    $sequentsteps =  (new SqlController)->sequentsteps_seqcode($user);
+    $replyToken = $eventObj->getReplyToken();
+
+    if(!is_null($eventFollow)) {
+      $replyToken = $eventObj->getReplyToken(); 
+      // $userMessage = $eventObj->getText();
+      $user = $eventObj->getUserId();
+    //   $users_register = (new SqlController)->users_register_select($user);
+    
+             $userMessage  = 'สวัสดีค่ะ';
+             $case = 1; 
+       
+   
+      return (new ReplyMessageController)->replymessage($replyToken,$userMessage,$case);   
+    }    
+     
                 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
             //     $textMessageBuilder = new TextMessageBuilder(json_encode($events));
                
@@ -148,17 +205,17 @@ class GetMessageController extends Controller
             //     echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
 
 ///////////////////////////////////////////////////
-   if($typeMessage=='text'){
-            if(!is_null($events)){
-                $userMessage = $events['events'][0]['message']['text'];
-            }
-                if(strpos($userMessage, 'hi') !== false){
-                        $case = 1;
-                        $userMessage = 'สวัสดีค่ะ ต้องการนัดกลืนแร่ไหมคะ';
-                }else{
-                        $case = 1;
-                        $userMessage = 'ออกจากการนัดกลืนแร่เรียบร้อย';
+    if($typeMessage=='text'){
+                if(!is_null($events)){
+                    $userMessage = $events['events'][0]['message']['text'];
                 }
+                    if(strpos($userMessage, 'hi') !== false){
+                            $case = 1;
+                            $userMessage = 'สวัสดีค่ะ ต้องการนัดกลืนแร่ไหมคะ';
+                    }else{
+                            $case = 1;
+                            $userMessage = 'ออกจากการนัดกลืนแร่เรียบร้อย';
+                    }
     }
   //////////////////////////////////////////////////////        
 
