@@ -71,6 +71,10 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuilder;
 use Carbon\Carbon;
 
+define('LINE_MESSAGE_CHANNEL_SECRET','572a7adea7a0959295e21cb626dae011');
+define('LINE_MESSAGE_ACCESS_TOKEN','+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=');
+
+
 class GetMessageController extends Controller
 {
     /**
@@ -114,8 +118,8 @@ class GetMessageController extends Controller
      public function getmessage()
     {         
             // เชื่อมต่อกับ LINE Messaging API
-                $httpClient = new CurlHTTPClient('+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=');
-                $bot = new LINEBot($httpClient, array('channelSecret' => '572a7adea7a0959295e21cb626dae011'));
+                $httpClient = new CurlHTTPClient(LINE_MESSAGE_ACCESS_TOKEN);
+                $bot = new LINEBot($httpClient, array('channelSecret' => LINE_MESSAGE_CHANNEL_SECRET));
                 
                 // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
                 $content = file_get_contents('php://input');
@@ -150,14 +154,10 @@ class GetMessageController extends Controller
             }
                 if(strpos($userMessage, 'hi') !== false){
                         $case = 1;
-                        //  $seqcode = '0001_1';
-                        //  $nextseqcode = '0002';
-                    
-                        //  $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
                         $userMessage = 'สวัสดีค่ะ ต้องการนัดกลืนแร่ไหมคะ';
                 }else{
-                            $case = 1;
-                            $userMessage = 'ออกจากการนัดกลืนแร่เรียบร้อย';
+                        $case = 1;
+                        $userMessage = 'ออกจากการนัดกลืนแร่เรียบร้อย';
                 }
     }
   //////////////////////////////////////////////////////        
@@ -166,11 +166,10 @@ class GetMessageController extends Controller
 
 }
 
-
     public function replymessage($replyToken,$userMessage,$case)
     {
-        $httpClient = new CurlHTTPClient('+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=');
-        $bot = new LINEBot($httpClient, array('channelSecret' => '572a7adea7a0959295e21cb626dae011'));
+        $httpClient = new CurlHTTPClient(LINE_MESSAGE_ACCESS_TOKEN);
+        $bot = new LINEBot($httpClient, array('channelSecret' =>LINE_MESSAGE_CHANNEL_SECRET));
             
             switch($case) {
     
