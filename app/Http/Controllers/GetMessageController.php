@@ -154,20 +154,34 @@ class GetMessageController extends Controller
             $conn = mysqli_connect($hostname, $username, $password, $database);
             if (!$conn) {
                 die("Connection failed: " . mysqli_connect_error());
+                $sql = "SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'";
+                $conn->query($sql);    
             }
-        
-            $dbconn = pg_pconnect($conn);
+            $num = mysqli_num_rows($conn);
+            if($num==0)         
+            {  
+                $seqcode = '0000';
+                $nextseqcode = '0000';             
+                $insert_sequentsteps = $this->insert_sequentsteps($user,$seqcode,$nextseqcode); 
+            }
+ 
 
-            $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
-            $num = pg_num_rows($result);
-                if($num==0)         
-             {  
-                 $seqcode = '0000';
-                 $nextseqcode = '0000';             
-                 $insert_sequentsteps = $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
-             }
+
+
+
+        
+            // $dbconn = pg_pconnect($conn);
+
+            // $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
+            // $num = pg_num_rows($result);
+            //     if($num==0)         
+            //  {  
+            //      $seqcode = '0000';
+            //      $nextseqcode = '0000';             
+            //      $insert_sequentsteps = $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
+            //  }
   
-            $seqcode = $this->seqcode_select($user);
+            // $seqcode = $this->seqcode_select($user);
 
 ///////////////////////////////////////////////////
 if($typeMessage=='text'){
@@ -229,6 +243,30 @@ if($typeMessage=='text'){
             }
             $response = $bot->replyMessage($replyToken,$textMessageBuilder); 
     }
+
+
+    public function insert_sequentsteps($user,$seqcode,$nextseqcode)
+        {          
+
+        $hostname ='us-cdbr-iron-east-05.cleardb.net';
+        $username ='b74ad905a9cc1e';
+        $password ='bf1cdf81';
+        $database ='heroku_0f89376d5e06de8';
+
+        $conn = mysqli_connect($hostname, $username, $password, $database);
+        if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+            // $conn_string = "host=ec2-54-227-247-225.compute-1.amazonaws.com port=5432 dbname=d6sqa1kjuhkplb user=kdhscmqukijgmf password=69ed8377f66479ac6222f469c6fa6cd2b2318b0ce23fd6a3f0cd7b94f18606ca";
+            // $dbconn = pg_pconnect($conn_string);  
+    
+            // $insert_sequentsteps = pg_exec($dbconn, "INSERT INTO sequentsteps(sender_id,seqcode,answer,nextseqcode,status,created_at,updated_at )VALUES('{$user}','{$seqcode}','','{$nextseqcode}','1',NOW(),NOW())") or die(pg_errormessage());
+            // return $insert_sequentsteps;
+
+
+            $sql1 = "INSERT INTO sequentsteps(sender_id,seqcode,answer,nextseqcode,status,dCreated )VALUES('{$user}','{$seqcode}','','{$nextseqcode}','1',NOW());
+            $conn->query($sql1);
+        }
 
     
 }
