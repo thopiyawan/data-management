@@ -97,22 +97,36 @@ class GetMessageController extends Controller
         // $users_register = users_register::insert(['user_id'=>'$user','user_name' =>' $user_name' ,'status' => '4','user_age'=>'0','user_height'=>'0','user_Pre_weight'=>'0','user_weight'=>'0','preg_week'=>'0', 'phone_number'=>'NULL','email' =>'NULL','hospital_name'=>'NULL','hospital_number'=>'NULL','history_medicine'=>'NULL', 'history_food'=>'NULL','active_lifestyle'=>'0','created_at'=>Carbon::now(),'updated_at' =>Carbon::now(),'date_preg'=>'NULL','dateofbirth'=>'NULL','ulife_connect'=>'0']);
         // dd($users_register); 
         
-        $hostname ='us-cdbr-iron-east-05.cleardb.net';
-        $username ='b74ad905a9cc1e';
-        $password ='bf1cdf81';
-        $database ='heroku_0f89376d5e06de8';
+        // $hostname ='us-cdbr-iron-east-05.cleardb.net';
+        // $username ='b74ad905a9cc1e';
+        // $password ='bf1cdf81';
+        // $database ='heroku_0f89376d5e06de8';
 
-        $conn = mysqli_connect($hostname, $username, $password, $database);
-        if (!$conn) {
-            die("Connection failed: " . mysqli_connect_error());
-        }
+        // $conn = mysqli_connect($hostname, $username, $password, $database);
+        // if (!$conn) {
+        //     die("Connection failed: " . mysqli_connect_error());
+        // }
     
-        // $conn = mysqli_connect($conn);
-        $sql = "INSERT INTO users (lineid, fullname, email, tel, dActive, dCreated)
-                 VALUES ('u2333','John','john@example.com','0896543322',1,now())";
-        $conn->query($sql);
-        $sql1 = "UPDATE users SET fullname='Doe' WHERE lineid = 'u2333'";
-        $conn->query($sql1);
+        // // $conn = mysqli_connect($conn);
+        // $sql = "INSERT INTO users (lineid, fullname, email, tel, dActive, dCreated)
+        //          VALUES ('u2333','John','john@example.com','0896543322',1,now())";
+        // $conn->query($sql);
+        // $sql1 = "UPDATE users SET fullname='Doe' WHERE lineid = 'u2333'";
+        // $conn->query($sql1);
+
+        $conn_string = "host=ec2-54-227-247-225.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string);
+
+        $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '5555'");
+        $num = pg_num_rows($result);
+            if($num==0)         
+         {  
+             $seqcode = '0000';
+             $nextseqcode = '0000';             
+             $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
+         }
+
+         dd($num);
                   
     }
      public function getmessage()
@@ -155,10 +169,10 @@ class GetMessageController extends Controller
                  {  
                      $seqcode = '0000';
                      $nextseqcode = '0000';             
-                     $insert_sequentsteps = $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
+                     $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
                  }
       
-                // $seqcode = $this->seqcode_select($user);
+                //$seqcode = $this->seqcode_select($user);
 
 ///////////////////////////////////////////////////
             if($typeMessage=='text'){
@@ -229,8 +243,8 @@ class GetMessageController extends Controller
     }
     public function seqcode_select($user)
     {
-        $conn_string = "host=ec2-54-227-247-225.compute-1.amazonaws.com port=5432 dbname=d6sqa1kjuhkplb user=kdhscmqukijgmf password=69ed8377f66479ac6222f469c6fa6cd2b2318b0ce23fd6a3f0cd7b94f18606ca";
-        $dbconn = pg_pconnect($conn_string);  
+        $conn_string = "host=ec2-54-227-247-225.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string);
       
        $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
                 while ($row = pg_fetch_object($result)) {
