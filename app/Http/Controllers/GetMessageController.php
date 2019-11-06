@@ -119,7 +119,7 @@ class GetMessageController extends Controller
 
         // $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '5555'");
         $insert_sequentsteps = pg_exec($dbconn, "INSERT INTO sequentsteps(sender_id,seqcode,answer,nextseqcode,status)VALUES('1','1','1','1','1')") or die(pg_errormessage());
-        return $insert_sequentsteps;
+        // return $insert_sequentsteps;
         // $num = pg_num_rows($result);
         //     if($num==0)         
         //  {  
