@@ -146,6 +146,28 @@ class GetMessageController extends Controller
             //    // $users = users::insert(['sender_id'=>$user,'seqcode' => $seqcode,'answer' => 'NULL','nextseqcode' =>$nextseqcode,'status'=>'0','created_at'=>NOW() , 'updated_at'=>NOW()]);
             //     // Failed
             //     echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
+            $hostname ='us-cdbr-iron-east-05.cleardb.net';
+            $username ='b74ad905a9cc1e';
+            $password ='bf1cdf81';
+            $database ='heroku_0f89376d5e06de8';
+    
+            $conn = mysqli_connect($hostname, $username, $password, $database);
+            if (!$conn) {
+                die("Connection failed: " . mysqli_connect_error());
+            }
+        
+            $dbconn = pg_pconnect($conn);
+
+            $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
+            $num = pg_num_rows($result);
+                if($num==0)         
+             {  
+                 $seqcode = '0000';
+                 $nextseqcode = '0000';             
+                 $insert_sequentsteps = $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
+             }
+  
+            $seqcode = $this->seqcode_select($user);
 
 ///////////////////////////////////////////////////
 if($typeMessage=='text'){
@@ -207,4 +229,6 @@ if($typeMessage=='text'){
             }
             $response = $bot->replyMessage($replyToken,$textMessageBuilder); 
     }
+
+    
 }
