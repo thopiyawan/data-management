@@ -213,7 +213,7 @@ class GetMessageController extends Controller
                             $userMessage =  $question;
             //อายุ
                     }elseif(is_string($userMessage)!== false  &&  $seqcode == '002'){
-                        if(strpos($userMessage, '@') !== false || strpos($userMessage, '-') !== false){
+                        if(is_numeric($userMessage) !== false){
                             $val = $userMessage;
                             $this->register_update($user,$val,$seqcode);
                             $this->register_insert($user,$fullname);
