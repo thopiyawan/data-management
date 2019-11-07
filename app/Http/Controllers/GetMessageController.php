@@ -193,39 +193,54 @@ class GetMessageController extends Controller
 
             //ลงทะเบียน
                     if(strpos($userMessage, 'ลงทะเบียน') !== false  &&  $seqcode == '000'){
-                        $case = 1;
-                        // $userMessage = 'ขอทราบชื่อและนามสกุลค่ะ';
-                        $seqcode = '001';
-                        $nextseqcode = '002';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        $question = $this->sequents_question($seqcode);
-                        $userMessage =  $question;
+                            $case = 1;
+                            // $userMessage = 'ขอทราบชื่อและนามสกุลค่ะ';
+                            $seqcode = '001';
+                            $nextseqcode = '002';
+                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                            $question = $this->sequents_question($seqcode);
+                            $userMessage =  $question;
             //ชื่อ-นามสกุล
                     }elseif(is_string($userMessage) !== false &&  $seqcode == '001'){
-                        $case = 1;
-                        $fullname = $userMessage;
-                        // $userMessage = 'ขอทราบEmailค่ะ';
-                        $this->register_insert($user,$fullname);
-
-                        $seqcode = '002';
-                        $nextseqcode = '003';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        $question = $this->sequents_question($seqcode);
-                        $userMessage =  $question;
+                            $case = 1;
+                            $fullname = $userMessage;
+                            // $userMessage = 'ขอทราบEmailค่ะ';
+                            $this->register_insert($user,$fullname);
+                            $seqcode = '002';
+                            $nextseqcode = '003';
+                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                            $question = $this->sequents_question($seqcode);
+                            $userMessage =  $question;
             //อายุ
                     }elseif(is_string($userMessage)!== false  &&  $seqcode == '002'){
                         if(strpos($userMessage, '@') !== false || strpos($userMessage, '-') !== false){
-                            $userMessage = 'ขอทราบหมายเลขโทรศัพท์ค่ะ';
-                            $case = 1;       
+                            $val = $userMessage;
+                            $this->register_update($user,$val,$seqcode);
+                            $this->register_insert($user,$fullname);
+                            $case = 1;   
+                        
+                            $seqcode = '003';
+                            $nextseqcode = '004';
+                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                            $question = $this->sequents_question($seqcode);
+                            $userMessage =  $question;
                         }else{
                             $case = 1;
-                            $userMessage = 'ฉันคิดว่าคุณพิมพ์Emailผิดนะ กรุณาพิมพ์ใหม่';
+                            $userMessage = 'ฉันคิดว่าคุณพิมพ์อายุผิดนะ กรุณาพิมพ์ใหม่';
                         }
             //Email
                     }elseif(is_string($userMessage)!== false  &&  $seqcode == '003'){
-                        if(strpos($userMessage, '@') !== false || strpos($userMessage, '-') !== false){
-                            $userMessage = 'ขอทราบหมายเลขโทรศัพท์ค่ะ';
-                            $case = 1;       
+                         if(is_numeric($userMessage) !== false && strlen($userMessage) == 10){
+                            //$userMessage = 'การลงทะเบียนเรียบร้อยแล้วนะคะ';
+                            $val = $userMessage;
+                            $this->register_update($user,$val,$seqcode);
+                            $case = 1;
+
+                            $seqcode = '004';
+                            $nextseqcode = '005';
+                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                            $question = $this->sequents_question($seqcode);
+                            $userMessage =  $question;
                         }else{
                             $case = 1;
                             $userMessage = 'ฉันคิดว่าคุณพิมพ์Emailผิดนะ กรุณาพิมพ์ใหม่';
@@ -233,8 +248,16 @@ class GetMessageController extends Controller
             //หมายเลขโทรศัพท์
                     }elseif(is_string($userMessage) !== false &&  $seqcode == '004'){
                         if(is_numeric($userMessage) !== false && strlen($userMessage) == 10){
-                            $userMessage = 'การลงทะเบียนเรียบร้อยแล้วนะคะ';
+                            //$userMessage = 'การลงทะเบียนเรียบร้อยแล้วนะคะ';
+                            $val = $userMessage;
+                            $this->register_update($user,$val,$seqcode);
                             $case = 1;
+
+                            $seqcode = '004';
+                            $nextseqcode = '005';
+                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                            $question = $this->sequents_question($seqcode);
+                            $userMessage =  $question;
                         }else{
                             $case = 1;
                             $userMessage = 'ฉันคิดว่าคุณพิมพ์เบอร์โทรศัพท์ผิดนะคะ กรุณาพิมพ์ใหม่';
@@ -315,32 +338,32 @@ class GetMessageController extends Controller
     //     $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  seqcode = '{$seqcode}', nextseqcode = '{$nextseqcode}' WHERE sender_id = '{$user}' ") or die(pg_errormessage());  
     //     return $update_sequentsteps;
     // }
-    public function register_update($user,$seqcode,$nextseqcode)
+    public function register_update($user,$val,$seqcode)
     {          
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
-        $dbconn = pg_pconnect($conn_string); 
+        $dbconn = pg_pconnect($conn_string);
      
 
         switch ($seqcode) {
             case '001':
-                    $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  seqcode = '{$seqcode}', nextseqcode = '{$nextseqcode}' WHERE sender_id = '{$user}' ") or die(pg_errormessage());  
+                    $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  fullname = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
                     return $update_sequentsteps;
                 break;
             case '002':
-                    $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  seqcode = '{$seqcode}', nextseqcode = '{$nextseqcode}' WHERE sender_id = '{$user}' ") or die(pg_errormessage());  
+                    $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  age = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
                     return $update_sequentsteps;
                 break;
             case '003':
-                    $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  seqcode = '{$seqcode}', nextseqcode = '{$nextseqcode}' WHERE sender_id = '{$user}' ") or die(pg_errormessage());  
+                    $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  email = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
                     return $update_sequentsteps;
                 break;
             case '004':
-                    $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  seqcode = '{$seqcode}', nextseqcode = '{$nextseqcode}' WHERE sender_id = '{$user}' ") or die(pg_errormessage());  
+                    $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  tel = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
                     return $update_sequentsteps;
                 break;
             case '005':
-                     $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  seqcode = '{$seqcode}', nextseqcode = '{$nextseqcode}' WHERE sender_id = '{$user}' ") or die(pg_errormessage());  
-            return $update_sequentsteps;
+                    $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  dactive = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    return $update_sequentsteps;
                 break;
 
         }
