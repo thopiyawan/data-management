@@ -129,11 +129,13 @@ class GetMessageController extends Controller
         //      $nextseqcode = '0000';             
         //      $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
         //  }
-        $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
-        while ($row = pg_fetch_object($result)) {
-           return $row->seqcode;
-        } 
 
+
+        $seqcode ='001';
+        $result = pg_query($dbconn,"SELECT question FROM sequents WHERE seqcode = '$seqcode'");
+        while ($row = pg_fetch_object($result)) {
+           return  $row->question;
+        }  
 
         dd($result);
                   
