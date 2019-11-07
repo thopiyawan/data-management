@@ -137,7 +137,7 @@ class GetMessageController extends Controller
            return  $row->question;
         }  
 
-        dd($result);
+        dd($row->question);
                   
     }
      public function getmessage()
