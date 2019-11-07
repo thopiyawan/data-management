@@ -160,17 +160,17 @@ class GetMessageController extends Controller
                         $idMessage   = $events['events'][0]['message']['id']; 
                     }
                 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
-                $textMessageBuilder = new TextMessageBuilder(json_encode($events));
+            //     $textMessageBuilder = new TextMessageBuilder(json_encode($events));
                
-                //l ส่วนของคำสั่งตอบกลับข้อความ
-                $response = $bot->replyMessage($replyToken,$textMessageBuilder);
-                if ($response->isSucceeded()) {
-                    echo 'Succeeded!';
-                    return;
-                }
-               // $users = users::insert(['sender_id'=>$user,'seqcode' => $seqcode,'answer' => 'NULL','nextseqcode' =>$nextseqcode,'status'=>'0','created_at'=>NOW() , 'updated_at'=>NOW()]);
-                // Failed
-                echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
+            //     //l ส่วนของคำสั่งตอบกลับข้อความ
+            //     $response = $bot->replyMessage($replyToken,$textMessageBuilder);
+            //     if ($response->isSucceeded()) {
+            //         echo 'Succeeded!';
+            //         return;
+            //     }
+            //    // $users = users::insert(['sender_id'=>$user,'seqcode' => $seqcode,'answer' => 'NULL','nextseqcode' =>$nextseqcode,'status'=>'0','created_at'=>NOW() , 'updated_at'=>NOW()]);
+            //     // Failed
+            //     echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
             $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
             $dbconn = pg_pconnect($conn_string);
 
@@ -317,7 +317,7 @@ class GetMessageController extends Controller
     {          
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-        $register_insert = pg_exec($dbconn, "INSERT INTO users(lineid,fullname,email,tel,dActive)VALUES('{$user}','{$fullname}','NULL','NULL','1')") or die(pg_errormessage());
+        $register_insert = pg_exec($dbconn, "INSERT INTO users(lineid,age,fullname,email,tel,dActive)VALUES('{$user}','{$fullname}','NULL','NULL','NULL','1')") or die(pg_errormessage());
         // $update_sequentsteps = pg_exec($dbconn, "UPDATE sequentsteps SET  seqcode = '{$seqcode}', nextseqcode = '{$nextseqcode}' WHERE sender_id = '{$user}' ") or die(pg_errormessage());  
         return $register_insert;
     }
