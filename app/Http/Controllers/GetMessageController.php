@@ -140,7 +140,7 @@ class GetMessageController extends Controller
         //    return  $row->question;
         // }  
 
-        dd(register_update);
+        dd($register_update);
                   
     }
      public function getmessage()
