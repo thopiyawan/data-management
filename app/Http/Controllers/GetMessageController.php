@@ -169,8 +169,8 @@ class GetMessageController extends Controller
                 $num = pg_num_rows($result);
                     if($num==0)         
                  {  
-                     $seqcode = '0000';
-                     $nextseqcode = '0000';             
+                     $seqcode = '000';
+                     $nextseqcode = '000';             
                      $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
                  }
       
@@ -183,13 +183,26 @@ class GetMessageController extends Controller
                 }
 
             //ลงทะเบียน
-                    if(strpos($userMessage, 'ลงทะเบียน') !== false){
+                    if(strpos($userMessage, 'ลงทะเบียน') !== false  &&  $seqcode == '000'){
                         $case = 1;
                         $userMessage = 'ขอทราบชื่อและนามสกุลค่ะ';
+                        $seqcode = '001';
+                        $nextseqcode = '002';
+                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                        $question = $this->sequents_question($seqcode);
+                        $userMessage =  $question;
             //ชื่อ-นามสกุล
-                    }elseif(is_string($userMessage) !== false){
+                    }elseif(is_string($userMessage) !== false &&  $seqcode == '001'){
                         $case = 1;
+                        $fullname = $userMessage;
                         $userMessage = 'ขอทราบEmailค่ะ';
+                        $this->register_insert($user,$fullname);
+
+                        $question = $this->sequents_question($seqcode);
+                        $seqcode = '002';
+                        $nextseqcode = '003';
+                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                        $userMessage =  $question;
             //Email
                     }elseif(is_string($userMessage)!== false){
                         if(strpos($userMessage, '@') !== false || strpos($userMessage, '-') !== false){
@@ -240,7 +253,6 @@ class GetMessageController extends Controller
     {          
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-
         $insert_sequentsteps = pg_exec($dbconn, "INSERT INTO sequentsteps(sender_id,seqcode,answer,nextseqcode,status)VALUES('{$user}','{$seqcode}','','{$nextseqcode}','1')") or die(pg_errormessage());
         return $insert_sequentsteps;
     }
@@ -248,11 +260,35 @@ class GetMessageController extends Controller
     {
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-       $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
+        $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
                 while ($row = pg_fetch_object($result)) {
-            
                    return $row->seqcode;
                 } 
+    }
+    public function update_sequentsteps($user,$seqcode,$nextseqcode)
+    {          
+        $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string); 
+        $update_sequentsteps = pg_exec($dbconn, "UPDATE sequentsteps SET  seqcode = '{$seqcode}', nextseqcode = '{$nextseqcode}' WHERE sender_id = '{$user}' ") or die(pg_errormessage());  
+        return $update_sequentsteps;
+    }
+    public function register_insert($user,$fullname)
+    {          
+        $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string);
+        $register_insert = pg_exec($dbconn, "INSERT INTO users(lineid,fullname,email,tel,dActive)VALUES('{$user}','{$fullname}','NULL','NULL','NULL','1')") or die(pg_errormessage());
+        // $update_sequentsteps = pg_exec($dbconn, "UPDATE sequentsteps SET  seqcode = '{$seqcode}', nextseqcode = '{$nextseqcode}' WHERE sender_id = '{$user}' ") or die(pg_errormessage());  
+        return $register_insert;
+    }
+    public function sequents_question($seqcode)
+    {          
+        $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string);
+                $result = pg_query($dbconn,"SELECT question FROM sequents WHERE seqcode = '$seqcode'");
+                while ($row = pg_fetch_object($result)) {
+                   return  $row->question;
+                }  
+                 
     }
 
 }  
