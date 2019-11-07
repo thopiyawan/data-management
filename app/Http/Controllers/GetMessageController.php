@@ -346,24 +346,24 @@ class GetMessageController extends Controller
 
         switch ($seqcode) {
             case '001':
-                    $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  fullname = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
-                    return $update_sequentsteps;
+                    $register_update = pg_exec($dbconn, "UPDATE users SET  fullname = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    return $register_update;
                 break;
             case '002':
-                    $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  age = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
-                    return $update_sequentsteps;
+                    $register_update = pg_exec($dbconn, "UPDATE users SET  age = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    return $register_update;
                 break;
             case '003':
-                    $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  email = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
-                    return $update_sequentsteps;
+                    $register_update = pg_exec($dbconn, "UPDATE users SET  email = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    return $register_update;
                 break;
             case '004':
-                    $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  tel = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
-                    return $update_sequentsteps;
+                    $register_update = pg_exec($dbconn, "UPDATE users SET  tel = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    return $register_update;
                 break;
             case '005':
-                    $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  dactive = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
-                    return $update_sequentsteps;
+                    $register_update = pg_exec($dbconn, "UPDATE users SET  dactive = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    return $register_update;
                 break;
 
         }
