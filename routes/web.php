@@ -16,3 +16,7 @@
 // });
 
 Route::get('pp','GetMessageController@index');
+
+
+
+Route::get('gg','GetMessageController@getmessage');
