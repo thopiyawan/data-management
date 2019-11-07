@@ -128,7 +128,7 @@ class GetMessageController extends Controller
         //      $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
         //  }
 
-         dd($insert_sequentsteps);
+        // dd($insert_sequentsteps);
                   
     }
      public function getmessage()
@@ -174,7 +174,7 @@ class GetMessageController extends Controller
                      $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
                  }
       
-                //$seqcode = $this->seqcode_select($user);
+                $seqcode = $this->seqcode_select($user);
 
 ///////////////////////////////////////////////////
             if($typeMessage=='text'){
@@ -240,7 +240,8 @@ class GetMessageController extends Controller
     {          
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-        $insert_sequentsteps = pg_exec($dbconn, "INSERT INTO sequentsteps(sender_id,seqcode,answer,nextseqcode,status)VALUES('{$user}','{$seqcode}','','{$nextseqcode}','1'") or die(pg_errormessage());
+
+        $insert_sequentsteps = pg_exec($dbconn, "INSERT INTO sequentsteps(sender_id,seqcode,answer,nextseqcode,status)VALUES('{$user}','{$seqcode}','','{$nextseqcode}','1')") or die(pg_errormessage());
         return $insert_sequentsteps;
     }
     public function seqcode_select($user)
