@@ -119,7 +119,7 @@ class GetMessageController extends Controller
         $user = '1115';
         $fullname = 'ploy';
         // $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '5555'");
-        $register_insert = pg_exec($dbconn, "INSERT INTO users(lineid,fullname,email,tel,dActive)VALUES('{$user}','{$fullname}','NULL','NULL','1')") or die(pg_errormessage());
+        //$register_insert = pg_exec($dbconn, "INSERT INTO users(lineid,fullname,email,tel,dActive)VALUES('{$user}','{$fullname}','NULL','NULL','1')") or die(pg_errormessage());
         // $insert_sequentsteps = pg_exec($dbconn, "INSERT INTO sequentsteps(sender_id,seqcode,answer,nextseqcode,status)VALUES('1','1','1','1','1')") or die(pg_errormessage());
         // return $insert_sequentsteps;
         // $num = pg_num_rows($result);
@@ -129,8 +129,13 @@ class GetMessageController extends Controller
         //      $nextseqcode = '0000';             
         //      $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
         //  }
+        $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
+        while ($row = pg_fetch_object($result)) {
+           return $row->seqcode;
+        } 
 
-        // dd($insert_sequentsteps);
+
+        dd($result);
                   
     }
      public function getmessage()
