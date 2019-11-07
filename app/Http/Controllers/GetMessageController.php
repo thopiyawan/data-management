@@ -116,7 +116,7 @@ class GetMessageController extends Controller
 
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-        $user = '1115';
+        $user = 'U2dc636d2cd052e82c29f5284e00f69b9';
         $fullname = 'ploy';
         // $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '5555'");
         //$register_insert = pg_exec($dbconn, "INSERT INTO users(lineid,fullname,email,tel,dActive)VALUES('{$user}','{$fullname}','NULL','NULL','1')") or die(pg_errormessage());
@@ -130,14 +130,17 @@ class GetMessageController extends Controller
         //      $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
         //  }
 
+        $val = 23;
+        $register_update = pg_exec($dbconn, "UPDATE users SET  age = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+        return $register_update;
 
-        $seqcode ='001';
-        $result = pg_query($dbconn,"SELECT question FROM sequents WHERE seqcode = '$seqcode'");
-        while ($row = pg_fetch_object($result)) {
-           return  $row->question;
-        }  
+        // $seqcode ='001';
+        // $result = pg_query($dbconn,"SELECT question FROM sequents WHERE seqcode = '$seqcode'");
+        // while ($row = pg_fetch_object($result)) {
+        //    return  $row->question;
+        // }  
 
-        dd($row->question);
+        dd(register_update);
                   
     }
      public function getmessage()
