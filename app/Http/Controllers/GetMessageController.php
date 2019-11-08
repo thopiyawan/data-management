@@ -232,7 +232,7 @@ class GetMessageController extends Controller
                         }
             //Email
                     }elseif(is_string($userMessage)!== false  &&  $seqcode == '003'){
-                         if(is_numeric($userMessage) !== false && strlen($userMessage) == 10){
+                         if(strpos($userMessage, '@') !== false || strpos($userMessage, '-') !== false){
                             //$userMessage = 'การลงทะเบียนเรียบร้อยแล้วนะคะ';
                             $val = $userMessage;
                             $this->register_update($user,$val,$seqcode);
