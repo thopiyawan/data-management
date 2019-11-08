@@ -219,7 +219,6 @@ class GetMessageController extends Controller
                         if(is_numeric($userMessage) !== false){
                             $val = $userMessage;
                             $this->register_update($user,$val,$seqcode);
-                            $this->register_insert($user,$fullname);
                             $case = 1;   
                         
                             $seqcode = '003';
