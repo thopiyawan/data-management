@@ -264,6 +264,19 @@ class GetMessageController extends Controller
                             $case = 1;
                             $userMessage = 'ฉันคิดว่าคุณพิมพ์เบอร์โทรศัพท์ผิดนะคะ กรุณาพิมพ์ใหม่';
                         }
+
+
+                    }elseif(strpos($userMessage, 'เลือกแผนการเดินทาง') !== false ){
+                        $case = 1;
+                        $fullname = $userMessage;
+                        // $userMessage = 'ขอทราบEmailค่ะ';
+                        $this->register_insert($user,$fullname);
+                        $seqcode = '006';
+                        $nextseqcode = '007';
+                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                        $question = $this->sequents_question($seqcode);
+                        $userMessage =  $question;
+
                     }else{
                         $case = 1;
                         $userMessage = '**เมนู';
