@@ -399,8 +399,7 @@ class GetMessageController extends Controller
                                             ),
                                             new CarouselColumnTemplateBuilder(
                                                 $var[2]['countryname'],
-                                                '55',
-                                                 'https://data-manage.herokuapp.com/country_tic/2.jpg',
+                                                'https://data-manage.herokuapp.com/country_tic/2.jpg',
                                                 $actionBuilder2
                                             ),
                                             new CarouselColumnTemplateBuilder(
