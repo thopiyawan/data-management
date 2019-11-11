@@ -323,33 +323,130 @@ class GetMessageController extends Controller
                 $var = $this->country_select();
                         // $textMessageBuilder = new TextMessageBuilder($userMessage);
                                                     // กำหนด action 4 ปุ่ม 4 ประเภท
-                                $actionBuilder = array(
+                                $actionBuilder0 = array(
                                     new MessageTemplateActionBuilder(
-                                        $var[0]['countryname'],// ข้อความแสดงในปุ่ม
+                                        'เลือก',// ข้อความแสดงในปุ่ม
                                         $var[0]['countryname'] // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                                     ),     
                                 );
+                                $actionBuilder1 = array(
+                                    new MessageTemplateActionBuilder(
+                                        'เลือก',// ข้อความแสดงในปุ่ม
+                                        $var[1]['countryname'] // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                    ),     
+                                );
+                                $actionBuilder2 = array(
+                                    new MessageTemplateActionBuilder(
+                                        'เลือก',// ข้อความแสดงในปุ่ม
+                                        $var[2]['countryname'] // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                    ),     
+                                );
+                                $actionBuilder3 = array(
+                                    new MessageTemplateActionBuilder(
+                                        'เลือก',// ข้อความแสดงในปุ่ม
+                                        $var[3]['countryname'] // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                    ),     
+                                );
+                                $actionBuilder4 = array(
+                                    new MessageTemplateActionBuilder(
+                                        'เลือก',// ข้อความแสดงในปุ่ม
+                                        $var[4]['countryname'] // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                    ),     
+                                );
+                                $actionBuilder5 = array(
+                                    new MessageTemplateActionBuilder(
+                                        'เลือก',// ข้อความแสดงในปุ่ม
+                                        $var[5]['countryname'] // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                    ),     
+                                );
+                                $actionBuilder6 = array(
+                                    new MessageTemplateActionBuilder(
+                                        'เลือก',// ข้อความแสดงในปุ่ม
+                                        $var[6]['countryname'] // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                    ),     
+                                );
+                                $actionBuilder7 = array(
+                                    new MessageTemplateActionBuilder(
+                                        'เลือก',// ข้อความแสดงในปุ่ม
+                                        $var[7]['countryname'] // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                    ),     
+                                );
+                                $actionBuilder8 = array(
+                                    new MessageTemplateActionBuilder(
+                                        'เลือก',// ข้อความแสดงในปุ่ม
+                                        $var[8]['countryname'] // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                    ),     
+                                );
+                                $actionBuilder9 = array(
+                                    new MessageTemplateActionBuilder(
+                                        'เลือก',// ข้อความแสดงในปุ่ม
+                                        $var[9]['countryname'] // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                    ),     
+                                );
+                               
                                 $textMessageBuilder = new TemplateMessageBuilder('Carousel',
                                     new CarouselTemplateBuilder(
                                         array(
                                             new CarouselColumnTemplateBuilder(
-                                                'Title Carousel',
-                                                'Description Carousel',
-                                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
-                                                $actionBuilder
+                                                $var[0]['countryname'],
+                                                 NULL,
+                                                'https://data-manage.herokuapp.com/country_tic/0.jpg',
+                                                $actionBuilder0
                                             ),
                                             new CarouselColumnTemplateBuilder(
                                                 'Title Carousel',
-                                                'Description Carousel',
-                                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
-                                                $actionBuilder
+                                                 NULL,
+                                                 'https://data-manage.herokuapp.com/country_tic/1.jpg',
+                                                $actionBuilder1
                                             ),
                                             new CarouselColumnTemplateBuilder(
                                                 'Title Carousel',
-                                                'Description Carousel',
-                                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
-                                                $actionBuilder
-                                            ),                                          
+                                                 NULL,
+                                                 'https://data-manage.herokuapp.com/country_tic/2.jpg',
+                                                $actionBuilder2
+                                            ),
+                                            new CarouselColumnTemplateBuilder(
+                                                'Title Carousel',
+                                                 NULL,
+                                                 'https://data-manage.herokuapp.com/country_tic/3.jpg',
+                                                $actionBuilder3
+                                            ),
+                                            new CarouselColumnTemplateBuilder(
+                                                'Title Carousel',
+                                                 NULL,
+                                                 'https://data-manage.herokuapp.com/country_tic/4.jpg',
+                                                $actionBuilder4
+                                            ),
+                                            new CarouselColumnTemplateBuilder(
+                                                'Title Carousel',
+                                                 NULL,
+                                                 'https://data-manage.herokuapp.com/country_tic/5.jpg',
+                                                $actionBuilder5
+                                            ),               
+                                            new CarouselColumnTemplateBuilder(
+                                                'Title Carousel',
+                                                 NULL,
+                                                 'https://data-manage.herokuapp.com/country_tic/6.jpg',
+                                                $actionBuilder6
+                                            ),
+                                            new CarouselColumnTemplateBuilder(
+                                                'Title Carousel',
+                                                 NULL,
+                                                 'https://data-manage.herokuapp.com/country_tic/7.jpg',
+                                                $actionBuilder7
+                                            ),
+                                            new CarouselColumnTemplateBuilder(
+                                                'Title Carousel',
+                                                 NULL,
+                                                 'https://data-manage.herokuapp.com/country_tic/8.jpg',
+                                                $actionBuilder8
+                                            ),      
+                                            new CarouselColumnTemplateBuilder(
+                                                'Title Carousel',
+                                                 NULL,
+                                                 'https://data-manage.herokuapp.com/country_tic/9.jpg',
+                                                $actionBuilder9
+                                            )                                                                  
                                         )
                                     )
                                 );
