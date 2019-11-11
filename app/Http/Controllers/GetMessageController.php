@@ -133,7 +133,8 @@ class GetMessageController extends Controller
         // $val = 23;
         // $register_update = pg_exec($dbconn, "UPDATE users SET  age = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
         $result = pg_query($dbconn,"SELECT countryName FROM country ");
-        // return pg_fetch_all($result);
+        print($result[0]);
+        print(pg_fetch_all($result));
         // return $register_update;
 
         // $seqcode ='001';
@@ -142,7 +143,7 @@ class GetMessageController extends Controller
         //    return  $row->question;
         // }  
 
-        dd($result);
+        // dd($result);
                   
     }
      public function getmessage()
