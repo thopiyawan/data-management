@@ -320,6 +320,8 @@ class GetMessageController extends Controller
                         $textMessageBuilder = new TextMessageBuilder($userMessage);
                     break;
                 case 2 : 
+
+                $textMessage1 = new TextMessageBuilder($userMessage);
                 $var = $this->country_select();
                         // $textMessageBuilder = new TextMessageBuilder($userMessage);
                                                     // กำหนด action 4 ปุ่ม 4 ประเภท
@@ -384,7 +386,7 @@ class GetMessageController extends Controller
                                     ),     
                                 );
                                
-                                $textMessageBuilder = new TemplateMessageBuilder('Carousel',
+                                $textMessage2 = new TemplateMessageBuilder('Carousel',
                                     new CarouselTemplateBuilder(
                                         array(
                                             new CarouselColumnTemplateBuilder(
@@ -450,6 +452,11 @@ class GetMessageController extends Controller
                                         )
                                     )
                                 );
+
+                                $multiMessage = new MultiMessageBuilder;
+                                $multiMessage->add($textMessage1);
+                                $multiMessage->add($textMessage2);
+                                $textMessageBuilder = $multiMessage; 
                     break;
         
             }
