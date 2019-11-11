@@ -325,8 +325,8 @@ class GetMessageController extends Controller
                                                     // กำหนด action 4 ปุ่ม 4 ประเภท
                                 $actionBuilder = array(
                                     new MessageTemplateActionBuilder(
-                                        $var[0],// ข้อความแสดงในปุ่ม
-                                        $var[0] // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                        $var[0]['countryname'],// ข้อความแสดงในปุ่ม
+                                        $var[0]['countryname'] // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                                     ),     
                                 );
                                 $textMessageBuilder = new TemplateMessageBuilder('Carousel',
