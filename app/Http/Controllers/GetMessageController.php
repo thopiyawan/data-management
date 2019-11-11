@@ -318,7 +318,7 @@ class GetMessageController extends Controller
                 case 2 : 
 
                 $cont = $this->country_select();
-                $reward_gift = (new SqlController)->reward_gift();
+               // $reward_gift = (new SqlController)->reward_gift();
                 $columnTemplateBuilders = array();
          
              foreach ($cont as $country) {
