@@ -130,8 +130,10 @@ class GetMessageController extends Controller
         //      $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
         //  }
 
-        $val = 23;
-        $register_update = pg_exec($dbconn, "UPDATE users SET  age = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+        // $val = 23;
+        // $register_update = pg_exec($dbconn, "UPDATE users SET  age = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+        $result = pg_query($dbconn,"SELECT countryName FROM country ");
+        // return pg_fetch_all($result);
         // return $register_update;
 
         // $seqcode ='001';
@@ -140,7 +142,7 @@ class GetMessageController extends Controller
         //    return  $row->question;
         // }  
 
-        dd($register_update);
+        dd($result);
                   
     }
      public function getmessage()
@@ -316,29 +318,39 @@ class GetMessageController extends Controller
                         $textMessageBuilder = new TextMessageBuilder($userMessage);
                     break;
                 case 2 : 
-
-            //     $cont = $this->country_select();
-            //    // $reward_gift = (new SqlController)->reward_gift();
-            //     $columnTemplateBuilders = array();
-         
-            //  foreach ($cont as $country) {
-             $columnTemplateBuilder = 
-                   new ImageCarouselColumnTemplateBuilder(
-                      'https://www.mywebsite.com/imgsrc/photos/w/simpleflower',
-                       new MessageTemplateActionBuilder(
-                           'เลือก', // ข้อความแสดงในปุ่ม
-                           'kkg'
-                       )
-                   );
-
-             array_push($columnTemplateBuilders, $columnTemplateBuilder);
-        //    }
-
-         $textMessageBuilder = new TemplateMessageBuilder('Image Carousel',
-         new ImageCarouselTemplateBuilder(
-            $columnTemplateBuilders  
-         )
-      );
+                $var = $this->country_select();
+                        // $textMessageBuilder = new TextMessageBuilder($userMessage);
+                                                    // กำหนด action 4 ปุ่ม 4 ประเภท
+                                $actionBuilder = array(
+                                    new MessageTemplateActionBuilder(
+                                        'Message Template',// ข้อความแสดงในปุ่ม
+                                        'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                    ),     
+                                );
+                                $textMessageBuilder = new TemplateMessageBuilder('Carousel',
+                                    new CarouselTemplateBuilder(
+                                        array(
+                                            new CarouselColumnTemplateBuilder(
+                                                'Title Carousel',
+                                                'Description Carousel',
+                                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                                $actionBuilder
+                                            ),
+                                            new CarouselColumnTemplateBuilder(
+                                                'Title Carousel',
+                                                'Description Carousel',
+                                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                                $actionBuilder
+                                            ),
+                                            new CarouselColumnTemplateBuilder(
+                                                'Title Carousel',
+                                                'Description Carousel',
+                                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                                $actionBuilder
+                                            ),                                          
+                                        )
+                                    )
+                                );
                     break;
         
             }
@@ -364,7 +376,7 @@ class GetMessageController extends Controller
     {
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-        $result = pg_query($dbconn,"SELECT * FROM country");
+        $result = pg_query($dbconn,"SELECT countryName FROM country ");
         return pg_fetch_all($result);
                 // while ($row = pg_fetch_object($result)) {
                 //    return $row->seqcode;
