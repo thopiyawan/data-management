@@ -317,9 +317,9 @@ class GetMessageController extends Controller
                     break;
                 case 2 : 
 
-                $cont = $this->country_select();
-               // $reward_gift = (new SqlController)->reward_gift();
-                $columnTemplateBuilders = array();
+            //     $cont = $this->country_select();
+            //    // $reward_gift = (new SqlController)->reward_gift();
+            //     $columnTemplateBuilders = array();
          
              foreach ($cont as $country) {
              $columnTemplateBuilder = 
@@ -327,7 +327,7 @@ class GetMessageController extends Controller
                       'https://www.mywebsite.com/imgsrc/photos/w/simpleflower',
                        new MessageTemplateActionBuilder(
                            'เลือก', // ข้อความแสดงในปุ่ม
-                           $country['countryName']
+                           'kkg'
                        )
                    );
 
