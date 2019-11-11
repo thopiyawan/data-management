@@ -203,6 +203,12 @@ class GetMessageController extends Controller
                             $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
                             $question = $this->sequents_question($seqcode);
                             $userMessage =  $question;
+                    }elseif($userMessage == 'del'){
+                            $case = 1;
+                            $fullname = $userMessage;
+                            // $userMessage = 'ขอทราบEmailค่ะ';
+                            $this->delete_state($user);
+                            $userMessage =  'ลบแล้วจ้า';
             //ชื่อ-นามสกุล
                     }elseif(is_string($userMessage) !== false &&  $seqcode == '001'){
                             $case = 1;
@@ -267,10 +273,10 @@ class GetMessageController extends Controller
 
 
                     }elseif(strpos($userMessage, 'เลือกแผนการเดินทาง') !== false ){
-                        $case = 1;
+                        $case = 2;
                         $fullname = $userMessage;
                         // $userMessage = 'ขอทราบEmailค่ะ';
-                        $this->register_insert($user,$fullname);
+                        // $this->register_insert($user,$fullname);
                         $seqcode = '006';
                         $nextseqcode = '007';
                         $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
@@ -299,7 +305,51 @@ class GetMessageController extends Controller
                         $textMessageBuilder = new TextMessageBuilder($userMessage);
                     break;
                 case 2 : 
-                        $textMessageBuilder = new TextMessageBuilder($userMessage);
+                        // $textMessageBuilder = new TextMessageBuilder($userMessage);
+                                                    // กำหนด action 4 ปุ่ม 4 ประเภท
+                                $actionBuilder = array(
+                                    new MessageTemplateActionBuilder(
+                                        'Message Template',// ข้อความแสดงในปุ่ม
+                                        'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                    ),
+                                    new UriTemplateActionBuilder(
+                                        'Uri Template', // ข้อความแสดงในปุ่ม
+                                        'https://www.ninenik.com'
+                                    ),
+                                    new PostbackTemplateActionBuilder(
+                                        'Postback', // ข้อความแสดงในปุ่ม
+                                        http_build_query(array(
+                                            'action'=>'buy',
+                            
+                                            'item'=>100
+                                        )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                                        'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                    ),      
+                                );
+                                $textMessageBuilder = new TemplateMessageBuilder('Carousel',
+                                    new CarouselTemplateBuilder(
+                                        array(
+                                            new CarouselColumnTemplateBuilder(
+                                                'Title Carousel',
+                                                'Description Carousel',
+                                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                                $actionBuilder
+                                            ),
+                                            new CarouselColumnTemplateBuilder(
+                                                'Title Carousel',
+                                                'Description Carousel',
+                                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                                $actionBuilder
+                                            ),
+                                            new CarouselColumnTemplateBuilder(
+                                                'Title Carousel',
+                                                'Description Carousel',
+                                                'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                                $actionBuilder
+                                            ),                                          
+                                        )
+                                    )
+                                );
                     break;
         
             }
@@ -316,7 +366,7 @@ class GetMessageController extends Controller
     {
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-        $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
+        $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '{$user}'");
                 while ($row = pg_fetch_object($result)) {
                    return $row->seqcode;
                 } 
@@ -344,7 +394,14 @@ class GetMessageController extends Controller
                 while ($row = pg_fetch_object($result)) {
                    return  $row->question;
                 }  
-                 
+    }
+    public function delete_state($user)
+    {          
+        $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string);
+                $result = pg_query($dbconn,"DELETE FROM sequentsteps where sender_id = '{$user}' ");
+                $result = pg_query($dbconn,"DELETE FROM users where lineid = '{$user}' ");
+                return $result;
     }
     // public function register_update($user,$seqcode,$nextseqcode)
     // {          
