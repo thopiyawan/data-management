@@ -389,62 +389,53 @@ class GetMessageController extends Controller
                                         array(
                                             new CarouselColumnTemplateBuilder(
                                                 $var[0]['countryname'],
-                                                 '55',
                                                 'https://data-manage.herokuapp.com/country_tic/0.jpg',
                                                 $actionBuilder0
                                             ),
                                             new CarouselColumnTemplateBuilder(
-                                                'Title Carousel',
-                                                '55',
-                                                 'https://data-manage.herokuapp.com/country_tic/1.jpg',
+                                                $var[1]['countryname'],
+                                                'https://data-manage.herokuapp.com/country_tic/1.jpg',
                                                 $actionBuilder1
                                             ),
                                             new CarouselColumnTemplateBuilder(
-                                                'Title Carousel',
+                                                $var[2]['countryname'],
                                                 '55',
                                                  'https://data-manage.herokuapp.com/country_tic/2.jpg',
                                                 $actionBuilder2
                                             ),
                                             new CarouselColumnTemplateBuilder(
-                                                'Title Carousel',
-                                                '55',
-                                                 'https://data-manage.herokuapp.com/country_tic/3.jpg',
+                                                $var[3]['countryname'],
+                                                'https://data-manage.herokuapp.com/country_tic/3.jpg',
                                                 $actionBuilder3
                                             ),
                                             new CarouselColumnTemplateBuilder(
-                                                'Title Carousel',
-                                                '55',
-                                                 'https://data-manage.herokuapp.com/country_tic/4.jpg',
+                                                $var[4]['countryname'],
+                                                'https://data-manage.herokuapp.com/country_tic/4.jpg',
                                                 $actionBuilder4
                                             ),
                                             new CarouselColumnTemplateBuilder(
-                                                'Title Carousel',
-                                                '55',
+                                                $var[5]['countryname'],
                                                  'https://data-manage.herokuapp.com/country_tic/5.jpg',
                                                 $actionBuilder5
                                             ),               
                                             new CarouselColumnTemplateBuilder(
-                                                'Title Carousel',
-                                                '55',
-                                                 'https://data-manage.herokuapp.com/country_tic/6.jpg',
+                                                $var[6]['countryname'],
+                                                'https://data-manage.herokuapp.com/country_tic/6.jpg',
                                                 $actionBuilder6
                                             ),
                                             new CarouselColumnTemplateBuilder(
-                                                'Title Carousel',
-                                                '55',
-                                                 'https://data-manage.herokuapp.com/country_tic/7.jpg',
+                                                $var[7]['countryname'],
+                                                'https://data-manage.herokuapp.com/country_tic/7.jpg',
                                                 $actionBuilder7
                                             ),
                                             new CarouselColumnTemplateBuilder(
-                                                'Title Carousel',
-                                                '55',
-                                                 'https://data-manage.herokuapp.com/country_tic/8.jpg',
+                                                $var[8]['countryname'],
+                                                'https://data-manage.herokuapp.com/country_tic/8.jpg',
                                                 $actionBuilder8
                                             ),      
                                             new CarouselColumnTemplateBuilder(
-                                                'Title Carousel',
-                                                '55',
-                                                 'https://data-manage.herokuapp.com/country_tic/9.jpg',
+                                                $var[9]['countryname'],
+                                                'https://data-manage.herokuapp.com/country_tic/9.jpg',
                                                 $actionBuilder9
                                             )                                                                  
                                         )
