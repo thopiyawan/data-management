@@ -364,7 +364,7 @@ class GetMessageController extends Controller
     {
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-        $result = pg_query($dbconn,"SELECT countryName FROM country");
+        $result = pg_query($dbconn,"SELECT * FROM country");
         return pg_fetch_all($result);
                 // while ($row = pg_fetch_object($result)) {
                 //    return $row->seqcode;
