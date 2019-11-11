@@ -325,8 +325,8 @@ class GetMessageController extends Controller
                                                     // กำหนด action 4 ปุ่ม 4 ประเภท
                                 $actionBuilder = array(
                                     new MessageTemplateActionBuilder(
-                                        'Message Template',// ข้อความแสดงในปุ่ม
-                                        'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                        $var[0],// ข้อความแสดงในปุ่ม
+                                        $var[0] // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
                                     ),     
                                 );
                                 $textMessageBuilder = new TemplateMessageBuilder('Carousel',
@@ -379,7 +379,8 @@ class GetMessageController extends Controller
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
         $result = pg_query($dbconn,"SELECT countryName FROM country ");
-        return pg_fetch_all($result);
+        $re = pg_fetch_all($result);
+        return $re;
                 // while ($row = pg_fetch_object($result)) {
                 //    return $row->seqcode;
                 // } 
