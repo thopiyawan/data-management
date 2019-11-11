@@ -324,7 +324,7 @@ class GetMessageController extends Controller
              foreach ($cont as $country) {
              $columnTemplateBuilder = 
                    new ImageCarouselColumnTemplateBuilder(
-                      'https://remi.softbot.ai/reward_gift/'.$country['countryID'].'.jpg',
+                      'https://www.mywebsite.com/imgsrc/photos/w/simpleflower',
                        new MessageTemplateActionBuilder(
                            'เลือก', // ข้อความแสดงในปุ่ม
                            $country['countryName']
