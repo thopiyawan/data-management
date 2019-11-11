@@ -134,7 +134,7 @@ class GetMessageController extends Controller
         // $register_update = pg_exec($dbconn, "UPDATE users SET  age = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
         $result = pg_query($dbconn,"SELECT countryName FROM country ");
         print($result[0]);
-        print(pg_fetch_all($result));
+        // print(pg_fetch_all($result));
         // return $register_update;
 
         // $seqcode ='001';
