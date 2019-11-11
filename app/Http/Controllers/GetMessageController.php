@@ -321,7 +321,7 @@ class GetMessageController extends Controller
             //    // $reward_gift = (new SqlController)->reward_gift();
             //     $columnTemplateBuilders = array();
          
-             foreach ($cont as $country) {
+            //  foreach ($cont as $country) {
              $columnTemplateBuilder = 
                    new ImageCarouselColumnTemplateBuilder(
                       'https://www.mywebsite.com/imgsrc/photos/w/simpleflower',
@@ -332,7 +332,7 @@ class GetMessageController extends Controller
                    );
 
              array_push($columnTemplateBuilders, $columnTemplateBuilder);
-           }
+        //    }
 
          $textMessageBuilder = new TemplateMessageBuilder('Image Carousel',
          new ImageCarouselTemplateBuilder(
