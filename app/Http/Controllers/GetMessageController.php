@@ -287,17 +287,46 @@ class GetMessageController extends Controller
                         $question = $this->sequents_question($seqcode);
                         $userMessage =  $question;
             //
-                    }elseif(strpos($userMessage, 'เลือกแผนการเดินทาง') !== false ){
+                    }elseif(is_string($userMessage) !== false &&  $seqcode == '006'){
                         $case = 2;
                         $fullname = $userMessage;
                         // $userMessage = 'ขอทราบEmailค่ะ';
                         // $this->register_insert($user,$fullname);
-                        $seqcode = '006';
-                        $nextseqcode = '007';
+                        $seqcode = '007';
+                        $nextseqcode = '008';
                         $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
                         $question = $this->sequents_question($seqcode);
                         $userMessage =  $question;
-
+                    }elseif(is_string($userMessage) !== false &&  $seqcode == '007'){
+                        $case = 2;
+                        $fullname = $userMessage;
+                        // $userMessage = 'ขอทราบEmailค่ะ';
+                        // $this->register_insert($user,$fullname);
+                        $seqcode = '008';
+                        $nextseqcode = '009';
+                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                        $question = $this->sequents_question($seqcode);
+                        $userMessage =  $question;
+                    }elseif(is_string($userMessage) !== false &&  $seqcode == '008'){
+                        $case = 2;
+                        $fullname = $userMessage;
+                        // $userMessage = 'ขอทราบEmailค่ะ';
+                        // $this->register_insert($user,$fullname);
+                        $seqcode = '009';
+                        $nextseqcode = '010';
+                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                        $question = $this->sequents_question($seqcode);
+                        $userMessage =  $question;
+                    }elseif(is_string($userMessage) !== false &&  $seqcode == '009'){
+                        $case = 2;
+                        $fullname = $userMessage;
+                        $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
+                        // $this->register_insert($user,$fullname);
+                        $seqcode = '010';
+                        $nextseqcode = '000';
+                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                        // $question = $this->sequents_question($seqcode);
+                        // $userMessage =  $question;
                     }else{
                         $case = 1;
                         $userMessage = '**เมนู';
