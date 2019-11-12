@@ -511,6 +511,7 @@ class GetMessageController extends Controller
                         );
 
                         $quickReply = new QuickReplyMessageBuilder([
+                            new QuickReplyButtonBuilder(new LocationTemplateActionBuilder('Location')),
                             new QuickReplyButtonBuilder($datetimePicker),
                         ]);
                         $textMessageBuilder = new TextMessageBuilder('Text with quickReply buttons', $quickReply);               
