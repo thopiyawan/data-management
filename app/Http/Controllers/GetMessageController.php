@@ -39,9 +39,11 @@ use Storage;
 use LINE\LINEBot;
 use LINE\LINEBot\HTTPClient;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
-//use LINE\LINEBot\Event;
-//use LINE\LINEBot\Event\BaseEvent;
-//use LINE\LINEBot\Event\MessageEvent;
+use LINE\LINEBot\Event;
+use LINE\LINEBot\Event\BaseEvent;
+use LINE\LINEBot\Event\MessageEvent;
+use LINE\LINEBot\Event\AccountLinkEvent;
+use LINE\LINEBot\Event\MemberJoinEvent; 
 use LINE\LINEBot\MessageBuilder;
 use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use LINE\LINEBot\MessageBuilder\StickerMessageBuilder;
@@ -69,7 +71,6 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\CarouselColumnTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuilder;
-use Carbon\Carbon;
 use LINE\LINEBot\QuickReplyBuilder;
 use LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder;
 use LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder;
@@ -158,196 +159,386 @@ class GetMessageController extends Controller
             // เชื่อมต่อกับ LINE Messaging API
                 $httpClient = new CurlHTTPClient('+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=');
                 $bot = new LINEBot($httpClient, array('channelSecret' => '572a7adea7a0959295e21cb626dae011'));
-                
+                   
                 // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
                 $content = file_get_contents('php://input');
-                
-                // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
-                $events = json_decode($content, true);
-                    if(!is_null($events)){
-                        // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
-                        $replyToken  = $events['events'][0]['replyToken'];
-                        $user        = $events['events'][0]['source']['userId'];
-                    // $userMessage = $events['events'][0]['message']['text'];
-                        $typeMessage = $events['events'][0]['message']['type'];
-                        $idMessage   = $events['events'][0]['message']['id']; 
-                    }
-                // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
-            //     $textMessageBuilder = new TextMessageBuilder(json_encode($events));
-               
-            //     //l ส่วนของคำสั่งตอบกลับข้อความ
-            //     $response = $bot->replyMessage($replyToken,$textMessageBuilder);
-            //     if ($response->isSucceeded()) {
-            //         echo 'Succeeded!';
-            //         return;
-            //     }
-            //    // $users = users::insert(['sender_id'=>$user,'seqcode' => $seqcode,'answer' => 'NULL','nextseqcode' =>$nextseqcode,'status'=>'0','created_at'=>NOW() , 'updated_at'=>NOW()]);
-            //     // Failed
-            //     echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
-            $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
-            $dbconn = pg_pconnect($conn_string);
-
-                $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
-                $num = pg_num_rows($result);
-                    if($num==0)         
-                 {  
-                     $seqcode = '000';
-                     $nextseqcode = '000';             
-                     $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
-                 }
-      
-                $seqcode = $this->seqcode_select($user);
-
-///////////////////////////////////////////////////
-     
-
-
-///////////////////////////////////////////////////
-            if($typeMessage=='text'){
-                if(!is_null($events)){
-                    $userMessage = $events['events'][0]['message']['text'];
+                   
+                // กำหนดค่า signature สำหรับตรวจสอบข้อมูลที่ส่งมาว่าเป็นข้อมูลจาก LINE
+                $hash = hash_hmac('sha256', $content, LINE_MESSAGE_CHANNEL_SECRET, true);
+                $signature = base64_encode($hash);
+                   
+                // แปลงค่าข้อมูลที่ได้รับจาก LINE เป็น array ของ Event Object
+                $events = $bot->parseEventRequest($content, $signature);
+                $eventObj = $events[0]; // Event Object ของ array แรก
+                   
+                // ดึงค่าประเภทของ Event มาไว้ในตัวแปร มีทั้งหมด 7 event
+                $eventType = $eventObj->getType();
+                   
+                // สร้างตัวแปร ไว้เก็บ sourceId ของแต่ละประเภท
+                $userId = NULL;
+                $groupId = NULL;
+                $roomId = NULL;
+                // สร้างตัวแปรเก็บ source id และ source type
+                $sourceId = NULL;
+                $sourceType = NULL;
+                // สร้างตัวแปร replyToken และ replyData สำหรับกรณีใช้ตอบกลับข้อความ
+                $replyToken = NULL;
+                $replyData = NULL;
+                // สร้างตัวแปร ไว้เก็บค่าว่าเป้น Event ประเภทไหน
+                $eventMessage = NULL;
+                $eventPostback = NULL;
+                $eventJoin = NULL;
+                $eventLeave = NULL;
+                $eventFollow = NULL;
+                $eventUnfollow = NULL;
+                $eventBeacon = NULL;
+                $eventAccountLink = NULL;
+                $eventMemberJoined = NULL;
+                $eventMemberLeft = NULL;
+                // เงื่อนไขการกำหนดประเภท Event 
+                switch($eventType){
+                    case 'message': $eventMessage = true; break;    
+                    case 'postback': $eventPostback = true; break;  
+                    case 'join': $eventJoin = true; break;  
+                    case 'leave': $eventLeave = true; break;    
+                    case 'follow': $eventFollow = true; break;  
+                    case 'unfollow': $eventUnfollow = true; break;  
+                    case 'beacon': $eventBeacon = true; break;     
+                    case 'accountLink': $eventAccountLink = true; break;       
+                    case 'memberJoined': $eventMemberJoined = true; break;       
+                    case 'memberLeft': $eventMemberLeft = true; break;                                           
                 }
-
-            //ลงทะเบียน
-                    if(strpos($userMessage, 'ลงทะเบียน') !== false  &&  $seqcode == '000'){
-                            $case = 1;
-                            // $userMessage = 'ขอทราบชื่อและนามสกุลค่ะ';
-                            $seqcode = '001';
-                            $nextseqcode = '002';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-                    }elseif($userMessage == 'del'){
-                            $case = 1;
-                            $fullname = $userMessage;
-                            // $userMessage = 'ขอทราบEmailค่ะ';
-                            $this->delete_state($user);
-                            $userMessage =  'ลบแล้วจ้า';
-            //ชื่อ-นามสกุล
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '001'){
-                            $case = 1;
-                            $fullname = $userMessage;
-                            // $userMessage = 'ขอทราบEmailค่ะ';
-                            $this->register_insert($user,$fullname);
-                            $seqcode = '002';
-                            $nextseqcode = '003';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-            //อายุ
-                    }elseif(is_string($userMessage)!== false  &&  $seqcode == '002'){
-                        if(is_numeric($userMessage) !== false){
-                            $val = $userMessage;
-                            $this->register_update($user,$val,$seqcode);
-                            $case = 1;   
-                        
-                            $seqcode = '003';
-                            $nextseqcode = '004';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-                        }else{
-                            $case = 1;
-                            $userMessage = 'ฉันคิดว่าคุณพิมพ์อายุผิดนะ กรุณาพิมพ์ใหม่';
-                        }
-            //Email
-                    }elseif(is_string($userMessage)!== false  &&  $seqcode == '003'){
-                         if(strpos($userMessage, '@') !== false || strpos($userMessage, '-') !== false){
-                            //$userMessage = 'การลงทะเบียนเรียบร้อยแล้วนะคะ';
-                            $val = $userMessage;
-                            $this->register_update($user,$val,$seqcode);
-                            $case = 1;
-
-                            $seqcode = '004';
-                            $nextseqcode = '005';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-                        }else{
-                            $case = 1;
-                            $userMessage = 'ฉันคิดว่าคุณพิมพ์Emailผิดนะ กรุณาพิมพ์ใหม่';
-                        }
-            //หมายเลขโทรศัพท์
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '004'){
-                        if(is_numeric($userMessage) !== false && strlen($userMessage) == 10){
-                            //$userMessage = 'การลงทะเบียนเรียบร้อยแล้วนะคะ';
-                            $val = $userMessage;
-                            $this->register_update($user,$val,$seqcode);
-                            $case = 1;
-
-                            $seqcode = '005';
-                            $nextseqcode = '000';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-                        }else{
-                            $case = 1;
-                            $userMessage = 'ฉันคิดว่าคุณพิมพ์เบอร์โทรศัพท์ผิดนะคะ กรุณาพิมพ์ใหม่';
-                        }
-
-            //เลือกแผนการเดินทาง
-                    }elseif(strpos($userMessage, 'เลือกแผนการเดินทาง') !== false ){
-                        $case = 2;
-                        $fullname = $userMessage;
-                        // $userMessage = 'ขอทราบEmailค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '006';
-                        $nextseqcode = '007';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        $question = $this->sequents_question($seqcode);
-                        $userMessage =  $question;
-            //ประเภทการเดินทางแบบรายเที่ยว คุณต้องการเดินทางไปประเทศอะไรคะ?
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '006'){
-                        $case = 2;
-                        $fullname = $userMessage;
-                        // $userMessage = 'ขอทราบEmailค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '007';
-                        $nextseqcode = '008';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        $question = $this->sequents_question($seqcode);
-                        $userMessage =  $question;
-            //ขอทราบวันออกเดินทางจากประเทศไทยค่ะ?
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '007'){
-                        $case = 3;
-                        $fullname = $userMessage;
-                        // $userMessage = 'ขอทราบEmailค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '008';
-                        $nextseqcode = '009';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        $question = $this->sequents_question($seqcode);
-                        $userMessage =  $question;
-            //ขอทราบวันกลับค่ะ?
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '008'){
-                        $case = 2;
-                        $fullname = $userMessage;
-                        // $userMessage = 'ขอทราบEmailค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '009';
-                        $nextseqcode = '010';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        $question = $this->sequents_question($seqcode);
-                        $userMessage =  $question;
-            //ขอทราบจำนวนผู้โดยสารค่ะ'
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '009'){
-                        $case = 1;
-                        $fullname = $userMessage;
-                        $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '010';
-                        $nextseqcode = '000';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        // $question = $this->sequents_question($seqcode);
-                        // $userMessage =  $question;
-                    }else{
-                        $case = 1;
-                        $userMessage = '**เมนู';
-                    }
-            }
-            //////////////////////////////////////////////////////          
-
-            return $this->replymessage($replyToken,$userMessage,$case);
+                // สร้างตัวแปรเก็บค่า userId กรณีเป็น Event ที่เกิดขึ้นใน USER
+                if($eventObj->isUserEvent()){
+                    $userId = $eventObj->getUserId();  
+                    $sourceType = "USER";
+                }
+                // สร้างตัวแปรเก็บค่า groupId กรณีเป็น Event ที่เกิดขึ้นใน GROUP
+                if($eventObj->isGroupEvent()){
+                    $groupId = $eventObj->getGroupId();  
+                    $userId = $eventObj->getUserId();  
+                    $sourceType = "GROUP";
+                }
+                // สร้างตัวแปรเก็บค่า roomId กรณีเป็น Event ที่เกิดขึ้นใน ROOM
+                if($eventObj->isRoomEvent()){
+                    $roomId = $eventObj->getRoomId();        
+                    $userId = $eventObj->getUserId();      
+                    $sourceType = "ROOM";
+                }
+                // เก็บค่า sourceId ปกติจะเป็นค่าเดียวกันกับ userId หรือ roomId หรือ groupId ขึ้นกับว่าเป็น event แบบใด
+                $sourceId = $eventObj->getEventSourceId();
+                // ดึงค่า replyToken มาไว้ใช้งาน ทุกๆ Event ที่ไม่ใช่ Leave และ Unfollow Event และ  MemberLeft
+                // replyToken ไว้สำหรับส่งข้อความจอบกลับ 
+                if(is_null($eventLeave) && is_null($eventUnfollow) && is_null($eventMemberLeft)){
+                    $replyToken = $eventObj->getReplyToken();    
+                }
+                  
+                // ส่วนของการทำงาน
+                if(!is_null($events)){
+                  
+                    // ถ้า bot ถูก invite เพื่อเข้า Join Event ให้ bot ส่งข้อความใน GROUP ว่าเข้าร่วม GROUP แล้ว
+                    if(!is_null($eventJoin)){
+                        $textReplyMessage = "ขอเข้าร่วมด้วยน่ะ $sourceType ID:: ".$sourceId;
+                        $replyData = new TextMessageBuilder($textReplyMessage);                 
+                    }
+                      
+                    // ถ้า bot ออกจาก สนทนา จะไม่สามารถส่งข้อความกลับได้ เนื่องจากไม่มี replyToken
+                    if(!is_null($eventLeave)){
+                  
+                    }   
+                      
+                    // ถ้า bot ถูกเพื่มเป้นเพื่อน หรือถูกติดตาม หรือ ยกเลิกการ บล็อก
+                    if(!is_null($eventFollow)){
+                        $textReplyMessage = "ขอบคุณที่เป็นเพื่อน และติดตามเรา";        
+                        $replyData = new TextMessageBuilder($textReplyMessage);                 
+                    }
+                      
+                    // ถ้า bot ถูกบล็อก หรือเลิกติดตาม จะไม่สามารถส่งข้อความกลับได้ เนื่องจากไม่มี replyToken
+                    if(!is_null($eventUnfollow)){
+                  
+                    }       
+                      
+                    // ถ้ามีสมาชิกคนอื่น เข้ามาร่วมใน room หรือ group 
+                    // room คือ สมมติเราคุยกับ คนหนึ่งอยู่ แล้วเชิญคนอื่นๆ เข้ามาสนทนาด้วย จะกลายเป็นห้องใหม่
+                    // group คือ กลุ่มที่เราสร้างไว้ มีชื่อกลุ่ม แล้วเราเชิญคนอื่นเข้ามาในกลุ่ม เพิ่มร่วมสนทนาด้วย
+                    if(!is_null($eventMemberJoined)){
+                            $arr_joinedMember = $eventObj->getEventBody();
+                            $joinedMember = $arr_joinedMember['joined']['members'][0];
+                            if(!is_null($groupId) || !is_null($roomId)){
+                                if($eventObj->isGroupEvent()){
+                                    foreach($joinedMember as $k_user=>$v_user){
+                                        if($k_user=="userId"){
+                                            $joined_userId = $v_user;
+                                        }
+                                    }                       
+                                    $response = $bot->getGroupMemberProfile($groupId, $joined_userId);
+                                }
+                                if($eventObj->isRoomEvent()){
+                                    foreach($joinedMember as $k_user=>$v_user){
+                                        if($k_user=="userId"){
+                                            $joined_userId = $v_user;
+                                        }
+                                    }                   
+                                    $response = $bot->getRoomMemberProfile($roomId, $joined_userId);    
+                                }
+                            }else{
+                                $response = $bot->getProfile($userId);
+                            }
+                            if ($response->isSucceeded()) {
+                                $userData = $response->getJSONDecodedBody(); // return array     
+                                // $userData['userId']
+                                // $userData['displayName']
+                                // $userData['pictureUrl']
+                                // $userData['statusMessage']
+                                $textReplyMessage = 'สวัสดีครับ คุณ '.$userData['displayName'];     
+                            }else{
+                                $textReplyMessage = 'สวัสดีครับ ยินดีต้อนรับ';
+                            }
+                //        $textReplyMessage = "ยินดีต้อนรับกลับมาอีกครั้ง ".json_encode($joinedMember);
+                        $replyData = new TextMessageBuilder($textReplyMessage);                     
+                    }
+                      
+                    // ถ้ามีสมาชิกคนอื่น ออกจากก room หรือ group จะไม่สามารถส่งข้อความกลับได้ เนื่องจากไม่มี replyToken
+                    if(!is_null($eventMemberLeft)){
+                      
+                    }   
+                  
+                    // ถ้ามีกาาเชื่อมกับบัญชี LINE กับระบบสมาชิกของเว็บไซต์เรา
+                    if(!is_null($eventAccountLink)){
+                        // หลักๆ ส่วนนี้ใช้สำรหบัเพิ่มความภัยในการเชื่อมบัญตี LINE กับระบบสมาชิกของเว็บไซต์เรา 
+                        $textReplyMessage = "AccountLink ทำงาน ".$replyToken." Nonce: ".$eventObj->getNonce();
+                        $replyData = new TextMessageBuilder($textReplyMessage);                         
+                    }
+                              
+                    // ถ้าเป็น Postback Event
+                    if(!is_null($eventPostback)){
+                        $dataPostback = NULL;
+                        $paramPostback = NULL;
+                        // แปลงข้อมูลจาก Postback Data เป็น array
+                        parse_str($eventObj->getPostbackData(),$dataPostback);
+                        // ดึงค่า params กรณีมีค่า params
+                        $paramPostback = $eventObj->getPostbackParams();
+                        // ทดสอบแสดงข้อความที่เกิดจาก Postaback Event
+                        $textReplyMessage = "ข้อความจาก Postback Event Data = ";        
+                        $textReplyMessage.= json_encode($dataPostback);
+                        $textReplyMessage.= json_encode($paramPostback);
+                        $replyData = new TextMessageBuilder($textReplyMessage);     
+                    }
+                    // ถ้าเป้น Message Event 
+                    if(!is_null($eventMessage)){
+                          
+                        // สร้างตัวแปรเก็ยค่าประเภทของ Message จากทั้งหมด 7 ประเภท
+                        $typeMessage = $eventObj->getMessageType();  
+                        //  text | image | sticker | location | audio | video | file  
+                        // เก็บค่า id ของข้อความ
+                        $idMessage = $eventObj->getMessageId();          
+                        // ถ้าเป็นข้อความ
+                        if($typeMessage=='text'){
+                            $userMessage = $eventObj->getText(); // เก็บค่าข้อความที่ผู้ใช้พิมพ์
+                        }
+                        // ถ้าเป็น image
+                        if($typeMessage=='image'){
+                  
+                        }               
+                        // ถ้าเป็น audio
+                        if($typeMessage=='audio'){
+                  
+                        }       
+                        // ถ้าเป็น video
+                        if($typeMessage=='video'){
+                  
+                        }   
+                        // ถ้าเป็น file
+                        if($typeMessage=='file'){
+                            $FileName = $eventObj->getFileName();
+                            $FileSize = $eventObj->getFileSize();
+                        }               
+                        // ถ้าเป็น image หรือ audio หรือ video หรือ file และต้องการบันทึกไฟล์
+                        if(preg_match('/image|audio|video|file/',$typeMessage)){            
+                            $responseMedia = $bot->getMessageContent($idMessage);
+                            if ($responseMedia->isSucceeded()) {
+                                // คำสั่ง getRawBody() ในกรณีนี้ จะได้ข้อมูลส่งกลับมาเป็น binary 
+                                // เราสามารถเอาข้อมูลไปบันทึกเป็นไฟล์ได้
+                                $dataBinary = $responseMedia->getRawBody(); // return binary
+                                // ดึงข้อมูลประเภทของไฟล์ จาก header
+                                $fileType = $responseMedia->getHeader('Content-Type');    
+                                switch ($fileType){
+                                    case (preg_match('/^application/',$fileType) ? true : false):
+                //                      $fileNameSave = $FileName; // ถ้าต้องการบันทึกเป็นชื่อไฟล์เดิม
+                                        $arr_ext = explode(".",$FileName);
+                                        $ext = array_pop($arr_ext);
+                                        $fileNameSave = time().".".$ext;                            
+                                        break;                  
+                                    case (preg_match('/^image/',$fileType) ? true : false):
+                                        list($typeFile,$ext) = explode("/",$fileType);
+                                        $ext = ($ext=='jpeg' || $ext=='jpg')?"jpg":$ext;
+                                        $fileNameSave = time().".".$ext;
+                                        break;
+                                    case (preg_match('/^audio/',$fileType) ? true : false):
+                                        list($typeFile,$ext) = explode("/",$fileType);
+                                        $fileNameSave = time().".".$ext;                        
+                                        break;
+                                    case (preg_match('/^video/',$fileType) ? true : false):
+                                        list($typeFile,$ext) = explode("/",$fileType);
+                                        $fileNameSave = time().".".$ext;                                
+                                        break;                                                      
+                                }
+                                $botDataFolder = 'botdata/'; // โฟลเดอร์หลักที่จะบันทึกไฟล์
+                                $botDataUserFolder = $botDataFolder.$userId; // มีโฟลเดอร์ด้านในเป็น userId อีกขั้น
+                                if(!file_exists($botDataUserFolder)) { // ตรวจสอบถ้ายังไม่มีให้สร้างโฟลเดอร์ userId
+                                    mkdir($botDataUserFolder, 0777, true);
+                                }   
+                                // กำหนด path ของไฟล์ที่จะบันทึก
+                                $fileFullSavePath = $botDataUserFolder.'/'.$fileNameSave;
+                //              file_put_contents($fileFullSavePath,$dataBinary); // เอา comment ออก ถ้าต้องการทำการบันทึกไฟล์
+                                $textReplyMessage = "บันทึกไฟล์เรียบร้อยแล้ว $fileNameSave";
+                                $replyData = new TextMessageBuilder($textReplyMessage);
+                //              $failMessage = json_encode($fileType);              
+                //              $failMessage = json_encode($responseMedia->getHeaders());
+                                $replyData = new TextMessageBuilder($failMessage);                      
+                            }else{
+                                $failMessage = json_encode($idMessage.' '.$responseMedia->getHTTPStatus() . ' ' . $responseMedia->getRawBody());
+                                $replyData = new TextMessageBuilder($failMessage);          
+                            }
+                        }
+                        // ถ้าเป็น sticker
+                        if($typeMessage=='sticker'){
+                            $packageId = $eventObj->getPackageId();
+                            $stickerId = $eventObj->getStickerId();
+                        }
+                        // ถ้าเป็น location
+                        if($typeMessage=='location'){
+                            $locationTitle = $eventObj->getTitle();
+                            $locationAddress = $eventObj->getAddress();
+                            $locationLatitude = $eventObj->getLatitude();
+                            $locationLongitude = $eventObj->getLongitude();
+                        }       
+                          
+                          
+                        switch ($typeMessage){ // กำหนดเงื่อนไขการทำงานจาก ประเภทของ message
+                            case 'text':  // ถ้าเป็นข้อความ
+                                $userMessage = strtolower($userMessage); // แปลงเป็นตัวเล็ก สำหรับทดสอบ
+                                switch ($userMessage) {
+                                    case "t_b":
+                                        // กำหนด action 4 ปุ่ม 4 ประเภท
+                                        $actionBuilder = array(
+                                            new MessageTemplateActionBuilder(
+                                                'Message Template',// ข้อความแสดงในปุ่ม
+                                                'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                            ),
+                                            new UriTemplateActionBuilder(
+                                                'Uri Template', // ข้อความแสดงในปุ่ม
+                                                'https://www.ninenik.com'
+                                            ),
+                                            new DatetimePickerTemplateActionBuilder(
+                                                'Datetime Picker', // ข้อความแสดงในปุ่ม
+                                                http_build_query(array(
+                                                    'action'=>'reservation',
+                                                    'person'=>5
+                                                )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                                                'datetime', // date | time | datetime รูปแบบข้อมูลที่จะส่ง ในที่นี้ใช้ datatime
+                                                substr_replace(date("Y-m-d H:i"),'T',10,1), // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
+                                                substr_replace(date("Y-m-d H:i",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
+                                                substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
+                                            ),      
+                                            new PostbackTemplateActionBuilder(
+                                                'Postback', // ข้อความแสดงในปุ่ม
+                                                http_build_query(array(
+                                                    'action'=>'buy',
+                                                    'item'=>100
+                                                )) // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                    //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                            ),      
+                                        );
+                                        $imageUrl = 'https://www.mywebsite.com/imgsrc/photos/w/simpleflower';
+                                        $replyData = new TemplateMessageBuilder('Button Template',
+                                            new ButtonTemplateBuilder(
+                                                    'button template builder', // กำหนดหัวเรื่อง
+                                                    'Please select', // กำหนดรายละเอียด
+                                                    $imageUrl, // กำหนด url รุปภาพ
+                                                    $actionBuilder  // กำหนด action object
+                                            )
+                                        );              
+                                        break;                                          
+                                    case "p":
+                                        // ถ้าขณะนั้นเป็นการสนทนาใน ROOM หรือ GROUP
+                                        if(!is_null($groupId) || !is_null($roomId)){
+                                            if($eventObj->isGroupEvent()){// ถ้าอยู่ใน GROUP
+                                                $response = $bot->getGroupMemberProfile($groupId, $userId); // ดึงข้อมูลผู้ใช้ที่คุยกับ bot
+                                            }
+                                            if($eventObj->isRoomEvent()){ // ถ้าอยู่ใน ROOM
+                                                $response = $bot->getRoomMemberProfile($roomId, $userId);// ดึงข้อมูลผู้ใช้ที่คุยกับ bot    
+                                            }
+                                        }else{ // ถ้าเป็นการสนทนา ระหว่าง BOT
+                                            $response = $bot->getProfile($userId);
+                                        }
+                                        if ($response->isSucceeded()) {
+                                            $userData = $response->getJSONDecodedBody(); // return array     
+                                            // $userData['userId']
+                                            // $userData['displayName']
+                                            // $userData['pictureUrl']
+                                            // $userData['statusMessage']
+                                            $textReplyMessage = 'สวัสดีครับ คุณ '.$userData['displayName'];     
+                                        }else{
+                                            $textReplyMessage = 'สวัสดีครับ คุณคือใคร';
+                                        }
+                                        $replyData = new TextMessageBuilder($textReplyMessage);                                                 
+                                        break;                          
+                                    case "l": // เงื่อนไขทดสอบถ้ามีใครพิมพ์ L ใน GROUP / ROOM แล้วให้ bot ออกจาก GROUP / ROOM
+                                            $sourceId = $eventObj->getEventSourceId();
+                                            if($eventObj->isGroupEvent()){
+                                                $bot->leaveGroup($sourceId);
+                                            }
+                                            if($eventObj->isRoomEvent()){
+                                                $bot->leaveRoom($sourceId);  
+                                            }                                                                                         
+                                        break;
+                                    case "a":  // เงื่อนไขกรณีต้องการ เชื่อม Line  account กับ ระบบสมาชิกของเว็บไซต์เรา
+                                        $response = $httpClient->post("https://api.line.me/v2/bot/user/".urlencode($userId)."/linkToken",array());
+                                        $result = json_decode($response->getRawBody(),TRUE);
+                                        // กำหนด action 4 ปุ่ม 4 ประเภท
+                                        $actionBuilder = array(
+                                            new UriTemplateActionBuilder(
+                                                'Account Link', // ข้อความแสดงในปุ่ม
+                                                'https://www.example.com/link.php?linkToken='.$result['linkToken']
+                                            ) 
+                                        );
+                                        $imageUrl = ''; //กำหนด url รุปภาพ ถ้ามี
+                                        $replyData = new TemplateMessageBuilder('Button Template',
+                                            new ButtonTemplateBuilder(
+                                                    'Account Link', // กำหนดหัวเรื่อง
+                                                    'Please select', // กำหนดรายละเอียด
+                                                    $imageUrl, // กำหนด url รุปภาพ
+                                                    $actionBuilder  // กำหนด action object
+                                            )
+                                        );       
+                                        break;                                                                     
+                                    default:
+                                        $textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
+                                        $replyData = new TextMessageBuilder($textReplyMessage);         
+                                        break;                                      
+                                }
+                                break;                                                  
+                            default:
+                                if(!is_null($replyData)){
+                                      
+                                }else{
+                                    // กรณีทดสอบเงื่อนไขอื่นๆ ผู้ใช้ไม่ได้ส่งเป็นข้อความ
+                                    $textReplyMessage = 'สวัสดีครับ คุณ '.$typeMessage;         
+                                    $replyData = new TextMessageBuilder($textReplyMessage);         
+                                }
+                                break;  
+                        }
+                    }
+                }
+                  
+                $response = $bot->replyMessage($replyToken,$replyData);
+                if ($response->isSucceeded()) {
+                    echo 'Succeeded!';
+                    return;
+                }
+                // Failed
+                echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
 
             }
 
@@ -532,7 +723,7 @@ class GetMessageController extends Controller
                         ]
                     ];
                     $post = json_encode($data);
-                    $access_token = '+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=';
+                    $access_token'+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=';
                     $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
 
                     $ch = curl_init($url);
