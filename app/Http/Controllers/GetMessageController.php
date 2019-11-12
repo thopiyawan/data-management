@@ -70,6 +70,12 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuilder;
 use Carbon\Carbon;
+use LINE\LINEBot\QuickReplyBuilder;
+use LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder;
+use LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder;
+use LINE\LINEBot\TemplateActionBuilder\CameraRollTemplateActionBuilder;
+use LINE\LINEBot\TemplateActionBuilder\CameraTemplateActionBuilder;
+use LINE\LINEBot\TemplateActionBuilder\LocationTemplateActionBuilder;
 
 define('LINE_MESSAGE_CHANNEL_SECRET','25264a71c707dbeedca46ff60d1e866a');
 define('LINE_MESSAGE_ACCESS_TOKEN','9tw2+DpBM3qfhPIGCs+eXDbZs1BPXQMUpWguIvIz7/cTz7dC8brS7HePUqb6lHq9oaDzmp1AY5CfsgFTIinxzxIYViz+chHSXWsxZdQb5AzwkeuPVfaozL+6kcgGEem5C6tkChIjDC0Pp3idEwIBEAdB04t89/1O/w1cDnyilFU=');
@@ -494,29 +500,20 @@ class GetMessageController extends Controller
                                 $textMessageBuilder = $multiMessage; 
                     break;
                 case 3 : 
-                     // กำหนด action 4 ปุ่ม 4 ประเภท
-                                $actionBuilder = array(
-                                    new DatetimePickerTemplateActionBuilder(
-                                        'Datetime Picker', // ข้อความแสดงในปุ่ม
-                                        http_build_query(array(
-                                            'action'=>'reservation',
-                                            'person'=>5
-                                        )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                                        'datetime', // date | time | datetime รูปแบบข้อมูลที่จะส่ง ในที่นี้ใช้ datatime
-                                        substr_replace(date("Y-m-d"),'T',10,1), // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
-                                        substr_replace(date("Y-m-d",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
-                                        substr_replace(date("Y-m-d"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
-                                    ),      
-                                );
-                                $imageUrl = 'https://www.mywebsite.com/imgsrc/photos/w/simpleflower';
-                                $textMessageBuilder = new TemplateMessageBuilder('Button Template',
-                                    new ButtonTemplateBuilder(
-                                            'button template builder', // กำหนดหัวเรื่อง
-                                            'Please select', // กำหนดรายละเอียด
-                                            $imageUrl, // กำหนด url รุปภาพ
-                                            $actionBuilder  // กำหนด action object
-                                    )
-                                );                   
+                        $postback = new PostbackTemplateActionBuilder('Buy', 'action=quickBuy&itemid=222', 'Buy');
+                        $datetimePicker = new DatetimePickerTemplateActionBuilder(
+                            'Select date',
+                            'storeId=12345',
+                            'datetime',
+                            '2017-12-25t00:00',
+                            '2018-01-24t23:59',
+                            '2017-12-25t00:00'
+                        );
+
+                        $quickReply = new QuickReplyMessageBuilder([
+                            new QuickReplyButtonBuilder($datetimePicker),
+                        ]);
+                        $textMessageBuilder = new TextMessageBuilder('Text with quickReply buttons', $quickReply);               
                     break;
         
             }
