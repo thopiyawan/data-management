@@ -510,9 +510,9 @@ class GetMessageController extends Controller
                                             'person'=>5
                                         )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
                                         'date', // date | time | datetime รูปแบบข้อมูลที่จะส่ง ในที่นี้ใช้ datatime
-                                        substr_replace(date("Y-m-d"),'T',10,1), // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
-                                        substr_replace(date("Y-m-d",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
-                                        substr_replace(date("Y-m-d"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
+                                        substr_replace(date("Y-m-d H:i"),'T',10,1), // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
+                                        substr_replace(date("Y-m-d H:i",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
+                                        substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
                                     ),      
                                 );
                                 $imageUrl = 'https://www.mywebsite.com/imgsrc/photos/w/simpleflower';
