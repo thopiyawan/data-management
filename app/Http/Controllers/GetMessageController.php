@@ -158,47 +158,14 @@ class GetMessageController extends Controller
                 
                 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
                 $events = json_decode($content, true);
-                if(!is_null($events)){
-                    // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
-                    $replyToken = $events['events'][0]['replyToken'];
-                    $user = $events['events'][0]['source']['userId'];
-                    $sourceType = $events['events'][0]['source']['type'];        
-                    $is_postback = NULL;
-                    $is_message = NULL;
-                    if(isset($events['events'][0]) && array_key_exists('message',$events['events'][0])){
-                        $is_message = true;
+                    if(!is_null($events)){
+                        // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
+                        $replyToken  = $events['events'][0]['replyToken'];
+                        $user        = $events['events'][0]['source']['userId'];
+                    // $userMessage = $events['events'][0]['message']['text'];
                         $typeMessage = $events['events'][0]['message']['type'];
-                        $userMessage = $events['events'][0]['message']['text'];     
-                        $idMessage = $events['events'][0]['message']['id'];             
+                        $idMessage   = $events['events'][0]['message']['id']; 
                     }
-                    if(isset($events['events'][0]) && array_key_exists('postback',$events['events'][0])){
-                        $is_postback = true;
-                        $dataPostback = NULL;
-                        parse_str($events['events'][0]['postback']['data'],$dataPostback);;
-                        $paramPostback = NULL;
-                        if(array_key_exists('params',$events['events'][0]['postback'])){
-                            if(array_key_exists('date',$events['events'][0]['postback']['params'])){
-                                $paramPostback = $events['events'][0]['postback']['params']['date'];
-                            }
-                            if(array_key_exists('time',$events['events'][0]['postback']['params'])){
-                                $paramPostback = $events['events'][0]['postback']['params']['time'];
-                            }
-                            if(array_key_exists('datetime',$events['events'][0]['postback']['params'])){
-                                $paramPostback = $events['events'][0]['postback']['params']['datetime'];
-                            }                       
-                        }
-                    }   
-                    if(!is_null($is_postback)){
-                        $textReplyMessage = "ข้อความจาก Postback Event Data = ";
-                        if(is_array($dataPostback)){
-                            $textReplyMessage.= json_encode($dataPostback);
-                        }
-                        if(!is_null($paramPostback)){
-                            $textReplyMessage.= " \r\nParams = ".$paramPostback;
-                        }
-                        $replyData = new TextMessageBuilder($textReplyMessage);     
-                    }
-        
                 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
             //     $textMessageBuilder = new TextMessageBuilder(json_encode($events));
                
@@ -211,7 +178,6 @@ class GetMessageController extends Controller
             //    // $users = users::insert(['sender_id'=>$user,'seqcode' => $seqcode,'answer' => 'NULL','nextseqcode' =>$nextseqcode,'status'=>'0','created_at'=>NOW() , 'updated_at'=>NOW()]);
             //     // Failed
             //     echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
-            
             $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
             $dbconn = pg_pconnect($conn_string);
 
@@ -529,31 +495,28 @@ class GetMessageController extends Controller
                     break;
                 case 3 : 
                      // กำหนด action 4 ปุ่ม 4 ประเภท
-                             // กำหนด action 4 ปุ่ม 4 ประเภท
-                        $actionBuilder = array(
-                
-                            new DatetimePickerTemplateActionBuilder(
-                                'Datetime Picker', // ข้อความแสดงในปุ่ม
-                                http_build_query(array(
-                                    'action'=>'reservation',
-                                    'person'=>5
-                                )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                                'datetime', // date | time | datetime รูปแบบข้อมูลที่จะส่ง ในที่นี้ใช้ datatime
-                                substr_replace(date("Y-m-d H:i"),'T',10,1), // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
-                                substr_replace(date("Y-m-d H:i",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
-                                substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
-                            ),      
-                           
-                        );
-                        $imageUrl = 'https://www.mywebsite.com/imgsrc/photos/w/simpleflower';
-                        $textMessageBuilder = new TemplateMessageBuilder('Button Template',
-                            new ButtonTemplateBuilder(
-                                    'button template builder', // กำหนดหัวเรื่อง
-                                    'Please select', // กำหนดรายละเอียด
-                                    $imageUrl, // กำหนด url รุปภาพ
-                                    $actionBuilder  // กำหนด action object
-                            )
-                        );              
+                                $actionBuilder = array(
+                                    new DatetimePickerTemplateActionBuilder(
+                                        'Datetime Picker', // ข้อความแสดงในปุ่ม
+                                        http_build_query(array(
+                                            'action'=>'reservation',
+                                            'person'=>5
+                                        )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                                        'datetime', // date | time | datetime รูปแบบข้อมูลที่จะส่ง ในที่นี้ใช้ datatime
+                                        substr_replace(date("Y-m-d"),'T',10,1), // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
+                                        substr_replace(date("Y-m-d",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
+                                        substr_replace(date("Y-m-d"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
+                                    ),      
+                                );
+                                $imageUrl = 'https://www.mywebsite.com/imgsrc/photos/w/simpleflower';
+                                $textMessageBuilder = new TemplateMessageBuilder('Button Template',
+                                    new ButtonTemplateBuilder(
+                                            'button template builder', // กำหนดหัวเรื่อง
+                                            'Please select', // กำหนดรายละเอียด
+                                            $imageUrl, // กำหนด url รุปภาพ
+                                            $actionBuilder  // กำหนด action object
+                                    )
+                                );                   
                     break;
         
             }
