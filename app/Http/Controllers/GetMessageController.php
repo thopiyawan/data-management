@@ -500,21 +500,64 @@ class GetMessageController extends Controller
                                 $textMessageBuilder = $multiMessage; 
                     break;
                 case 3 : 
-                  
-                        $datetimePicker = new DatetimePickerTemplateActionBuilder(
-                            'Select date',
-                            'storeId=12345',
-                            'datetime',
-                            '2017-12-25t00:00',
-                            '2018-01-24t23:59',
-                            '2017-12-25t00:00'
-                        );
 
-                        $quickReply = new QuickReplyMessageBuilder([
-                            new QuickReplyButtonBuilder(new LocationTemplateActionBuilder('Location')),
-                            new QuickReplyButtonBuilder($datetimePicker),
-                        ]);
-                        $textMessageBuilder = new TextMessageBuilder('Text with quickReply buttons', $quickReply);               
+                    $url = 'https://api.line.me/v2/bot/message/reply';
+                    $data = [
+                        "replyToken" => $replyToken,
+                        "messages" => [
+                          array(
+                            "type" => "template",
+                            "altText" => "this is a confirm template",
+                            "template" => array(
+                                "type" => "confirm",
+                                "text" => "Are you sure?",
+                                "actions" => [
+                                    array(
+                                      "type" => "datetimepicker",
+                                      "data" => "datestring", // will be included in postback action
+                                      "label" => "Please Choose",
+                                      "mode" => "date", // date | time | datetime
+                                      //"initial": "", // 2017-06-18 | 00:00 | 2017-06-18T00:00
+                                      //"max": "", // 2017-06-18 | 00:00 | 2017-06-18T00:00
+                                      //"min": "", // 2017-06-18 | 00:00 | 2017-06-18T00:00
+                                    ),
+                                    array(
+                                      "type" => "message",
+                                      "label" => "No",
+                                      "text" => "no"
+                                    )
+                                ]
+                            )
+                          )
+                        ]
+                    ];
+                    $post = json_encode($data);
+                    $access_token = '+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=';
+                    $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+
+                    $ch = curl_init($url);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                    $result = curl_exec($ch);
+                    curl_close($ch);
+                  
+                        // $datetimePicker = new DatetimePickerTemplateActionBuilder(
+                        //     'Select date',
+                        //     'storeId=12345',
+                        //     'datetime',
+                        //     '2017-12-25t00:00',
+                        //     '2018-01-24t23:59',
+                        //     '2017-12-25t00:00'
+                        // );
+
+                        // $quickReply = new QuickReplyMessageBuilder([
+                        //     new QuickReplyButtonBuilder(new LocationTemplateActionBuilder('Location')),
+                        //     new QuickReplyButtonBuilder($datetimePicker),
+                        // ]);
+                        // $textMessageBuilder = new TextMessageBuilder('Text with quickReply buttons', $quickReply);               
                     break;
         
             }
