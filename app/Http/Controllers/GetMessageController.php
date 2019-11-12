@@ -502,14 +502,14 @@ class GetMessageController extends Controller
                 case 3 : 
 
                                  // กำหนด action 4 ปุ่ม 4 ประเภท
-                                 $actionBuilder = array(
+                                $actionBuilder = array(
                                     new DatetimePickerTemplateActionBuilder(
                                         'Datetime Picker', // ข้อความแสดงในปุ่ม
                                         http_build_query(array(
                                             'action'=>'reservation',
                                             'person'=>5
                                         )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                                        'datetime', // date | time | datetime รูปแบบข้อมูลที่จะส่ง ในที่นี้ใช้ datatime
+                                        'date', // date | time | datetime รูปแบบข้อมูลที่จะส่ง ในที่นี้ใช้ datatime
                                         substr_replace(date("Y-m-d"),'T',10,1), // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
                                         substr_replace(date("Y-m-d",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
                                         substr_replace(date("Y-m-d"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
