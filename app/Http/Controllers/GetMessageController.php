@@ -521,7 +521,7 @@ class GetMessageController extends Controller
                         ),      
                     );
                     $imageUrl = 'https://www.mywebsite.com/imgsrc/photos/w/simpleflower';
-                    $replyData = new TemplateMessageBuilder('Button Template',
+                    $textMessageBuilder  = new TemplateMessageBuilder('Button Template',
                         new ButtonTemplateBuilder(
                                 'button template builder', // กำหนดหัวเรื่อง
                                 'Please select', // กำหนดรายละเอียด
