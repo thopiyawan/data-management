@@ -500,7 +500,7 @@ class GetMessageController extends Controller
                                 $textMessageBuilder = $multiMessage; 
                     break;
                 case 3 : 
-                        $postback = new PostbackTemplateActionBuilder('Buy', 'action=quickBuy&itemid=222', 'Buy');
+                  
                         $datetimePicker = new DatetimePickerTemplateActionBuilder(
                             'Select date',
                             'storeId=12345',
