@@ -200,7 +200,7 @@ class GetMessageController extends Controller
                         $case = 1;
                         $userMessage = $textReplyMessage;     
                     }
-        
+                }
                 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
             //     $textMessageBuilder = new TextMessageBuilder(json_encode($events));
                
