@@ -507,9 +507,9 @@ class GetMessageController extends Controller
                                 'person'=>5
                             )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
                             'datetime', // date | time | datetime รูปแบบข้อมูลที่จะส่ง ในที่นี้ใช้ datatime
-                            substr_replace(date("Y-m-d H:i"),'T',10,1), // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
-                            substr_replace(date("Y-m-d H:i",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
-                            substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
+                            substr_replace(date("Y-m-d"),'T',10,1), // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
+                            substr_replace(date("Y-m-d",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
+                            substr_replace(date("Y-m-d"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
                         ),      
                         new PostbackTemplateActionBuilder(
                             'Postback', // ข้อความแสดงในปุ่ม
@@ -524,7 +524,7 @@ class GetMessageController extends Controller
                     $textMessageBuilder  = new TemplateMessageBuilder('Button Template',
                         new ButtonTemplateBuilder(
                                 'button template builder', // กำหนดหัวเรื่อง
-                                'Please select', // กำหนดรายละเอียด
+                                NULL, // กำหนดรายละเอียด
                                 $imageUrl, // กำหนด url รุปภาพ
                                 $actionBuilder  // กำหนด action object
                         )
