@@ -159,13 +159,51 @@ class GetMessageController extends Controller
                 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
                 $events = json_decode($content, true);
                     if(!is_null($events)){
-                        // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
-                        $replyToken  = $events['events'][0]['replyToken'];
-                        $user        = $events['events'][0]['source']['userId'];
-                    // $userMessage = $events['events'][0]['message']['text'];
+                    // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
+                    $replyToken  = $events['events'][0]['replyToken'];
+                    $user        = $events['events'][0]['source']['userId'];
+                // $userMessage = $events['events'][0]['message']['text'];
+                    $typeMessage = $events['events'][0]['message']['type'];
+                    $idMessage   = $events['events'][0]['message']['id']; 
+                    $sourceType = $events['events'][0]['source']['type'];        
+                    $is_postback = NULL;
+                    $is_message = NULL;
+                    if(isset($events['events'][0]) && array_key_exists('message',$events['events'][0])){
+                        $is_message = true;
                         $typeMessage = $events['events'][0]['message']['type'];
-                        $idMessage   = $events['events'][0]['message']['id']; 
+                        $userMessage = $events['events'][0]['message']['text'];     
+                        $idMessage = $events['events'][0]['message']['id'];             
                     }
+                    if(isset($events['events'][0]) && array_key_exists('postback',$events['events'][0])){
+                        $is_postback = true;
+                        $dataPostback = NULL;
+                        parse_str($events['events'][0]['postback']['data'],$dataPostback);;
+                        $paramPostback = NULL;
+                        if(array_key_exists('params',$events['events'][0]['postback'])){
+                            if(array_key_exists('date',$events['events'][0]['postback']['params'])){
+                                $paramPostback = $events['events'][0]['postback']['params']['date'];
+                            }
+                            if(array_key_exists('time',$events['events'][0]['postback']['params'])){
+                                $paramPostback = $events['events'][0]['postback']['params']['time'];
+                            }
+                            if(array_key_exists('datetime',$events['events'][0]['postback']['params'])){
+                                $paramPostback = $events['events'][0]['postback']['params']['datetime'];
+                            }                       
+                        }
+                    }   
+                    if(!is_null($is_postback)){
+                        $textReplyMessage = "ข้อความจาก Postback Event Data = ";
+                        if(is_array($dataPostback)){
+                            $textReplyMessage.= json_encode($dataPostback);
+                        }
+                        if(!is_null($paramPostback)){
+                            $textReplyMessage.= " \r\nParams = ".$paramPostback;
+                        }
+                        $case = 1;
+                        $textMessageBuilder = $textReplyMessage;     
+                    }
+                }
+        
                 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
             //     $textMessageBuilder = new TextMessageBuilder(json_encode($events));
                
@@ -193,45 +231,7 @@ class GetMessageController extends Controller
                 $seqcode = $this->seqcode_select($user);
 
 ///////////////////////////////////////////////////
-$replyToken = $events['events'][0]['replyToken'];
-$userID = $events['events'][0]['source']['userId'];
-$sourceType = $events['events'][0]['source']['type'];        
-$is_postback = NULL;
-$is_message = NULL;
-if(isset($events['events'][0]) && array_key_exists('message',$events['events'][0])){
-    $is_message = true;
-    $typeMessage = $events['events'][0]['message']['type'];
-    $userMessage = $events['events'][0]['message']['text'];     
-    $idMessage = $events['events'][0]['message']['id'];             
-}
-if(isset($events['events'][0]) && array_key_exists('postback',$events['events'][0])){
-    $is_postback = true;
-    $dataPostback = NULL;
-    parse_str($events['events'][0]['postback']['data'],$dataPostback);;
-    $paramPostback = NULL;
-    if(array_key_exists('params',$events['events'][0]['postback'])){
-        if(array_key_exists('date',$events['events'][0]['postback']['params'])){
-            $paramPostback = $events['events'][0]['postback']['params']['date'];
-        }
-        if(array_key_exists('time',$events['events'][0]['postback']['params'])){
-            $paramPostback = $events['events'][0]['postback']['params']['time'];
-        }
-        if(array_key_exists('datetime',$events['events'][0]['postback']['params'])){
-            $paramPostback = $events['events'][0]['postback']['params']['datetime'];
-        }                       
-    }
-}   
-if(!is_null($is_postback)){
-    $textReplyMessage = "ข้อความจาก Postback Event Data = ";
-    if(is_array($dataPostback)){
-        $textReplyMessage.= json_encode($dataPostback);
-    }
-    if(!is_null($paramPostback)){
-        $textReplyMessage.= " \r\nParams = ".$paramPostback;
-    }
-    $case = 1;
-    $userMessage = $textReplyMessage;     
-}
+     
 
 
 ///////////////////////////////////////////////////
@@ -534,14 +534,6 @@ if(!is_null($is_postback)){
                 case 3 : 
                      // กำหนด action 4 ปุ่ม 4 ประเภท
                                 $actionBuilder = array(
-                                    new MessageTemplateActionBuilder(
-                                        'Message Template',// ข้อความแสดงในปุ่ม
-                                        'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                                    ),
-                                    new UriTemplateActionBuilder(
-                                        'Uri Template', // ข้อความแสดงในปุ่ม
-                                        'https://www.ninenik.com'
-                                    ),
                                     new DatetimePickerTemplateActionBuilder(
                                         'Datetime Picker', // ข้อความแสดงในปุ่ม
                                         http_build_query(array(
@@ -549,17 +541,9 @@ if(!is_null($is_postback)){
                                             'person'=>5
                                         )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
                                         'datetime', // date | time | datetime รูปแบบข้อมูลที่จะส่ง ในที่นี้ใช้ datatime
-                                        substr_replace(date("Y-m-d H:i"),'T',10,1), // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
-                                        substr_replace(date("Y-m-d H:i",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
-                                        substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
-                                    ),      
-                                    new PostbackTemplateActionBuilder(
-                                        'Postback', // ข้อความแสดงในปุ่ม
-                                        http_build_query(array(
-                                            'action'=>'buy',
-                                            'item'=>100
-                                        )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                                        'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                        substr_replace(date("Y-m-d"),'T',10,1), // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
+                                        substr_replace(date("Y-m-d",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
+                                        substr_replace(date("Y-m-d"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
                                     ),      
                                 );
                                 $imageUrl = 'https://www.mywebsite.com/imgsrc/photos/w/simpleflower';
