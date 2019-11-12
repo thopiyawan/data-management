@@ -321,7 +321,7 @@ class GetMessageController extends Controller
                         $userMessage =  $question;
             //ขอทราบจำนวนผู้โดยสารค่ะ'
                     }elseif(is_string($userMessage) !== false &&  $seqcode == '009'){
-                        $case = 2;
+                        $case = 1;
                         $fullname = $userMessage;
                         $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
                         // $this->register_insert($user,$fullname);
