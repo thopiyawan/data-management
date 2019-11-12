@@ -202,11 +202,12 @@ class GetMessageController extends Controller
                                 $userMessage = strtolower($userMessage); // แปลงเป็นตัวเล็ก สำหรับทดสอบ
                                 switch ($userMessage) {
                                     case "t":
-                                        $case = 1;
+                                    
                                         $textReplyMessage = "Bot ตอบกลับคุณเป็นข้อความ";
                                         $replyData = new TextMessageBuilder($textReplyMessage);
                                         break;
                                     case "i":
+                          
                                         $picFullSize = 'https://www.mywebsite.com/imgsrc/photos/f/simpleflower';
                                         $picThumbnail = 'https://www.mywebsite.com/imgsrc/photos/f/simpleflower/240';
                                         $replyData = new ImageMessageBuilder($picFullSize,$picThumbnail);
@@ -424,6 +425,8 @@ class GetMessageController extends Controller
                         }
                     }
                 }
+
+                $case = 1;
                 return $this->replymessage($replyToken,$userMessage,$case);
              
             //////////////////////////////////////////////////////          
