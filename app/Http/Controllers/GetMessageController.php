@@ -158,13 +158,10 @@ class GetMessageController extends Controller
                 
                 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
                 $events = json_decode($content, true);
-                    if(!is_null($events)){
+                if(!is_null($events)){
                     // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
-                    $replyToken  = $events['events'][0]['replyToken'];
-                    $user        = $events['events'][0]['source']['userId'];
-                // $userMessage = $events['events'][0]['message']['text'];
-                    $typeMessage = $events['events'][0]['message']['type'];
-                    $idMessage   = $events['events'][0]['message']['id']; 
+                    $replyToken = $events['events'][0]['replyToken'];
+                    $user = $events['events'][0]['source']['userId'];
                     $sourceType = $events['events'][0]['source']['type'];        
                     $is_postback = NULL;
                     $is_message = NULL;
@@ -199,10 +196,10 @@ class GetMessageController extends Controller
                         if(!is_null($paramPostback)){
                             $textReplyMessage.= " \r\nParams = ".$paramPostback;
                         }
+
                         $case = 1;
-                        $textMessageBuilder = $textReplyMessage;     
+                        $userMessage = $textReplyMessage;     
                     }
-                }
         
                 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
             //     $textMessageBuilder = new TextMessageBuilder(json_encode($events));
@@ -216,6 +213,8 @@ class GetMessageController extends Controller
             //    // $users = users::insert(['sender_id'=>$user,'seqcode' => $seqcode,'answer' => 'NULL','nextseqcode' =>$nextseqcode,'status'=>'0','created_at'=>NOW() , 'updated_at'=>NOW()]);
             //     // Failed
             //     echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
+
+    
             $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
             $dbconn = pg_pconnect($conn_string);
 
