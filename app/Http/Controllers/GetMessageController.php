@@ -223,7 +223,7 @@ class GetMessageController extends Controller
                     if(!is_null($paramPostback)){
                         $textReplyMessage.= " \r\nParams = ".$paramPostback;
                     }
-                    $replyData = new TextMessageBuilder($textReplyMessage);     
+                    $textMessageBuilder = new TextMessageBuilder($textReplyMessage);     
                 }
 
             //ลงทะเบียน
