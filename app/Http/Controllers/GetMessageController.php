@@ -172,11 +172,11 @@ class GetMessageController extends Controller
                         $typeMessage = $events['events'][0]['message']['type'];
                         $idMessage   = $events['events'][0]['message']['id']; 
                     }
-                ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
-                $textMessageBuilder = new TextMessageBuilder(json_encode($events));
+                // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
+            //     $textMessageBuilder = new TextMessageBuilder(json_encode($events));
                
-                //l ส่วนของคำสั่งตอบกลับข้อความ
-                $response = $bot->replyMessage($replyToken,$textMessageBuilder);
+            //     //l ส่วนของคำสั่งตอบกลับข้อความ
+            //     $response = $bot->replyMessage($replyToken,$textMessageBuilder);
             //     if ($response->isSucceeded()) {
             //         echo 'Succeeded!';
             //         return;
@@ -532,7 +532,7 @@ class GetMessageController extends Controller
                         ]
                     ];
                     $post = json_encode($data);
-                    $access_token ='+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=';
+                    $access_token = '+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=';
                     $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
 
                     $ch = curl_init($url);
