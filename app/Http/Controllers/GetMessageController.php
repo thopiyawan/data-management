@@ -207,10 +207,7 @@ class GetMessageController extends Controller
           if($replyInfo =='postback'){
             $case = 1;
             $userMessage = '**เมนู';
-          }elseif($replyInfo == "message"){
-
-
-          
+          }
 
 
 ///////////////////////////////////////////////////
@@ -356,7 +353,6 @@ class GetMessageController extends Controller
                         $userMessage = '**เมนู';
                     }
             }
-        }
             //////////////////////////////////////////////////////          
 
             return $this->replymessage($replyToken,$userMessage,$case);
