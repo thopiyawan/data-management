@@ -163,8 +163,13 @@ class GetMessageController extends Controller
                 $content = file_get_contents('php://input');
                 
                 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
+
+                
                 $events = json_decode($content, true);
+                
                     if(!is_null($events)){
+
+                        $replyInfo = $events['type'];
                         // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
                         $replyToken  = $events['events'][0]['replyToken'];
                         $user        = $events['events'][0]['source']['userId'];
@@ -199,7 +204,13 @@ class GetMessageController extends Controller
                 $seqcode = $this->seqcode_select($user);
 
 ///////////////////////////////////////////////////
-     
+          if($replyInfo =='postback'){
+            $case = 1;
+            $userMessage = '**เมนู';
+          }elseif($replyInfo == "message"){
+
+
+          
 
 
 ///////////////////////////////////////////////////
@@ -345,6 +356,7 @@ class GetMessageController extends Controller
                         $userMessage = '**เมนู';
                     }
             }
+        }
             //////////////////////////////////////////////////////          
 
             return $this->replymessage($replyToken,$userMessage,$case);
