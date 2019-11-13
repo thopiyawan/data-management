@@ -172,11 +172,11 @@ class GetMessageController extends Controller
                         $typeMessage = $events['events'][0]['message']['type'];
                         $idMessage   = $events['events'][0]['message']['id']; 
                     }
-                // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
-            //     $textMessageBuilder = new TextMessageBuilder(json_encode($events));
+                ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
+                $textMessageBuilder = new TextMessageBuilder(json_encode($events));
                
-            //     //l ส่วนของคำสั่งตอบกลับข้อความ
-            //     $response = $bot->replyMessage($replyToken,$textMessageBuilder);
+                //l ส่วนของคำสั่งตอบกลับข้อความ
+                $response = $bot->replyMessage($replyToken,$textMessageBuilder);
             //     if ($response->isSucceeded()) {
             //         echo 'Succeeded!';
             //         return;
@@ -199,79 +199,8 @@ class GetMessageController extends Controller
                 $seqcode = $this->seqcode_select($user);
 
 ///////////////////////////////////////////////////
-                        // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
-                    $content = file_get_contents('php://input');
-                    
-                    // กำหนดค่า signature สำหรับตรวจสอบข้อมูลที่ส่งมาว่าเป็นข้อมูลจาก LINE
-                    $hash = hash_hmac('sha256', $content, LINE_MESSAGE_CHANNEL_SECRET, true);
-                    $signature = base64_encode($hash);
-                    
-                    // แปลงค่าข้อมูลที่ได้รับจาก LINE เป็น array ของ Event Object
-                    $events = $bot->parseEventRequest($content, $signature);
-                    $eventObj = $events[0]; // Event Object ของ array แรก
-                    
-                    // ดึงค่าประเภทของ Event มาไว้ในตัวแปร มีทั้งหมด 7 event
-                    $eventType = $eventObj->getType();
-                    
-                    // สร้างตัวแปร ไว้เก็บ sourceId ของแต่ละประเภท
-                    $userId = NULL;
-                    $groupId = NULL;
-                    $roomId = NULL;
-                    // สร้างตัวแปรเก็บ source id และ source type
-                    $sourceId = NULL;
-                    $sourceType = NULL;
-                    // สร้างตัวแปร replyToken และ replyData สำหรับกรณีใช้ตอบกลับข้อความ
-                    $replyToken = NULL;
-                    $replyData = NULL;
-                    // สร้างตัวแปร ไว้เก็บค่าว่าเป้น Event ประเภทไหน
-                    $eventMessage = NULL;
-                    $eventPostback = NULL;
-                    $eventJoin = NULL;
-                    $eventLeave = NULL;
-                    $eventFollow = NULL;
-                    $eventUnfollow = NULL;
-                    $eventBeacon = NULL;
-                    $eventAccountLink = NULL;
-                    $eventMemberJoined = NULL;
-                    $eventMemberLeft = NULL;
-                    // เงื่อนไขการกำหนดประเภท Event 
-                    switch($eventType){
-                        case 'message': $eventMessage = true; break;    
-                        case 'postback': $eventPostback = true; break;  
-                        case 'join': $eventJoin = true; break;  
-                        case 'leave': $eventLeave = true; break;    
-                        case 'follow': $eventFollow = true; break;  
-                        case 'unfollow': $eventUnfollow = true; break;  
-                        case 'beacon': $eventBeacon = true; break;     
-                        case 'accountLink': $eventAccountLink = true; break;       
-                        case 'memberJoined': $eventMemberJoined = true; break;       
-                        case 'memberLeft': $eventMemberLeft = true; break;                                           
-                    }
-                    // สร้างตัวแปรเก็บค่า userId กรณีเป็น Event ที่เกิดขึ้นใน USER
-                    if($eventObj->isUserEvent()){
-                        $userId = $eventObj->getUserId();  
-                        $sourceType = "USER";
-                    }
-                    // สร้างตัวแปรเก็บค่า groupId กรณีเป็น Event ที่เกิดขึ้นใน GROUP
-                    if($eventObj->isGroupEvent()){
-                        $groupId = $eventObj->getGroupId();  
-                        $userId = $eventObj->getUserId();  
-                        $sourceType = "GROUP";
-                    }
-                    // สร้างตัวแปรเก็บค่า roomId กรณีเป็น Event ที่เกิดขึ้นใน ROOM
-                    if($eventObj->isRoomEvent()){
-                        $roomId = $eventObj->getRoomId();        
-                        $userId = $eventObj->getUserId();      
-                        $sourceType = "ROOM";
-                    }
-                    // เก็บค่า sourceId ปกติจะเป็นค่าเดียวกันกับ userId หรือ roomId หรือ groupId ขึ้นกับว่าเป็น event แบบใด
-                    $sourceId = $eventObj->getEventSourceId();
-                    // ดึงค่า replyToken มาไว้ใช้งาน ทุกๆ Event ที่ไม่ใช่ Leave และ Unfollow Event และ  MemberLeft
-                    // replyToken ไว้สำหรับส่งข้อความจอบกลับ 
-                    if(is_null($eventLeave) && is_null($eventUnfollow) && is_null($eventMemberLeft)){
-                        $replyToken = $eventObj->getReplyToken();    
-                    }
- 
+     
+
 
 ///////////////////////////////////////////////////
             if($typeMessage=='text'){
