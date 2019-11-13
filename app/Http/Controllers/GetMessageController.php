@@ -229,7 +229,7 @@ class GetMessageController extends Controller
         $action = str_replace('"', "", $action );
 
         // if($action == 'reward'){
-              // $case = 1 ;
+              $case = 1 ;
 
                       $userMessage =  $reward_code ;
             return $this->replymessage($replyToken,$userMessage,$case);
