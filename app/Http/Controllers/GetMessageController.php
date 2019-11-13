@@ -169,7 +169,7 @@ class GetMessageController extends Controller
                 
                     if(!is_null($events)){
 
-                        $replyInfo = $events['type'];
+                        $replyInfo =$events['events'][0]['type'];
                         // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
                         $replyToken  = $events['events'][0]['replyToken'];
                         $user        = $events['events'][0]['source']['userId'];
