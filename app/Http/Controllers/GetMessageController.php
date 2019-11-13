@@ -338,7 +338,7 @@ if(!is_null($events)){
                             )
                         );
                         break;          
-                    case "t_b":
+                    case "qr":
                                     // การใช้งาน postback action
                         $postback = new PostbackTemplateActionBuilder(
                             'Postback', // ข้อความแสดงในปุ่ม
