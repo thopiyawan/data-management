@@ -204,184 +204,286 @@ class GetMessageController extends Controller
                 $seqcode = $this->seqcode_select($user);
 
 ///////////////////////////////////////////////////
-          if($replyInfo =='postback'){
-         $replyToken  = $events['events'][0]['replyToken'];
-            // $postbackData =$events['events'][0]['postback']['data'];
-            // $userMessage = $postbackData;
+       // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
+$content = file_get_contents('php://input');
+ 
+// แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
+$events = json_decode($content, true);
+if(!is_null($events)){
+    // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
+    $replyToken = $events['events'][0]['replyToken'];
+    $userID = $events['events'][0]['source']['userId'];
+    $sourceType = $events['events'][0]['source']['type'];        
+    $is_postback = NULL;
+    $is_message = NULL;
+    if(isset($events['events'][0]) && array_key_exists('message',$events['events'][0])){
+        $is_message = true;
+        $typeMessage = $events['events'][0]['message']['type'];
+        $userMessage = $events['events'][0]['message']['text'];     
+        $idMessage = $events['events'][0]['message']['id'];             
+    }
+    if(isset($events['events'][0]) && array_key_exists('postback',$events['events'][0])){
+        $is_postback = true;
         $dataPostback = NULL;
+        parse_str($events['events'][0]['postback']['data'],$dataPostback);;
         $paramPostback = NULL;
-        $eventObj = $events[0];
-        // แปลงข้อมูลจาก Postback Data เป็น array
-        parse_str($eventObj->getPostbackData(),$dataPostback);
-        // ดึงค่า params กรณีมีค่า params
-        $paramPostback = $eventObj->getPostbackParams();
-        // ทดสอบแสดงข้อความที่เกิดจาก Postaback Event
-        $textReplyMessage = "ข้อความจาก Postback Event Data = ";        
-        $textReplyMessage.= json_encode($dataPostback);
-        $textReplyMessage.= json_encode($paramPostback);
-        // $replyData = new TextMessageBuilder($textReplyMessage);    
-        // $reward_code = $dataPostback['item']; 
-        // $action = $dataPostback['action']; 
-
-        // $reward_code = json_encode($reward_code);
-        // $action = json_encode($action);
-        // $reward_code = str_replace('"', "", $reward_code );
-        // $action = str_replace('"', "", $action );
-
-        // // if($action == 'reward'){
-          $case = 1 ;
-
-                     $userMessage =  $textReplyMessage ;
-            return $this->replymessage($replyToken,$userMessage,$case);
-          }
-
-
-///////////////////////////////////////////////////
-           else if($replyInfo=='text'){
-                if(!is_null($events)){
-                    $userMessage = $events['events'][0]['message']['text'];
-                }
-
-            //ลงทะเบียน
-                    if(strpos($userMessage, 'ลงทะเบียน') !== false  &&  $seqcode == '000'){
-                            $case = 1;
-                            // $userMessage = 'ขอทราบชื่อและนามสกุลค่ะ';
-                            $seqcode = '001';
-                            $nextseqcode = '002';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-                    }elseif($userMessage == 'del'){
-                            $case = 1;
-                            $fullname = $userMessage;
-                            // $userMessage = 'ขอทราบEmailค่ะ';
-                            $this->delete_state($user);
-                            $userMessage =  'ลบแล้วจ้า';
-            //ชื่อ-นามสกุล
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '001'){
-                            $case = 1;
-                            $fullname = $userMessage;
-                            // $userMessage = 'ขอทราบEmailค่ะ';
-                            $this->register_insert($user,$fullname);
-                            $seqcode = '002';
-                            $nextseqcode = '003';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-            //อายุ
-                    }elseif(is_string($userMessage)!== false  &&  $seqcode == '002'){
-                        if(is_numeric($userMessage) !== false){
-                            $val = $userMessage;
-                            $this->register_update($user,$val,$seqcode);
-                            $case = 1;   
-                        
-                            $seqcode = '003';
-                            $nextseqcode = '004';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-                        }else{
-                            $case = 1;
-                            $userMessage = 'ฉันคิดว่าคุณพิมพ์อายุผิดนะ กรุณาพิมพ์ใหม่';
-                        }
-            //Email
-                    }elseif(is_string($userMessage)!== false  &&  $seqcode == '003'){
-                         if(strpos($userMessage, '@') !== false || strpos($userMessage, '-') !== false){
-                            //$userMessage = 'การลงทะเบียนเรียบร้อยแล้วนะคะ';
-                            $val = $userMessage;
-                            $this->register_update($user,$val,$seqcode);
-                            $case = 1;
-
-                            $seqcode = '004';
-                            $nextseqcode = '005';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-                        }else{
-                            $case = 1;
-                            $userMessage = 'ฉันคิดว่าคุณพิมพ์Emailผิดนะ กรุณาพิมพ์ใหม่';
-                        }
-            //หมายเลขโทรศัพท์
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '004'){
-                        if(is_numeric($userMessage) !== false && strlen($userMessage) == 10){
-                            //$userMessage = 'การลงทะเบียนเรียบร้อยแล้วนะคะ';
-                            $val = $userMessage;
-                            $this->register_update($user,$val,$seqcode);
-                            $case = 1;
-
-                            $seqcode = '005';
-                            $nextseqcode = '000';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-                        }else{
-                            $case = 1;
-                            $userMessage = 'ฉันคิดว่าคุณพิมพ์เบอร์โทรศัพท์ผิดนะคะ กรุณาพิมพ์ใหม่';
-                        }
-
-            //เลือกแผนการเดินทาง
-                    }elseif(strpos($userMessage, 'เลือกแผนการเดินทาง') !== false ){
-                        $case = 2;
-                        $fullname = $userMessage;
-                        // $userMessage = 'ขอทราบEmailค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '006';
-                        $nextseqcode = '007';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        $question = $this->sequents_question($seqcode);
-                        $userMessage =  $question;
-            //ประเภทการเดินทางแบบรายเที่ยว คุณต้องการเดินทางไปประเทศอะไรคะ?
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '006'){
-                        $case = 2;
-                        $fullname = $userMessage;
-                        // $userMessage = 'ขอทราบEmailค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '007';
-                        $nextseqcode = '008';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        $question = $this->sequents_question($seqcode);
-                        $userMessage =  $question;
-            //ขอทราบวันออกเดินทางจากประเทศไทยค่ะ?
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '007'){
-                        $case = 3;
-                        $fullname = $userMessage;
-                        // $userMessage = 'ขอทราบEmailค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '008';
-                        $nextseqcode = '009';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        $question = $this->sequents_question($seqcode);
-                        $userMessage =  $question;
-            //ขอทราบวันกลับค่ะ?
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '008'){
-                        $case = 2;
-                        $fullname = $userMessage;
-                        // $userMessage = 'ขอทราบEmailค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '009';
-                        $nextseqcode = '010';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        $question = $this->sequents_question($seqcode);
-                        $userMessage =  $question;
-            //ขอทราบจำนวนผู้โดยสารค่ะ'
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '009'){
-                        $case = 1;
-                        $fullname = $userMessage;
-                        $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '010';
-                        $nextseqcode = '000';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        // $question = $this->sequents_question($seqcode);
-                        // $userMessage =  $question;
-                    }else{
-                        $case = 1;
-                        $userMessage = '**เมนู';
-                    }
+        if(array_key_exists('params',$events['events'][0]['postback'])){
+            if(array_key_exists('date',$events['events'][0]['postback']['params'])){
+                $paramPostback = $events['events'][0]['postback']['params']['date'];
             }
-            //////////////////////////////////////////////////////          
+            if(array_key_exists('time',$events['events'][0]['postback']['params'])){
+                $paramPostback = $events['events'][0]['postback']['params']['time'];
+            }
+            if(array_key_exists('datetime',$events['events'][0]['postback']['params'])){
+                $paramPostback = $events['events'][0]['postback']['params']['datetime'];
+            }                       
+        }
+    }   
+    if(!is_null($is_postback)){
+        $textReplyMessage = "ข้อความจาก Postback Event Data = ";
+        if(is_array($dataPostback)){
+            $textReplyMessage.= json_encode($dataPostback);
+        }
+        if(!is_null($paramPostback)){
+            $textReplyMessage.= " \r\nParams = ".$paramPostback;
+        }
+        $replyData = new TextMessageBuilder($textReplyMessage);     
+    }
+    if(!is_null($is_message)){
+        switch ($typeMessage){
+            case 'text':
+                $userMessage = strtolower($userMessage); // แปลงเป็นตัวเล็ก สำหรับทดสอบ
+                switch ($userMessage) {
+                    case "t":
+                        $textReplyMessage = "Bot ตอบกลับคุณเป็นข้อความ";
+                        $replyData = new TextMessageBuilder($textReplyMessage);
+                        break;
+                    case "i":
+                        $picFullSize = 'https://www.mywebsite.com/imgsrc/photos/f/simpleflower';
+                        $picThumbnail = 'https://www.mywebsite.com/imgsrc/photos/f/simpleflower/240';
+                        $replyData = new ImageMessageBuilder($picFullSize,$picThumbnail);
+                        break;
+                    case "v":
+                        $picThumbnail = 'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/240';
+                        $videoUrl = "https://www.ninenik.com/line/simplevideo.mp4";             
+                        $replyData = new VideoMessageBuilder($videoUrl,$picThumbnail);
+                        break;
+                    case "a":
+                        $audioUrl = "https://www.ninenik.com/line/S_6988827932080.wav";
+                        $replyData = new AudioMessageBuilder($audioUrl,20000);
+                        break;
+                    case "l":
+                        $placeName = "ที่ตั้งร้าน";
+                        $placeAddress = "แขวง พลับพลา เขต วังทองหลาง กรุงเทพมหานคร ประเทศไทย";
+                        $latitude = 13.780401863217657;
+                        $longitude = 100.61141967773438;
+                        $replyData = new LocationMessageBuilder($placeName, $placeAddress, $latitude ,$longitude);              
+                        break;
+                    case "m":
+                        $textReplyMessage = "Bot ตอบกลับคุณเป็นข้อความ";
+                        $textMessage = new TextMessageBuilder($textReplyMessage);
+                                         
+                        $picFullSize = 'https://www.mywebsite.com/imgsrc/photos/f/simpleflower';
+                        $picThumbnail = 'https://www.mywebsite.com/imgsrc/photos/f/simpleflower/240';
+                        $imageMessage = new ImageMessageBuilder($picFullSize,$picThumbnail);
+                                         
+                        $placeName = "ที่ตั้งร้าน";
+                        $placeAddress = "แขวง พลับพลา เขต วังทองหลาง กรุงเทพมหานคร ประเทศไทย";
+                        $latitude = 13.780401863217657;
+                        $longitude = 100.61141967773438;
+                        $locationMessage = new LocationMessageBuilder($placeName, $placeAddress, $latitude ,$longitude);        
+     
+                        $multiMessage =     new MultiMessageBuilder;
+                        $multiMessage->add($textMessage);
+                        $multiMessage->add($imageMessage);
+                        $multiMessage->add($locationMessage);
+                        $replyData = $multiMessage;                                     
+                        break;                  
+                    case "s":
+                        $stickerID = 22;
+                        $packageID = 2;
+                        $replyData = new StickerMessageBuilder($packageID,$stickerID);
+                        break;      
+                    case "im":
+                        $imageMapUrl = 'https://www.mywebsite.com/imgsrc/photos/w/sampleimagemap';
+                        $replyData = new ImagemapMessageBuilder(
+                            $imageMapUrl,
+                            'This is Title',
+                            new BaseSizeBuilder(699,1040),
+                            array(
+                                new ImagemapMessageActionBuilder(
+                                    'test image map',
+                                    new AreaBuilder(0,0,520,699)
+                                    ),
+                                new ImagemapUriActionBuilder(
+                                    'http://www.ninenik.com',
+                                    new AreaBuilder(520,0,520,699)
+                                    )
+                            )); 
+                        break;          
+                    case "tm":
+                        $replyData = new TemplateMessageBuilder('Confirm Template',
+                            new ConfirmTemplateBuilder(
+                                    'Confirm template builder',
+                                    array(
+                                        new MessageTemplateActionBuilder(
+                                            'Yes',
+                                            'Text Yes'
+                                        ),
+                                        new MessageTemplateActionBuilder(
+                                            'No',
+                                            'Text NO'
+                                        )
+                                    )
+                            )
+                        );
+                        break;          
+                    case "t_b":
+                        // กำหนด action 4 ปุ่ม 4 ประเภท
+                        $actionBuilder = array(
+                            new MessageTemplateActionBuilder(
+                                'Message Template',// ข้อความแสดงในปุ่ม
+                                'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                            ),
+                            new UriTemplateActionBuilder(
+                                'Uri Template', // ข้อความแสดงในปุ่ม
+                                'https://www.ninenik.com'
+                            ),
+                            new DatetimePickerTemplateActionBuilder(
+                                'Datetime Picker', // ข้อความแสดงในปุ่ม
+                                http_build_query(array(
+                                    'action'=>'reservation',
+                                    'person'=>5
+                                )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                                'datetime', // date | time | datetime รูปแบบข้อมูลที่จะส่ง ในที่นี้ใช้ datatime
+                                substr_replace(date("Y-m-d H:i"),'T',10,1), // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
+                                substr_replace(date("Y-m-d H:i",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
+                                substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
+                            ),      
+                            new PostbackTemplateActionBuilder(
+                                'Postback', // ข้อความแสดงในปุ่ม
+                                http_build_query(array(
+                                    'action'=>'buy',
+                                    'item'=>100
+                                )) // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+    //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                            ),      
+                        );
+                        $imageUrl = 'https://www.mywebsite.com/imgsrc/photos/w/simpleflower';
+                        $replyData = new TemplateMessageBuilder('Button Template',
+                            new ButtonTemplateBuilder(
+                                    'button template builder', // กำหนดหัวเรื่อง
+                                    'Please select', // กำหนดรายละเอียด
+                                    $imageUrl, // กำหนด url รุปภาพ
+                                    $actionBuilder  // กำหนด action object
+                            )
+                        );              
+                        break;      
+                    case "t_f":
+                        $replyData = new TemplateMessageBuilder('Confirm Template',
+                            new ConfirmTemplateBuilder(
+                                    'Confirm template builder', // ข้อความแนะนหรือบอกวิธีการ หรือคำอธิบาย
+                                    array(
+                                        new MessageTemplateActionBuilder(
+                                            'Yes', // ข้อความสำหรับปุ่มแรก
+                                            'YES'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                        ),
+                                        new MessageTemplateActionBuilder(
+                                            'No', // ข้อความสำหรับปุ่มแรก
+                                            'NO' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                        )
+                                    )
+                            )
+                        );
+                        break;      
+                    case "t_c":
+                        // กำหนด action 4 ปุ่ม 4 ประเภท
+                        $actionBuilder = array(
+                            new MessageTemplateActionBuilder(
+                                'Message Template',// ข้อความแสดงในปุ่ม
+                                'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                            ),
+                            new UriTemplateActionBuilder(
+                                'Uri Template', // ข้อความแสดงในปุ่ม
+                                'https://www.ninenik.com'
+                            ),
+                            new PostbackTemplateActionBuilder(
+                                'Postback', // ข้อความแสดงในปุ่ม
+                                http_build_query(array(
+                                    'action'=>'buy',
+                                    'item'=>100
+                                )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                                'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                            ),      
+                        );
+                        $replyData = new TemplateMessageBuilder('Carousel',
+                            new CarouselTemplateBuilder(
+                                array(
+                                    new CarouselColumnTemplateBuilder(
+                                        'Title Carousel',
+                                        'Description Carousel',
+                                        'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                        $actionBuilder
+                                    ),
+                                    new CarouselColumnTemplateBuilder(
+                                        'Title Carousel',
+                                        'Description Carousel',
+                                        'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                        $actionBuilder
+                                    ),
+                                    new CarouselColumnTemplateBuilder(
+                                        'Title Carousel',
+                                        'Description Carousel',
+                                        'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                        $actionBuilder
+                                    ),                                          
+                                )
+                            )
+                        );
+                        break;      
+                    case "t_ic":
+                        $replyData = new TemplateMessageBuilder('Image Carousel',
+                            new ImageCarouselTemplateBuilder(
+                                array(
+                                    new ImageCarouselColumnTemplateBuilder(
+                                        'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                        new UriTemplateActionBuilder(
+                                            'Uri Template', // ข้อความแสดงในปุ่ม
+                                            'https://www.ninenik.com'
+                                        )
+                                    ),
+                                    new ImageCarouselColumnTemplateBuilder(
+                                        'https://www.mywebsite.com/imgsrc/photos/f/sampleimage/700',
+                                        new UriTemplateActionBuilder(
+                                            'Uri Template', // ข้อความแสดงในปุ่ม
+                                            'https://www.ninenik.com'
+                                        )
+                                    )                                       
+                                )
+                            )
+                        );
+                        break;                                                                                                                                                                                                  
+                    default:
+                        $textReplyMessage = " คุณไม่ได้พิมพ์ ค่า ตามที่กำหนด";
+                        $replyData = new TextMessageBuilder($textReplyMessage);         
+                        break;                                      
+                }
+                break;
+            default:
+                $textReplyMessage = json_encode($events);
+                $replyData = new TextMessageBuilder($textReplyMessage);         
+                break;  
+        }
+    }
+}
+$response = $bot->replyMessage($replyToken,$replyData);
+if ($response->isSucceeded()) {
+    echo 'Succeeded!';
+    return;
+}
+         
 
-            return $this->replymessage($replyToken,$userMessage,$case);
+            // return $this->replymessage($replyToken,$userMessage,$case);
 
             }
 
