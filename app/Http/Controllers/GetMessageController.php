@@ -169,7 +169,7 @@ class GetMessageController extends Controller
                 
                     if(!is_null($events)){
 
-                        $replyInfo =$events['events']['type'];
+                        $replyInfo =$events['events'][0]['type'];
                         // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
                         $replyToken  = $events['events'][0]['replyToken'];
                         $user        = $events['events'][0]['source']['userId'];
@@ -178,10 +178,10 @@ class GetMessageController extends Controller
                         $idMessage   = $events['events'][0]['message']['id']; 
                     }
                 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
-                $textMessageBuilder = new TextMessageBuilder(json_encode($events));
+                // $textMessageBuilder = new TextMessageBuilder(json_encode($events));
                
-                //l ส่วนของคำสั่งตอบกลับข้อความ
-                $response = $bot->replyMessage($replyToken,$textMessageBuilder);
+                // //l ส่วนของคำสั่งตอบกลับข้อความ
+                // $response = $bot->replyMessage($replyToken,$textMessageBuilder);
             //     if ($response->isSucceeded()) {
             //         echo 'Succeeded!';
             //         return;
@@ -207,7 +207,7 @@ class GetMessageController extends Controller
           if($replyInfo =='postback'){
             $case = 1;
             $userMessage = '**เมนู';
-            return $this->replymessage($replyToken,$userMessage,$case);
+            // return $this->replymessage($replyToken,$userMessage,$case);
           }
 
 
