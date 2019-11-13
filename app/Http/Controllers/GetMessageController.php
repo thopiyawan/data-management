@@ -369,15 +369,15 @@ if(!is_null($events)){
                         // การสร้างปุ่ม quick reply
                         $quickReply = new QuickReplyMessageBuilder(
                             array(
-                                new QuickReplyButtonBuilder(new LocationTemplateActionBuilder('Location')),
-                                new QuickReplyButtonBuilder(new CameraTemplateActionBuilder('Camera')),
-                                new QuickReplyButtonBuilder(new CameraRollTemplateActionBuilder('Camera roll')),
+                                // new QuickReplyButtonBuilder(new LocationTemplateActionBuilder('Location')),
+                                // new QuickReplyButtonBuilder(new CameraTemplateActionBuilder('Camera')),
+                                // new QuickReplyButtonBuilder(new CameraRollTemplateActionBuilder('Camera roll')),
                                 new QuickReplyButtonBuilder($postback),
                                 new QuickReplyButtonBuilder($datetimePicker),
-                                new QuickReplyButtonBuilder(
-                                    $txtMsg,
-                                    "https://www.ninenik.com/images/ninenik_page_logo.png"
-                                ),
+                                // new QuickReplyButtonBuilder(
+                                //     $txtMsg,
+                                //     "https://www.ninenik.com/images/ninenik_page_logo.png"
+                                // ),
                             )
                         );
                         $textReplyMessage = "ส่งพร้อม quick reply ";
