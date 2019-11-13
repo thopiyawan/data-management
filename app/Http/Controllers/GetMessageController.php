@@ -205,8 +205,9 @@ class GetMessageController extends Controller
 
 ///////////////////////////////////////////////////
           if($replyInfo =='postback'){
-            $case = 1;
-            $userMessage = '**เมนู';
+            $replyToken  = $events['events'][0]['replyToken'];
+            $postbackData =$events['events'][0]['postback']['data'];
+            $userMessage = $postbackData;
             return $this->replymessage($replyToken,$userMessage,$case);
           }
 
