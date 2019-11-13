@@ -237,7 +237,7 @@ class GetMessageController extends Controller
 
 
 ///////////////////////////////////////////////////
-            if($typeMessage=='text'){
+           else if($typeMessage=='text'){
                 if(!is_null($events)){
                     $userMessage = $events['events'][0]['message']['text'];
                 }
