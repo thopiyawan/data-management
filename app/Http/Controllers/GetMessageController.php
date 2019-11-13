@@ -220,10 +220,10 @@ class GetMessageController extends Controller
         $textReplyMessage.= json_encode($dataPostback);
         $textReplyMessage.= json_encode($paramPostback);
         // $replyData = new TextMessageBuilder($textReplyMessage);    
-        $reward_code = $dataPostback['item']; 
-        $action = $dataPostback['action']; 
+        // $reward_code = $dataPostback['item']; 
+        // $action = $dataPostback['action']; 
 
-        $reward_code = json_encode($reward_code);
+        // $reward_code = json_encode($reward_code);
         // $action = json_encode($action);
         // $reward_code = str_replace('"', "", $reward_code );
         // $action = str_replace('"', "", $action );
@@ -231,7 +231,7 @@ class GetMessageController extends Controller
         // // if($action == 'reward'){
           $case = 1 ;
 
-                     $userMessage =  $reward_code ;
+                     $userMessage =  $textReplyMessage ;
             return $this->replymessage($replyToken,$userMessage,$case);
           }
 
