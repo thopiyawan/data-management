@@ -208,7 +208,7 @@ class GetMessageController extends Controller
             // $replyToken  = $events['events'][0]['replyToken'];
             // $postbackData =$events['events'][0]['postback']['data'];
             // $userMessage = $postbackData;
-            $dataPostback = NULL;
+        $dataPostback = NULL;
         $paramPostback = NULL;
         $eventObj = $events[0];
         // แปลงข้อมูลจาก Postback Data เป็น array
@@ -224,14 +224,14 @@ class GetMessageController extends Controller
         $action = $dataPostback['action']; 
 
         $reward_code = json_encode($reward_code);
-        $action = json_encode($action);
-        $reward_code = str_replace('"', "", $reward_code );
-        $action = str_replace('"', "", $action );
+        // $action = json_encode($action);
+        // $reward_code = str_replace('"', "", $reward_code );
+        // $action = str_replace('"', "", $action );
 
-        // if($action == 'reward'){
-              $case = 1 ;
+        // // if($action == 'reward'){
+          $case = 1 ;
 
-                      $userMessage =  $reward_code ;
+                     $userMessage =  $reward_code ;
             return $this->replymessage($replyToken,$userMessage,$case);
           }
 
