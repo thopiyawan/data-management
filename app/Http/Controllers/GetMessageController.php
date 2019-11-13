@@ -205,7 +205,7 @@ class GetMessageController extends Controller
 
 ///////////////////////////////////////////////////
           if($replyInfo =='postback'){
-            // $replyToken  = $events['events'][0]['replyToken'];
+         $replyToken  = $events['events'][0]['replyToken'];
             // $postbackData =$events['events'][0]['postback']['data'];
             // $userMessage = $postbackData;
         $dataPostback = NULL;
