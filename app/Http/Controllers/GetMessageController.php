@@ -205,9 +205,33 @@ class GetMessageController extends Controller
 
 ///////////////////////////////////////////////////
           if($replyInfo =='postback'){
-            $replyToken  = $events['events'][0]['replyToken'];
-            $postbackData =$events['events'][0]['postback']['data'];
-            $userMessage = $postbackData;
+            // $replyToken  = $events['events'][0]['replyToken'];
+            // $postbackData =$events['events'][0]['postback']['data'];
+            // $userMessage = $postbackData;
+            $dataPostback = NULL;
+        $paramPostback = NULL;
+        $eventObj = $events[0];
+        // แปลงข้อมูลจาก Postback Data เป็น array
+        parse_str($eventObj->getPostbackData(),$dataPostback);
+        // ดึงค่า params กรณีมีค่า params
+        $paramPostback = $eventObj->getPostbackParams();
+        // ทดสอบแสดงข้อความที่เกิดจาก Postaback Event
+        $textReplyMessage = "ข้อความจาก Postback Event Data = ";        
+        $textReplyMessage.= json_encode($dataPostback);
+        $textReplyMessage.= json_encode($paramPostback);
+        // $replyData = new TextMessageBuilder($textReplyMessage);    
+        $reward_code = $dataPostback['item']; 
+        $action = $dataPostback['action']; 
+
+        $reward_code = json_encode($reward_code);
+        $action = json_encode($action);
+        $reward_code = str_replace('"', "", $reward_code );
+        $action = str_replace('"', "", $action );
+
+        // if($action == 'reward'){
+              // $case = 1 ;
+
+                      $userMessage =  $reward_code ;
             return $this->replymessage($replyToken,$userMessage,$case);
           }
 
