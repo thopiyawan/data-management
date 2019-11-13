@@ -173,10 +173,10 @@ class GetMessageController extends Controller
                         $idMessage   = $events['events'][0]['message']['id']; 
                     }
                 // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
-            //     $textMessageBuilder = new TextMessageBuilder(json_encode($events));
+                $textMessageBuilder = new TextMessageBuilder(json_encode($events));
                
-            //     //l ส่วนของคำสั่งตอบกลับข้อความ
-            //     $response = $bot->replyMessage($replyToken,$textMessageBuilder);
+                //l ส่วนของคำสั่งตอบกลับข้อความ
+                $response = $bot->replyMessage($replyToken,$textMessageBuilder);
             //     if ($response->isSucceeded()) {
             //         echo 'Succeeded!';
             //         return;
