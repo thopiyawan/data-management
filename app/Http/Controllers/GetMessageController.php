@@ -340,48 +340,44 @@ if(!is_null($events)){
                         break;          
                     case "t_b":
                         // กำหนด action 4 ปุ่ม 4 ประเภท
-                        $url = 'https://api.line.me/v2/bot/message/reply';
-                        $data = [
-                            "replyToken" => $replyToken,
-                            "messages" => [
-                              array(
-                                "type" => "template",
-                                "altText" => "this is a confirm template",
-                                "template" => array(
-                                    "type" => "confirm",
-                                    "text" => "Are you sure?",
-                                    "actions" => [
-                                        array(
-                                          "type" => "datetimepicker",
-                                          "data" => "datestring", // will be included in postback action
-                                          "label" => "Please Choose",
-                                          "mode" => "date", // date | time | datetime
-                                          //"initial": "", // 2017-06-18 | 00:00 | 2017-06-18T00:00
-                                          //"max": "", // 2017-06-18 | 00:00 | 2017-06-18T00:00
-                                          //"min": "", // 2017-06-18 | 00:00 | 2017-06-18T00:00
-                                        ),
-                                        array(
-                                          "type" => "message",
-                                          "label" => "No",
-                                          "text" => "no"
-                                        )
-                                    ]
-                                )
-                              )
-                            ]
-                        ];
-                        $post = json_encode($data);
-                        $access_token = '+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=';
-                        $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
-    
-                        $ch = curl_init($url);
-                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-                        $result = curl_exec($ch);
-                        curl_close($ch);
+                        $actionBuilder = array(
+                            new MessageTemplateActionBuilder(
+                                'Message Template',// ข้อความแสดงในปุ่ม
+                                'This is Text' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                            ),
+                            new UriTemplateActionBuilder(
+                                'Uri Template', // ข้อความแสดงในปุ่ม
+                                'https://www.ninenik.com'
+                            ),
+                            new DatetimePickerTemplateActionBuilder(
+                                'Datetime Picker', // ข้อความแสดงในปุ่ม
+                                http_build_query(array(
+                                    'action'=>'reservation',
+                                    'person'=>5
+                                )), // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                                'date', // date | time | datetime รูปแบบข้อมูลที่จะส่ง ในที่นี้ใช้ datatime
+                                substr_replace(date("Y-m-d H:i"),'T',10,1) // วันที่ เวลา ค่าเริ่มต้นที่ถูกเลือก
+                                // substr_replace(date("Y-m-d H:i",strtotime("+5 day")),'T',10,1), //วันที่ เวลา มากสุดที่เลือกได้
+                                // substr_replace(date("Y-m-d H:i"),'T',10,1) //วันที่ เวลา น้อยสุดที่เลือกได้
+                            ),      
+                            new PostbackTemplateActionBuilder(
+                                'Postback', // ข้อความแสดงในปุ่ม
+                                http_build_query(array(
+                                    'action'=>'buy',
+                                    'item'=>100
+                                )) // ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+    //                          'Postback Text'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                            ),      
+                        );
+                        $imageUrl = 'https://www.mywebsite.com/imgsrc/photos/w/simpleflower';
+                        $replyData = new TemplateMessageBuilder('Button Template',
+                            new ButtonTemplateBuilder(
+                                    'button template builder', // กำหนดหัวเรื่อง
+                                    'Please select', // กำหนดรายละเอียด
+                                    $imageUrl, // กำหนด url รุปภาพ
+                                    $actionBuilder  // กำหนด action object
+                            )
+                        );              
                         break;      
                     case "t_f":
                         $replyData = new TemplateMessageBuilder('Confirm Template',
