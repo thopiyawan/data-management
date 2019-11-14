@@ -382,7 +382,7 @@ if(!is_null($events)){
                             $question = $this->sequents_question($seqcode);
                             $userMessage =  $question;
                     //ประเภทการเดินทางแบบรายเที่ยว คุณต้องการเดินทางไปประเทศอะไรคะ?
-                        }elseif(is_string($userMessage) !== false &&  $seqcode == '006' ||strpos($userMessage, 'Params=') !== false ){
+                        }elseif(is_string($userMessage) !== false &&  $seqcode == '006'){
                             $case = 3;
                             $fullname = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
@@ -393,7 +393,7 @@ if(!is_null($events)){
                             $question = $this->sequents_question($seqcode);
                             $userMessage =  $question;
                     //ขอทราบวันออกเดินทางจากประเทศไทยค่ะ?
-                        }elseif(is_string($userMessage) !== false &&  $seqcode == '007'){
+                        }elseif(is_string($userMessage) !== false &&  $seqcode == '007' ||strpos($userMessage, 'Params=') !== false ){
                             $case = 4;
                             $fullname = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
@@ -404,7 +404,7 @@ if(!is_null($events)){
                             $question = $this->sequents_question($seqcode);
                             $userMessage =  $question;
                     //ขอทราบวันกลับค่ะ?
-                        }elseif(is_string($userMessage) !== false &&  $seqcode == '008'){
+                        }elseif(is_string($userMessage) !== false &&  $seqcode == '008' ||strpos($userMessage, 'Params1=') !== false ){
                             $case = 2;
                             $fullname = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
