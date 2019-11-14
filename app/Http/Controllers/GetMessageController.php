@@ -232,11 +232,25 @@ if(!is_null($events)){
         if(is_array($dataPostback)){
             $textReplyMessage.= json_encode($dataPostback);
         }
-        // if(!is_null($paramPostback)){
-        //     $textReplyMessage.= " \r\nParams = ".$paramPostback;
-        // }
-        $replyData = new TextMessageBuilder($textReplyMessage);   
-        $response = $bot->replyMessage($replyToken,$replyData);  
+        if($textReplyMessage =='{"datestring":""}'){
+            if(!is_null($paramPostback)){
+                $textReplyMessage.= " \r\nParams = ".$paramPostback;
+            }
+
+
+        }elseif($textReplyMessage =='{"datestring1":""}'){
+           
+            if(!is_null($paramPostback)){
+                $textReplyMessage.= " \r\nParams1 = ".$paramPostback;
+            }
+
+        }
+            $replyData = new TextMessageBuilder($textReplyMessage);   
+            $response = $bot->replyMessage($replyToken,$replyData);  
+
+
+
+        
     }
     if(!is_null($is_message)){
 
