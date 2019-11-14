@@ -360,7 +360,7 @@ if(!is_null($events)){
                         $userMessage =  $question;
             //ขอทราบวันออกเดินทางจากประเทศไทยค่ะ?
                     }elseif(is_string($userMessage) !== false &&  $seqcode == '007'){
-                        $case = 3;
+                        $case = 4;
                         $fullname = $userMessage;
                         // $userMessage = 'ขอทราบEmailค่ะ';
                         // $this->register_insert($user,$fullname);
@@ -593,6 +593,47 @@ if(!is_null($events)){
                 curl_close($ch);
                                    
                     break;
+                    case 4 : 
+
+                    $url = 'https://api.line.me/v2/bot/message/reply';
+                    $data = [
+                        "replyToken" => $replyToken,
+                        "messages" => [
+                          array(
+                            "type" => "template",
+                            "altText" => $userMessage,
+                            "template" => array(
+                                "type" => "buttons",
+                                "text" => $userMessage,
+                                "actions" => [
+                                    array(
+                                      "type" => "datetimepicker",
+                                      "data" => "datestring1", // will be included in postback action
+                                      "label" => "เลือกวัน",
+                                      "mode" => "date", // date | time | datetime
+                                      //"initial": "", // 2017-06-18 | 00:00 | 2017-06-18T00:00
+                                      //"max": "", // 2017-06-18 | 00:00 | 2017-06-18T00:00
+                                      //"min": "", // 2017-06-18 | 00:00 | 2017-06-18T00:00
+                                    ),
+                                ]
+                            )
+                          )
+                        ]
+                    ];
+                    $post = json_encode($data);
+                    $access_token = '+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=';
+                    $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+    
+                    $ch = curl_init($url);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                    $result = curl_exec($ch);
+                    curl_close($ch);
+                                       
+                        break;
         
             }
             $response = $bot->replyMessage($replyToken,$textMessageBuilder); 
