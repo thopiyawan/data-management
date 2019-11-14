@@ -233,12 +233,15 @@ if(!is_null($events)){
             $textReplyMessage.= json_encode($dataPostback);
         }
         if($textReplyMessage =='{"datestring":""}'){
+
+            $replyToken = $events['events'][0]['replyToken'];
+            $user = $events['events'][0]['source']['userId'];
             // if(!is_null($paramPostback)){
             //     $textReplyMessage.= " \r\nParams = ".$paramPostback;
             // }
 
             $case = 3;
-            $fullname = $userMessage;
+           // $fullname = $userMessage;
             // $userMessage = 'ขอทราบEmailค่ะ';
             // $this->register_insert($user,$fullname);
             $seqcode = '007';
