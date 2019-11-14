@@ -212,7 +212,7 @@ if(!is_null($events)){
     if(isset($events['events'][0]) && array_key_exists('postback',$events['events'][0])){
         $is_postback = true;
         $dataPostback = NULL;
-        parse_str($events['events'][0]['postback'],$dataPostback);;
+        parse_str($events['events'][0]['postback']['data'],$dataPostback);;
         $paramPostback = NULL;
         if(array_key_exists('params',$events['events'][0]['postback'])){
             if(array_key_exists('date',$events['events'][0]['postback']['params'])){
@@ -349,7 +349,7 @@ if(!is_null($events)){
                         $userMessage =  $question;
             //ประเภทการเดินทางแบบรายเที่ยว คุณต้องการเดินทางไปประเทศอะไรคะ?
                     }elseif(is_string($userMessage) !== false &&  $seqcode == '006'){
-                        $case = 3;
+                        $case = 4;
                         $fullname = $userMessage;
                         // $userMessage = 'ขอทราบEmailค่ะ';
                         // $this->register_insert($user,$fullname);
