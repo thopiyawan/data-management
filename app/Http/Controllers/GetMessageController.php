@@ -247,9 +247,7 @@ if(!is_null($events)){
             $textReplyMessage = json_encode($dataPostback);
         }
         if($textReplyMessage =='{"datestring":""}'){
-            if(!is_null($paramPostback)){
-                $userMessage.= "Params=".$paramPostback;
-            }
+            $userMessage= "Params=".$paramPostback;
             $this->checkmessage($replyToken,$userMessage,$seqcode,$user);
 
 
