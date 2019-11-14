@@ -349,7 +349,7 @@ if(!is_null($events)){
                         $userMessage =  $question;
             //ประเภทการเดินทางแบบรายเที่ยว คุณต้องการเดินทางไปประเทศอะไรคะ?
                     }elseif(is_string($userMessage) !== false &&  $seqcode == '006'){
-                        $case = 4;
+                        $case = 3;
                         $fullname = $userMessage;
                         // $userMessage = 'ขอทราบEmailค่ะ';
                         // $this->register_insert($user,$fullname);
