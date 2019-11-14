@@ -561,25 +561,20 @@ if(!is_null($events)){
                     "messages" => [
                       array(
                         "type" => "template",
-                        "altText" => "this is a confirm template",
+                        "altText" => $userMessage,
                         "template" => array(
                             "type" => "buttons",
-                            "text" => "Are you sure?",
+                            "text" => $userMessage,
                             "actions" => [
                                 array(
                                   "type" => "datetimepicker",
                                   "data" => "datestring", // will be included in postback action
-                                  "label" => "Please Choose",
+                                  "label" => "เลือกวัน",
                                   "mode" => "date", // date | time | datetime
                                   //"initial": "", // 2017-06-18 | 00:00 | 2017-06-18T00:00
                                   //"max": "", // 2017-06-18 | 00:00 | 2017-06-18T00:00
                                   //"min": "", // 2017-06-18 | 00:00 | 2017-06-18T00:00
                                 ),
-                                array(
-                                  "type" => "message",
-                                  "label" => "No",
-                                  "text" => "no"
-                                )
                             ]
                         )
                       )
