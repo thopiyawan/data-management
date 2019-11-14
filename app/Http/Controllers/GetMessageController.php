@@ -253,9 +253,9 @@ if(!is_null($events)){
 
         }elseif($textReplyMessage =='{"datestring1":""}'){
            
-            if(!is_null($paramPostback)){
-                $textReplyMessage.= " \r\nParams = ".$paramPostback;
-            }
+            $userMessage= "Params1=".$paramPostback;
+            $this->checkmessage($replyToken,$userMessage,$seqcode,$user);
+
 
         }
 
