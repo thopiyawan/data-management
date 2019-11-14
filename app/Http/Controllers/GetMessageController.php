@@ -236,17 +236,27 @@ if(!is_null($events)){
             if(!is_null($paramPostback)){
                 $textReplyMessage.= " \r\nParams = ".$paramPostback;
             }
-
+            $case = 3;
+            $fullname = $userMessage;
+            // $userMessage = 'ขอทราบEmailค่ะ';
+            // $this->register_insert($user,$fullname);
+            $seqcode = '007';
+            $nextseqcode = '008';
+            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+            $question = $this->sequents_question($seqcode);
+            $userMessage =  $question;
 
         }elseif($textReplyMessage =='{"datestring1":""}'){
            
             if(!is_null($paramPostback)){
-                $textReplyMessage.= " \r\nParams1 = ".$paramPostback;
+                $textReplyMessage.= " \r\nParams = ".$paramPostback;
             }
 
         }
-            $replyData = new TextMessageBuilder($textReplyMessage);   
-            $response = $bot->replyMessage($replyToken,$replyData);  
+
+        return $this->replymessage($replyToken,$userMessage,$case);
+            // $replyData = new TextMessageBuilder($textReplyMessage);   
+            // $response = $bot->replyMessage($replyToken,$replyData);  
 
 
 
