@@ -189,20 +189,7 @@ class GetMessageController extends Controller
             // //    // $users = users::insert(['sender_id'=>$user,'seqcode' => $seqcode,'answer' => 'NULL','nextseqcode' =>$nextseqcode,'status'=>'0','created_at'=>NOW() , 'updated_at'=>NOW()]);
             // //     // Failed
             // //     echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
-            // $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
-            // $dbconn = pg_pconnect($conn_string);
-
-            //     $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
-            //     $num = pg_num_rows($result);
-            //         if($num==0)         
-            //      {  
-            //          $seqcode = '000';
-            //          $nextseqcode = '000';             
-            //          $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
-            //      }
-      
-            //     $seqcode = $this->seqcode_select($user);
-
+           
 ///////////////////////////////////////////////////
        // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
 $content = file_get_contents('php://input');
@@ -239,6 +226,20 @@ if(!is_null($events)){
             }                       
         }
     }   
+    $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+    $dbconn = pg_pconnect($conn_string);
+
+        $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
+        $num = pg_num_rows($result);
+            if($num==0)         
+         {  
+             $seqcode = '000';
+             $nextseqcode = '000';             
+             $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
+         }
+
+        $seqcode = $this->seqcode_select($user);
+
     if(!is_null($is_postback)){
         $textReplyMessage = "ข้อความจาก Postback Event Data = ";
         if(is_array($dataPostback)){
