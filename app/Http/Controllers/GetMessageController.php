@@ -232,9 +232,9 @@ if(!is_null($events)){
         if(is_array($dataPostback)){
             $textReplyMessage.= json_encode($dataPostback);
         }
-        if(!is_null($paramPostback)){
-            $textReplyMessage.= " \r\nParams = ".$paramPostback;
-        }
+        // if(!is_null($paramPostback)){
+        //     $textReplyMessage.= " \r\nParams = ".$paramPostback;
+        // }
         $replyData = new TextMessageBuilder($textReplyMessage);   
         $response = $bot->replyMessage($replyToken,$replyData);  
     }
