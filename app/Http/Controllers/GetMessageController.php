@@ -347,7 +347,7 @@ if(!is_null($events)){
                             "type" => "template",
                             "altText" => "this is a confirm template",
                             "template" => array(
-                                "type" => "confirm",
+                                "type" => "buttons",
                                 "text" => "Are you sure?",
                                 "actions" => [
                                     array(
