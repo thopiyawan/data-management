@@ -226,19 +226,7 @@ if(!is_null($events)){
             }                       
         }
     }   
-    $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
-    $dbconn = pg_pconnect($conn_string);
-
-        $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
-        $num = pg_num_rows($result);
-            if($num==0)         
-         {  
-             $seqcode = '000';
-             $nextseqcode = '000';             
-             $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
-         }
-
-        $seqcode = $this->seqcode_select($user);
+   
 
     if(!is_null($is_postback)){
         $textReplyMessage = "ข้อความจาก Postback Event Data = ";
@@ -248,9 +236,24 @@ if(!is_null($events)){
         if(!is_null($paramPostback)){
             $textReplyMessage.= " \r\nParams = ".$paramPostback;
         }
-        $replyData = new TextMessageBuilder($textReplyMessage);     
+        $replyData = new TextMessageBuilder($textReplyMessage);   
+        $response = $bot->replyMessage($replyToken,$replyData);  
     }
     if(!is_null($is_message)){
+
+        $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string);
+    
+            $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
+            $num = pg_num_rows($result);
+                if($num==0)         
+             {  
+                 $seqcode = '000';
+                 $nextseqcode = '000';             
+                 $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
+             }
+    
+            $seqcode = $this->seqcode_select($user);
   
           if($typeMessage=='text'){
                 if(!is_null($events)){
