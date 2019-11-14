@@ -212,9 +212,7 @@ if(!is_null($events)){
     if(isset($events['events'][0]) && array_key_exists('postback',$events['events'][0])){
         $is_postback = true;
         $dataPostback = NULL;
-        $d = NULL;
-        parse_str($events['events'][0]['postback']['data'],$dataPostback);
-        parse_str($events['events'],$d);
+        parse_str($events['events'][0]['postback'],$dataPostback);;
         $paramPostback = NULL;
         if(array_key_exists('params',$events['events'][0]['postback'])){
             if(array_key_exists('date',$events['events'][0]['postback']['params'])){
@@ -232,12 +230,12 @@ if(!is_null($events)){
     if(!is_null($is_postback)){
         $textReplyMessage = "ข้อความจาก Postback Event Data = ";
         if(is_array($dataPostback)){
-            $textReplyMessage.= json_encode($d);
+            $textReplyMessage.= json_encode($dataPostback);
         }
         if(!is_null($paramPostback)){
             $textReplyMessage.= " \r\nParams = ".$paramPostback;
         }
-        $replyData = new TextMessageBuilder($textReplyMessage);   
+        $replyData = new TextMessageBuilder($userMessage);   
         $response = $bot->replyMessage($replyToken,$replyData);  
     }
     if(!is_null($is_message)){
