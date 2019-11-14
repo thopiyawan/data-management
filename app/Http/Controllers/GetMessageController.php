@@ -405,7 +405,7 @@ if(!is_null($events)){
                             $userMessage =  $question;
                     //ขอทราบวันกลับค่ะ?
                         }elseif(is_string($userMessage) !== false &&  $seqcode == '008' ||strpos($userMessage, 'Params1=') !== false ){
-                            $case = 2;
+                            $case = 1;
                             $fullname = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
                             // $this->register_insert($user,$fullname);
@@ -416,15 +416,21 @@ if(!is_null($events)){
                             $userMessage =  $question;
                     //ขอทราบจำนวนผู้โดยสารค่ะ'
                         }elseif(is_string($userMessage) !== false &&  $seqcode == '009'){
-                            $case = 1;
-                            $fullname = $userMessage;
-                            $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
-                            // $this->register_insert($user,$fullname);
-                            $seqcode = '010';
-                            $nextseqcode = '000';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            // $question = $this->sequents_question($seqcode);
-                            // $userMessage =  $question;
+                            if(is_numeric($userMessage) !== false){
+                                $case = 1;
+                                $fullname = $userMessage;
+                                $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
+                                // $this->register_insert($user,$fullname);
+                                $seqcode = '010';
+                                $nextseqcode = '000';
+                                $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                                // $question = $this->sequents_question($seqcode);
+                                // $userMessage =  $question;
+                            }else{
+                                $case = 1;
+                                $userMessage = 'ฉันคิดว่าคุณพิมพ์ผิดนะ กรุณาพิมพ์ใหม่';
+                            }
+                           
                         }else{
                             $case = 1;
                             $userMessage = '**เมนู';
