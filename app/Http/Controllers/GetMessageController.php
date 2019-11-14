@@ -160,48 +160,48 @@ class GetMessageController extends Controller
                 $bot = new LINEBot($httpClient, array('channelSecret' => '572a7adea7a0959295e21cb626dae011'));
                 
                 // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
-                $content = file_get_contents('php://input');
+              //  $content = file_get_contents('php://input');
                 
                 // แปลงข้อความรูปแบบ JSON  ให้อยู่ในโครงสร้างตัวแปร array
 
                 
-                $events = json_decode($content, true);
+            //     $events = json_decode($content, true);
                 
-                    if(!is_null($events)){
+            //         if(!is_null($events)){
 
-                        $replyInfo =$events['events'][0]['type'];
-                        // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
-                        $replyToken  = $events['events'][0]['replyToken'];
-                        $user        = $events['events'][0]['source']['userId'];
-                    // $userMessage = $events['events'][0]['message']['text'];
-                        $typeMessage = $events['events'][0]['message']['type'];
-                        $idMessage   = $events['events'][0]['message']['id']; 
-                    }
-                // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
-                // $textMessageBuilder = new TextMessageBuilder(json_encode($events));
+            //             $replyInfo =$events['events'][0]['type'];
+            //             // ถ้ามีค่า สร้างตัวแปรเก็บ replyToken ไว้ใช้งาน
+            //             $replyToken  = $events['events'][0]['replyToken'];
+            //             $user        = $events['events'][0]['source']['userId'];
+            //         // $userMessage = $events['events'][0]['message']['text'];
+            //             $typeMessage = $events['events'][0]['message']['type'];
+            //             $idMessage   = $events['events'][0]['message']['id']; 
+            //         }
+            //     // ส่วนของคำสั่งจัดเตียมรูปแบบข้อความสำหรับส่ง
+            //     // $textMessageBuilder = new TextMessageBuilder(json_encode($events));
                
-                // //l ส่วนของคำสั่งตอบกลับข้อความ
-                // $response = $bot->replyMessage($replyToken,$textMessageBuilder);
-            //     if ($response->isSucceeded()) {
-            //         echo 'Succeeded!';
-            //         return;
-            //     }
-            //    // $users = users::insert(['sender_id'=>$user,'seqcode' => $seqcode,'answer' => 'NULL','nextseqcode' =>$nextseqcode,'status'=>'0','created_at'=>NOW() , 'updated_at'=>NOW()]);
-            //     // Failed
-            //     echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
-            $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
-            $dbconn = pg_pconnect($conn_string);
+            //     // //l ส่วนของคำสั่งตอบกลับข้อความ
+            //     // $response = $bot->replyMessage($replyToken,$textMessageBuilder);
+            // //     if ($response->isSucceeded()) {
+            // //         echo 'Succeeded!';
+            // //         return;
+            // //     }
+            // //    // $users = users::insert(['sender_id'=>$user,'seqcode' => $seqcode,'answer' => 'NULL','nextseqcode' =>$nextseqcode,'status'=>'0','created_at'=>NOW() , 'updated_at'=>NOW()]);
+            // //     // Failed
+            // //     echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
+            // $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+            // $dbconn = pg_pconnect($conn_string);
 
-                $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
-                $num = pg_num_rows($result);
-                    if($num==0)         
-                 {  
-                     $seqcode = '000';
-                     $nextseqcode = '000';             
-                     $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
-                 }
+            //     $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
+            //     $num = pg_num_rows($result);
+            //         if($num==0)         
+            //      {  
+            //          $seqcode = '000';
+            //          $nextseqcode = '000';             
+            //          $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
+            //      }
       
-                $seqcode = $this->seqcode_select($user);
+            //     $seqcode = $this->seqcode_select($user);
 
 ///////////////////////////////////////////////////
        // คำสั่งรอรับการส่งค่ามาของ LINE Messaging API
