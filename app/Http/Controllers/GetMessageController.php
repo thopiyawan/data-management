@@ -233,9 +233,10 @@ if(!is_null($events)){
             $textReplyMessage.= json_encode($dataPostback);
         }
         if($textReplyMessage =='{"datestring":""}'){
-            if(!is_null($paramPostback)){
-                $textReplyMessage.= " \r\nParams = ".$paramPostback;
-            }
+            // if(!is_null($paramPostback)){
+            //     $textReplyMessage.= " \r\nParams = ".$paramPostback;
+            // }
+
             $case = 3;
             $fullname = $userMessage;
             // $userMessage = 'ขอทราบEmailค่ะ';
@@ -246,6 +247,7 @@ if(!is_null($events)){
             $question = $this->sequents_question($seqcode);
             $userMessage =  $question;
 
+
         }elseif($textReplyMessage =='{"datestring1":""}'){
            
             if(!is_null($paramPostback)){
@@ -254,7 +256,7 @@ if(!is_null($events)){
 
         }
 
-        return $this->replymessage($replyToken,$userMessage,$case);
+            return $this->replymessage($replyToken,$userMessage,$case);
             // $replyData = new TextMessageBuilder($textReplyMessage);   
             // $response = $bot->replyMessage($replyToken,$replyData);  
 
