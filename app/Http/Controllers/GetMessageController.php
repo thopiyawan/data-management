@@ -226,29 +226,31 @@ if(!is_null($events)){
             }                       
         }
     }   
-       
+    /////////////////////////
+    $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+    $dbconn = pg_pconnect($conn_string);
+
+        $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '$user'");
+        $num = pg_num_rows($result);
+            if($num==0)         
+         {  
+             $seqcode = '000';
+             $nextseqcode = '000';             
+             $this->insert_sequentsteps($user,$seqcode,$nextseqcode);
+         }
+
+        $seqcode = $this->seqcode_select($user);
+    /////////////////////////////////////////////////
     if(!is_null($is_postback)){
-        $textReplyMessage = "ข้อความจาก Postback Event Data = ";
+        // $textReplyMessage = "ข้อความจาก Postback Event Data = ";
         if(is_array($dataPostback)){
-            $textReplyMessage.= json_encode($dataPostback);
+            $textReplyMessage = json_encode($dataPostback);
         }
         if($textReplyMessage =='{"datestring":""}'){
-
-            $replyToken = $events['events'][0]['replyToken'];
-            $user = $events['events'][0]['source']['userId'];
-            // if(!is_null($paramPostback)){
-            //     $textReplyMessage.= " \r\nParams = ".$paramPostback;
-            // }
-
-            $case = 3;
-           // $fullname = $userMessage;
-            // $userMessage = 'ขอทราบEmailค่ะ';
-            // $this->register_insert($user,$fullname);
-            $seqcode = '007';
-            $nextseqcode = '008';
-            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-            $question = $this->sequents_question($seqcode);
-            $userMessage =  $question;
+            if(!is_null($paramPostback)){
+                $userMessage.= "Params=".$paramPostback;
+            }
+            $this->checkmessage($replyToken,$userMessage,$seqcode,$user);
 
 
         }elseif($textReplyMessage =='{"datestring1":""}'){
@@ -259,13 +261,9 @@ if(!is_null($events)){
 
         }
 
-            return $this->replymessage($replyToken,$userMessage,$case);
-            // $replyData = new TextMessageBuilder($textReplyMessage);   
-            // $response = $bot->replyMessage($replyToken,$replyData);  
-
-
-
-        
+        //  //return $this->replymessage($replyToken,$userMessage,$case);
+        //     $replyData = new TextMessageBuilder($textReplyMessage);   
+        //     $response = $bot->replyMessage($replyToken,$replyData);        
     }
     if(!is_null($is_message)){
 
@@ -287,152 +285,158 @@ if(!is_null($events)){
                 if(!is_null($events)){
                     $userMessage = $events['events'][0]['message']['text'];
                 }
-
-            //ลงทะเบียน
-                    if(strpos($userMessage, 'ลงทะเบียน') !== false  &&  $seqcode == '000'){
-                            $case = 1;
-                            // $userMessage = 'ขอทราบชื่อและนามสกุลค่ะ';
-                            $seqcode = '001';
-                            $nextseqcode = '002';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-                    }elseif($userMessage == 'del'){
-                            $case = 1;
-                            $fullname = $userMessage;
-                            // $userMessage = 'ขอทราบEmailค่ะ';
-                            $this->delete_state($user);
-                            $userMessage =  'ลบแล้วจ้า';
-            //ชื่อ-นามสกุล
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '001'){
-                            $case = 1;
-                            $fullname = $userMessage;
-                            // $userMessage = 'ขอทราบEmailค่ะ';
-                            $this->register_insert($user,$fullname);
-                            $seqcode = '002';
-                            $nextseqcode = '003';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-            //อายุ
-                    }elseif(is_string($userMessage)!== false  &&  $seqcode == '002'){
-                        if(is_numeric($userMessage) !== false){
-                            $val = $userMessage;
-                            $this->register_update($user,$val,$seqcode);
-                            $case = 1;   
-                        
-                            $seqcode = '003';
-                            $nextseqcode = '004';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-                        }else{
-                            $case = 1;
-                            $userMessage = 'ฉันคิดว่าคุณพิมพ์อายุผิดนะ กรุณาพิมพ์ใหม่';
-                        }
-            //Email
-                    }elseif(is_string($userMessage)!== false  &&  $seqcode == '003'){
-                         if(strpos($userMessage, '@') !== false || strpos($userMessage, '-') !== false){
-                            //$userMessage = 'การลงทะเบียนเรียบร้อยแล้วนะคะ';
-                            $val = $userMessage;
-                            $this->register_update($user,$val,$seqcode);
-                            $case = 1;
-
-                            $seqcode = '004';
-                            $nextseqcode = '005';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-                        }else{
-                            $case = 1;
-                            $userMessage = 'ฉันคิดว่าคุณพิมพ์Emailผิดนะ กรุณาพิมพ์ใหม่';
-                        }
-            //หมายเลขโทรศัพท์
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '004'){
-                        if(is_numeric($userMessage) !== false && strlen($userMessage) == 10){
-                            //$userMessage = 'การลงทะเบียนเรียบร้อยแล้วนะคะ';
-                            $val = $userMessage;
-                            $this->register_update($user,$val,$seqcode);
-                            $case = 1;
-
-                            $seqcode = '005';
-                            $nextseqcode = '000';
-                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            $question = $this->sequents_question($seqcode);
-                            $userMessage =  $question;
-                        }else{
-                            $case = 1;
-                            $userMessage = 'ฉันคิดว่าคุณพิมพ์เบอร์โทรศัพท์ผิดนะคะ กรุณาพิมพ์ใหม่';
-                        }
-
-            //เลือกแผนการเดินทาง
-                    }elseif(strpos($userMessage, 'เลือกแผนการเดินทาง') !== false ){
-                        $case = 2;
-                        $fullname = $userMessage;
-                        // $userMessage = 'ขอทราบEmailค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '006';
-                        $nextseqcode = '007';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        $question = $this->sequents_question($seqcode);
-                        $userMessage =  $question;
-            //ประเภทการเดินทางแบบรายเที่ยว คุณต้องการเดินทางไปประเทศอะไรคะ?
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '006'){
-                        $case = 3;
-                        $fullname = $userMessage;
-                        // $userMessage = 'ขอทราบEmailค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '007';
-                        $nextseqcode = '008';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        $question = $this->sequents_question($seqcode);
-                        $userMessage =  $question;
-            //ขอทราบวันออกเดินทางจากประเทศไทยค่ะ?
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '007'){
-                        $case = 4;
-                        $fullname = $userMessage;
-                        // $userMessage = 'ขอทราบEmailค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '008';
-                        $nextseqcode = '009';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        $question = $this->sequents_question($seqcode);
-                        $userMessage =  $question;
-            //ขอทราบวันกลับค่ะ?
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '008'){
-                        $case = 2;
-                        $fullname = $userMessage;
-                        // $userMessage = 'ขอทราบEmailค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '009';
-                        $nextseqcode = '010';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        $question = $this->sequents_question($seqcode);
-                        $userMessage =  $question;
-            //ขอทราบจำนวนผู้โดยสารค่ะ'
-                    }elseif(is_string($userMessage) !== false &&  $seqcode == '009'){
-                        $case = 1;
-                        $fullname = $userMessage;
-                        $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
-                        // $this->register_insert($user,$fullname);
-                        $seqcode = '010';
-                        $nextseqcode = '000';
-                        $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                        // $question = $this->sequents_question($seqcode);
-                        // $userMessage =  $question;
-                    }else{
-                        $case = 1;
-                        $userMessage = '**เมนู';
-                    }
+                $this->checkmessage($replyToken,$userMessage,$seqcode,$user);
             }
             //////////////////////////////////////////////////////          
 
-            return $this->replymessage($replyToken,$userMessage,$case);
+          
 
            }       // return $this->replymessage($replyToken,$userMessage,$case);
         }
     }
+    public function checkmessage($replyToken,$userMessage,$seqcode,$user){
+                            //ลงทะเบียน
+                            if(strpos($userMessage, 'ลงทะเบียน') !== false  &&  $seqcode == '000'){
+                                $case = 1;
+                                // $userMessage = 'ขอทราบชื่อและนามสกุลค่ะ';
+                                $seqcode = '001';
+                                $nextseqcode = '002';
+                                $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                                $question = $this->sequents_question($seqcode);
+                                $userMessage =  $question;
+                        }elseif($userMessage == 'del'){
+                                $case = 1;
+                                $fullname = $userMessage;
+                                // $userMessage = 'ขอทราบEmailค่ะ';
+                                $this->delete_state($user);
+                                $userMessage =  'ลบแล้วจ้า';
+                    //ชื่อ-นามสกุล
+                        }elseif(is_string($userMessage) !== false &&  $seqcode == '001'){
+                                $case = 1;
+                                $fullname = $userMessage;
+                                // $userMessage = 'ขอทราบEmailค่ะ';
+                                $this->register_insert($user,$fullname);
+                                $seqcode = '002';
+                                $nextseqcode = '003';
+                                $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                                $question = $this->sequents_question($seqcode);
+                                $userMessage =  $question;
+                    //อายุ
+                        }elseif(is_string($userMessage)!== false  &&  $seqcode == '002'){
+                            if(is_numeric($userMessage) !== false){
+                                $val = $userMessage;
+                                $this->register_update($user,$val,$seqcode);
+                                $case = 1;   
+                            
+                                $seqcode = '003';
+                                $nextseqcode = '004';
+                                $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                                $question = $this->sequents_question($seqcode);
+                                $userMessage =  $question;
+                            }else{
+                                $case = 1;
+                                $userMessage = 'ฉันคิดว่าคุณพิมพ์อายุผิดนะ กรุณาพิมพ์ใหม่';
+                            }
+                    //Email
+                        }elseif(is_string($userMessage)!== false  &&  $seqcode == '003'){
+                            if(strpos($userMessage, '@') !== false || strpos($userMessage, '-') !== false){
+                                //$userMessage = 'การลงทะเบียนเรียบร้อยแล้วนะคะ';
+                                $val = $userMessage;
+                                $this->register_update($user,$val,$seqcode);
+                                $case = 1;
 
+                                $seqcode = '004';
+                                $nextseqcode = '005';
+                                $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                                $question = $this->sequents_question($seqcode);
+                                $userMessage =  $question;
+                            }else{
+                                $case = 1;
+                                $userMessage = 'ฉันคิดว่าคุณพิมพ์Emailผิดนะ กรุณาพิมพ์ใหม่';
+                            }
+                    //หมายเลขโทรศัพท์
+                        }elseif(is_string($userMessage) !== false &&  $seqcode == '004'){
+                            if(is_numeric($userMessage) !== false && strlen($userMessage) == 10){
+                                //$userMessage = 'การลงทะเบียนเรียบร้อยแล้วนะคะ';
+                                $val = $userMessage;
+                                $this->register_update($user,$val,$seqcode);
+                                $case = 1;
+
+                                $seqcode = '005';
+                                $nextseqcode = '000';
+                                $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                                $question = $this->sequents_question($seqcode);
+                                $userMessage =  $question;
+                            }else{
+                                $case = 1;
+                                $userMessage = 'ฉันคิดว่าคุณพิมพ์เบอร์โทรศัพท์ผิดนะคะ กรุณาพิมพ์ใหม่';
+                            }
+
+                    //เลือกแผนการเดินทาง
+                        }elseif(strpos($userMessage, 'เลือกแผนการเดินทาง') !== false ){
+                            $case = 2;
+                            $fullname = $userMessage;
+                            // $userMessage = 'ขอทราบEmailค่ะ';
+                            // $this->register_insert($user,$fullname);
+                            $seqcode = '006';
+                            $nextseqcode = '007';
+                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                            $question = $this->sequents_question($seqcode);
+                            $userMessage =  $question;
+                    //ประเภทการเดินทางแบบรายเที่ยว คุณต้องการเดินทางไปประเทศอะไรคะ?
+                        }elseif(is_string($userMessage) !== false &&  $seqcode == '006' ||strpos($userMessage, 'Params=') !== false ){
+                            $case = 3;
+                            $fullname = $userMessage;
+                            // $userMessage = 'ขอทราบEmailค่ะ';
+                            // $this->register_insert($user,$fullname);
+                            $seqcode = '007';
+                            $nextseqcode = '008';
+                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                            $question = $this->sequents_question($seqcode);
+                            $userMessage =  $question;
+                    //ขอทราบวันออกเดินทางจากประเทศไทยค่ะ?
+                        }elseif(is_string($userMessage) !== false &&  $seqcode == '007'){
+                            $case = 4;
+                            $fullname = $userMessage;
+                            // $userMessage = 'ขอทราบEmailค่ะ';
+                            // $this->register_insert($user,$fullname);
+                            $seqcode = '008';
+                            $nextseqcode = '009';
+                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                            $question = $this->sequents_question($seqcode);
+                            $userMessage =  $question;
+                    //ขอทราบวันกลับค่ะ?
+                        }elseif(is_string($userMessage) !== false &&  $seqcode == '008'){
+                            $case = 2;
+                            $fullname = $userMessage;
+                            // $userMessage = 'ขอทราบEmailค่ะ';
+                            // $this->register_insert($user,$fullname);
+                            $seqcode = '009';
+                            $nextseqcode = '010';
+                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                            $question = $this->sequents_question($seqcode);
+                            $userMessage =  $question;
+                    //ขอทราบจำนวนผู้โดยสารค่ะ'
+                        }elseif(is_string($userMessage) !== false &&  $seqcode == '009'){
+                            $case = 1;
+                            $fullname = $userMessage;
+                            $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
+                            // $this->register_insert($user,$fullname);
+                            $seqcode = '010';
+                            $nextseqcode = '000';
+                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                            // $question = $this->sequents_question($seqcode);
+                            // $userMessage =  $question;
+                        }else{
+                            $case = 1;
+                            $userMessage = '**เมนู';
+                        }
+
+
+                        return $this->replymessage($replyToken,$userMessage,$case);
+
+                        
+    }
     public function replymessage($replyToken,$userMessage,$case)
     {
         $httpClient = new CurlHTTPClient('+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=');
