@@ -143,13 +143,17 @@ class GetMessageController extends Controller
         // dd($re[0]['countryname']);
         // print(pg_fetch_all($result));
         // $user = '111'; 
-        $countryID = 'China';
-        // return $register_update;
-        $result = pg_query($dbconn,"SELECT countryid FROM country WHERE countryname = '{$countryID}' ");
-        // print($result);
-        while ($row = pg_fetch_object($result)) {
-            print  $row->countryid;
-        }  
+        // $countryID = 'China';
+        // // return $register_update;
+        // $result = pg_query($dbconn,"SELECT countryid FROM country WHERE countryname = '{$countryID}' ");
+        // // print($result);
+        // while ($row = pg_fetch_object($result)) {
+        //     print  $row->countryid;
+        // }  
+        $user = 'U2dc636d2cd052e82c29f5284e00f69b9';
+        $val = '12';
+        $register_update = pg_exec($dbconn, "UPDATE orders SET  dStart = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
+                  
         // $re = pg_fetch_all($result);
         //  $result ;
         // $seqcode ='001';
