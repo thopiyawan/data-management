@@ -143,7 +143,7 @@ class GetMessageController extends Controller
         // dd($re[0]['countryname']);
         // print(pg_fetch_all($result));
         $user = '111'; 
-        $countryID = 'china';
+        $countryID = 'China';
         // return $register_update;
         $result = pg_query($dbconn,"SELECT countryID FROM country WHERE countryName = $countryID");
         // $re = pg_fetch_all($result);
