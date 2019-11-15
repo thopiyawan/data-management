@@ -435,13 +435,13 @@ if(!is_null($events)){
                                 $userMessage = 'ฉันคิดว่าคุณพิมพ์ผิดนะ กรุณาพิมพ์ใหม่';
                             }
 
-                        }elseif(is_string($userMessage) !== false &&  $seqcode == '009'){
+                        }elseif(is_string($userMessage) !== false &&  $seqcode == '010'){
                             // if(is_numeric($userMessage) !== false){
                                 $case = 1;
                                 // $fullname = $userMessage;
                                 $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
                                 // $this->register_insert($user,$fullname);
-                                $seqcode = '010';
+                                $seqcode = '000';
                                 $nextseqcode = '000';
                                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
                                 // $question = $this->sequents_question($seqcode);
