@@ -385,10 +385,16 @@ if(!is_null($events)){
                             $userMessage =  $question;
                     //ประเภทการเดินทางแบบรายเที่ยว คุณต้องการเดินทางไปประเทศอะไรคะ?
                         }elseif(is_string($userMessage) !== false &&  $seqcode == '006'){
+                            $arr = explode("=", $userMessage, 2);
+                            $val = $arr[2];
+                            $this->register_update($user,$val,$seqcode);
+
+
                             $case = 3;
-                            $fullname = $userMessage;
+                            $country_name = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
-                            // $this->register_insert($user,$fullname);
+                            $countryID = $this->country_select_id($country_name);
+                            $this->register_orders($user,$countryID);
                             $seqcode = '007';
                             $nextseqcode = '008';
                             $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
@@ -397,8 +403,10 @@ if(!is_null($events)){
                     //ขอทราบวันออกเดินทางจากประเทศไทยค่ะ?
                         }elseif(strpos($userMessage, 'Params=') !== false ){
                             //is_string($userMessage) !== false &&  $seqcode == '007' ||
+                            $arr = explode("/", $userMessage, 2);
+                            $first = $arr[2];
                             $case = 4;
-                            $fullname = $userMessage;
+                            // $fullname = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
                             // $this->register_insert($user,$fullname);
                             $seqcode = '008';
@@ -718,6 +726,14 @@ if(!is_null($events)){
                 //    return $row->seqcode;
                 // } 
     }
+    public function country_select_id($country_name)
+    {
+        $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string);
+        $result = pg_query($dbconn,"SELECT countryID FROM country WHERE countryName = $country_name");
+        $re = pg_fetch_all($result);
+        return $re;
+    }
     public function update_sequentsteps($user,$seqcode,$nextseqcode)
     {          
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
@@ -797,25 +813,34 @@ if(!is_null($events)){
 
             case '006':
                     $int = (int)$val;
-                    $register_update = pg_exec($dbconn, "UPDATE users SET  age = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    $register_update = pg_exec($dbconn, "UPDATE orders SET  countryID = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
                     return $register_update;
                 break;
             case '007':
-                    $register_update = pg_exec($dbconn, "UPDATE users SET  email = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    $register_update = pg_exec($dbconn, "UPDATE orders SET  dStart = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
                     return $register_update;
                 break;
             case '008':
-                    $register_update = pg_exec($dbconn, "UPDATE users SET  tel = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    $register_update = pg_exec($dbconn, "UPDATE orders SET  dEnd = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
                     return $register_update;
                 break;
             case '009':
-                    $register_update = pg_exec($dbconn, "UPDATE users SET  dactive = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    $register_update = pg_exec($dbconn, "UPDATE orders SET  nVisit = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
                     return $register_update;
                 break;
             case '010':
-                    $register_update = pg_exec($dbconn, "UPDATE users SET  dactive = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    $int = (int)$val;
+                    $register_update = pg_exec($dbconn, "UPDATE orders SET  typeID = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
                     return $register_update;
             break;
+            case '011':
+                    $register_update = pg_exec($dbconn, "UPDATE orders SET  typeID = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
+                    return $register_update;
+            case '012':
+                    $register_update = pg_exec($dbconn, "UPDATE orders SET  typeID = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
+                    return $register_update;
+            break;
+
 
         }
     }
