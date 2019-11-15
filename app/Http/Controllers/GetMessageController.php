@@ -146,8 +146,8 @@ class GetMessageController extends Controller
         $countryID = 'china';
         // return $register_update;
         $result = pg_query($dbconn,"SELECT countryID FROM country WHERE countryName = $countryID");
-        $re = pg_fetch_all($result);
-        print $re;
+        // $re = pg_fetch_all($result);
+        print $result ;
         // $seqcode ='001';
         // $result = pg_query($dbconn,"SELECT question FROM sequents WHERE seqcode = '$seqcode'");
         // while ($row = pg_fetch_object($result)) {
