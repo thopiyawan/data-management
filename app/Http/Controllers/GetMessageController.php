@@ -391,11 +391,7 @@ if(!is_null($events)){
                             $userMessage =  $question;
                     //ประเภทการเดินทางแบบรายเที่ยว คุณต้องการเดินทางไปประเทศอะไรคะ?
                         }elseif(is_string($userMessage) !== false &&  $seqcode == '006'){
-                            $arr = explode("=", $userMessage, 2);
-                            $val = $arr[2];
-                            $this->register_update($user,$val,$seqcode);
-
-
+                          
                             $case = 3;
                             $country_name = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
@@ -423,6 +419,10 @@ if(!is_null($events)){
                     //ขอทราบวันกลับค่ะ?
                         }elseif(strpos($userMessage, 'Params1=') !== false ){
                             //is_string($userMessage) !== false &&  $seqcode == '008' ||
+                            $arr = explode("=", $userMessage, 2);
+                            $val = $arr[2];
+                            $this->register_update($user,$val,$seqcode);
+
                             $case = 1;
                             $fullname = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
