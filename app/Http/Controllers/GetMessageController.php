@@ -145,7 +145,7 @@ class GetMessageController extends Controller
         $user = '111'; 
         $countryID = 1;
         // return $register_update;
-        $register_orders = pg_exec($dbconn, "INSERT INTO orders(userID,countryID  ,nVisit ,nDay ,totalPrice ,dStart ,dEnd ,dActive)VALUES('{$user}','{$countryID}','NULL','NULL',0,'NULL','NULL',1)") or die(pg_errormessage());
+        $register_orders = pg_exec($dbconn, "INSERT INTO orders(userID,typeID,countryID  ,nVisit ,nDay ,totalPrice ,dStart ,dEnd ,dActive)VALUES('{$user}',0,'{$countryID}','NULL','NULL',0,'NULL','NULL',1)") or die(pg_errormessage());
         // $seqcode ='001';
         // $result = pg_query($dbconn,"SELECT question FROM sequents WHERE seqcode = '$seqcode'");
         // while ($row = pg_fetch_object($result)) {
@@ -422,14 +422,30 @@ if(!is_null($events)){
                         }elseif(is_string($userMessage) !== false &&  $seqcode == '009'){
                             if(is_numeric($userMessage) !== false){
                                 $case = 1;
-                                $fullname = $userMessage;
-                                $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
+                                // $fullname = $userMessage;
+                                // $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
                                 // $this->register_insert($user,$fullname);
                                 $seqcode = '010';
                                 $nextseqcode = '000';
                                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                                // $question = $this->sequents_question($seqcode);
-                                // $userMessage =  $question;
+                                $question = $this->sequents_question($seqcode);
+                                $userMessage =  $question;
+                            }else{
+                                $case = 1;
+                                $userMessage = 'ฉันคิดว่าคุณพิมพ์ผิดนะ กรุณาพิมพ์ใหม่';
+                            }
+
+                        }elseif(is_string($userMessage) !== false &&  $seqcode == '009'){
+                            if(is_numeric($userMessage) !== false){
+                                $case = 1;
+                                // $fullname = $userMessage;
+                                // $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
+                                // $this->register_insert($user,$fullname);
+                                $seqcode = '010';
+                                $nextseqcode = '000';
+                                $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                                $question = $this->sequents_question($seqcode);
+                                $userMessage =  $question;
                             }else{
                                 $case = 1;
                                 $userMessage = 'ฉันคิดว่าคุณพิมพ์ผิดนะ กรุณาพิมพ์ใหม่';
