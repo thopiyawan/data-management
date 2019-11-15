@@ -145,7 +145,9 @@ class GetMessageController extends Controller
         $user = '111'; 
         $countryID = 1;
         // return $register_update;
-        $register_orders = pg_exec($dbconn, "INSERT INTO orders(userID,typeID,countryID  ,nVisit ,nDay ,totalPrice ,dStart ,dEnd ,dActive)VALUES('{$user}',0,'{$countryID}','NULL','NULL',0,'NULL','NULL',1)") or die(pg_errormessage());
+        $result = pg_query($dbconn,"SELECT countryID FROM country WHERE countryName = $country_name");
+        $re = pg_fetch_all($result);
+        print $re;
         // $seqcode ='001';
         // $result = pg_query($dbconn,"SELECT question FROM sequents WHERE seqcode = '$seqcode'");
         // while ($row = pg_fetch_object($result)) {
