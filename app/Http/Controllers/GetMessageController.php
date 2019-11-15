@@ -436,21 +436,17 @@ if(!is_null($events)){
                             }
 
                         }elseif(is_string($userMessage) !== false &&  $seqcode == '009'){
-                            if(is_numeric($userMessage) !== false){
+                            // if(is_numeric($userMessage) !== false){
                                 $case = 1;
                                 // $fullname = $userMessage;
-                                // $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
+                                $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
                                 // $this->register_insert($user,$fullname);
                                 $seqcode = '010';
                                 $nextseqcode = '000';
                                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                                $question = $this->sequents_question($seqcode);
-                                $userMessage =  $question;
-                            }else{
-                                $case = 1;
-                                $userMessage = 'ฉันคิดว่าคุณพิมพ์ผิดนะ กรุณาพิมพ์ใหม่';
-                            }
-                           
+                                // $question = $this->sequents_question($seqcode);
+                                // $userMessage =  $question;
+                            
                         }else{
                             $case = 1;
                             $userMessage = '**เมนู';
@@ -758,7 +754,7 @@ if(!is_null($events)){
     {          
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-        $register_orders = pg_exec($dbconn, "INSERT INTO orders(userID,countryID  ,nVisit ,nDay ,totalPrice ,dStart ,dEnd ,dActive)VALUES('{$user}','{$countryID}','NULL','NULL',0,'NULL','NULL',1)") or die(pg_errormessage());
+        $register_orders = pg_exec($dbconn, "INSERT INTO orders(userID,typeID,countryID  ,nVisit ,nDay ,totalPrice ,dStart ,dEnd ,dActive)VALUES('{$user}',0,'{$countryID}','NULL','NULL',0,'NULL','NULL',1)") or die(pg_errormessage());
         // $update_sequentsteps = pg_exec($dbconn, "UPDATE sequentsteps SET  seqcode = '{$seqcode}', nextseqcode = '{$nextseqcode}' WHERE sender_id = '{$user}' ") or die(pg_errormessage());  
         return $register_orders;
     }
@@ -798,6 +794,28 @@ if(!is_null($events)){
                     $register_update = pg_exec($dbconn, "UPDATE users SET  dactive = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
                     return $register_update;
                 break;
+
+            case '006':
+                    $int = (int)$val;
+                    $register_update = pg_exec($dbconn, "UPDATE users SET  age = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    return $register_update;
+                break;
+            case '007':
+                    $register_update = pg_exec($dbconn, "UPDATE users SET  email = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    return $register_update;
+                break;
+            case '008':
+                    $register_update = pg_exec($dbconn, "UPDATE users SET  tel = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    return $register_update;
+                break;
+            case '009':
+                    $register_update = pg_exec($dbconn, "UPDATE users SET  dactive = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    return $register_update;
+                break;
+            case '010':
+                    $register_update = pg_exec($dbconn, "UPDATE users SET  dactive = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    return $register_update;
+            break;
 
         }
     }
