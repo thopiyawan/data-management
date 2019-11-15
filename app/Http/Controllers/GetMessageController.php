@@ -143,9 +143,9 @@ class GetMessageController extends Controller
         // dd($re[0]['countryname']);
         // print(pg_fetch_all($result));
         // $user = '111'; 
-        // $countryID = "China";
+        $countryID = "China";
         // return $register_update;
-        $result = pg_query($dbconn,"SELECT countryid FROM country WHERE countryname = 'China'");
+        $result = pg_query($dbconn,"SELECT countryid FROM country WHERE countryname =     $countryID ");
         // print($result);
         while ($row = pg_fetch_object($result)) {
             print  $row->countryid;
@@ -397,6 +397,8 @@ if(!is_null($events)){
                             // $userMessage = 'ขอทราบEmailค่ะ';
                             $countryID = $this->country_select_id($country_name);
                             $this->register_orders($user,$countryID);
+
+
                             $seqcode = '007';
                             $nextseqcode = '008';
                             $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
