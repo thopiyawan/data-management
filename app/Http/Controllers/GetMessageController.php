@@ -411,21 +411,18 @@ if(!is_null($events)){
                     //ขอทราบวันออกเดินทางจากประเทศไทยค่ะ?
                         }elseif(strpos($userMessage, 'Params=') !== false ){
                             //is_string($userMessage) !== false &&  $seqcode == '007' ||
-                            //$userMessage = json_encode($userMessage);
-                            $userMessage = explode("=", $userMessage, 2);
-                            // $val= $arr[2];
-
-
-                            $case = 1;
-                            // $this->register_update($user,$val,$seqcode);
+                            $pieces = explode("=", $userMessage);
+                            $val  = str_replace("","",$pieces[1]);
+                            $case = 4;
+                            $this->register_update($user,$val,$seqcode);
                             // $fullname = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
                             // $this->register_insert($user,$fullname);
-                            // $seqcode = '008';
-                            // $nextseqcode = '009';
-                            // $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                            // $question = $this->sequents_question($seqcode);
-                            // $userMessage =  $question;
+                            $seqcode = '008';
+                            $nextseqcode = '009';
+                            $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                            $question = $this->sequents_question($seqcode);
+                            $userMessage =  $question;
                     //ขอทราบวันกลับค่ะ?
                         }elseif(strpos($userMessage, 'Params1=') !== false ){
                             //is_string($userMessage) !== false &&  $seqcode == '008' ||
