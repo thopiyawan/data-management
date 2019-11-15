@@ -122,8 +122,8 @@ class GetMessageController extends Controller
 
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-        $user = 'U2dc636d2cd052e82c29f5284e00f69b9';
-        $fullname = 'ploy';
+        // $user = 'U2dc636d2cd052e82c29f5284e00f69b9';
+        // $fullname = 'ploy';
         // $result = pg_query($dbconn,"SELECT seqcode FROM sequentsteps WHERE sender_id = '5555'");
         //$register_insert = pg_exec($dbconn, "INSERT INTO users(lineid,fullname,email,tel,dActive)VALUES('{$user}','{$fullname}','NULL','NULL','1')") or die(pg_errormessage());
         // $insert_sequentsteps = pg_exec($dbconn, "INSERT INTO sequentsteps(sender_id,seqcode,answer,nextseqcode,status)VALUES('1','1','1','1','1')") or die(pg_errormessage());
@@ -138,12 +138,14 @@ class GetMessageController extends Controller
 
         // $val = 23;
         // $register_update = pg_exec($dbconn, "UPDATE users SET  age = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
-        $result = pg_query($dbconn,"SELECT countryName FROM country ");
-        $re = pg_fetch_all($result);
-        dd($re[0]['countryname']);
+        // $result = pg_query($dbconn,"SELECT countryName FROM country ");
+        // $re = pg_fetch_all($result);
+        // dd($re[0]['countryname']);
         // print(pg_fetch_all($result));
+        $user = '111'; 
+        $countryID = 1;
         // return $register_update;
-
+        $register_orders = pg_exec($dbconn, "INSERT INTO orders(userID,countryID  ,nVisit ,nDay ,totalPrice ,dStart ,dEnd ,dActive)VALUES('{$user}','{$countryID}','NULL','NULL',0,'NULL','NULL',1)") or die(pg_errormessage());
         // $seqcode ='001';
         // $result = pg_query($dbconn,"SELECT question FROM sequents WHERE seqcode = '$seqcode'");
         // while ($row = pg_fetch_object($result)) {
@@ -393,7 +395,8 @@ if(!is_null($events)){
                             $question = $this->sequents_question($seqcode);
                             $userMessage =  $question;
                     //ขอทราบวันออกเดินทางจากประเทศไทยค่ะ?
-                        }elseif(is_string($userMessage) !== false &&  $seqcode == '007' ||strpos($userMessage, 'Params=') !== false ){
+                        }elseif(strpos($userMessage, 'Params=') !== false ){
+                            //is_string($userMessage) !== false &&  $seqcode == '007' ||
                             $case = 4;
                             $fullname = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
@@ -404,7 +407,8 @@ if(!is_null($events)){
                             $question = $this->sequents_question($seqcode);
                             $userMessage =  $question;
                     //ขอทราบวันกลับค่ะ?
-                        }elseif(is_string($userMessage) !== false &&  $seqcode == '008' ||strpos($userMessage, 'Params1=') !== false ){
+                        }elseif(strpos($userMessage, 'Params1=') !== false ){
+                            //is_string($userMessage) !== false &&  $seqcode == '008' ||
                             $case = 1;
                             $fullname = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
@@ -733,6 +737,14 @@ if(!is_null($events)){
                 $result = pg_query($dbconn,"DELETE FROM sequentsteps where sender_id = '{$user}' ");
                 $result = pg_query($dbconn,"DELETE FROM users where lineid = '{$user}' ");
                 return $result;
+    }
+    public function register_orders($user,$countryID)
+    {          
+        $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string);
+        $register_orders = pg_exec($dbconn, "INSERT INTO orders(userID,countryID  ,nVisit ,nDay ,totalPrice ,dStart ,dEnd ,dActive)VALUES('{$user}','{$countryID}','NULL','NULL',0,'NULL','NULL',1)") or die(pg_errormessage());
+        // $update_sequentsteps = pg_exec($dbconn, "UPDATE sequentsteps SET  seqcode = '{$seqcode}', nextseqcode = '{$nextseqcode}' WHERE sender_id = '{$user}' ") or die(pg_errormessage());  
+        return $register_orders;
     }
     // public function register_update($user,$seqcode,$nextseqcode)
     // {          
