@@ -790,7 +790,7 @@ if(!is_null($events)){
     {          
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-        $register_insert = pg_exec($dbconn, "INSERT INTO users(lineid,fullname,age,email,tel,dActive)VALUES('{$user}','{$fullname}',0,'NULL','NULL','1')") or die(pg_errormessage());
+        $register_insert = pg_exec($dbconn, "INSERT INTO users(lineid,fullname,age,email,tel,dActive)VALUES('{$user}','{$fullname}',0,'NULL','NULL','0')") or die(pg_errormessage());
         // $update_sequentsteps = pg_exec($dbconn, "UPDATE sequentsteps SET  seqcode = '{$seqcode}', nextseqcode = '{$nextseqcode}' WHERE sender_id = '{$user}' ") or die(pg_errormessage());  
         return $register_insert;
     }
@@ -815,7 +815,7 @@ if(!is_null($events)){
     {          
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-        $register_orders = pg_exec($dbconn, "INSERT INTO orders(userID,typeID,countryID  ,nVisit ,nDay ,totalPrice ,dStart ,dEnd ,dActive)VALUES('{$user}',0,'{$countryID}','NULL','NULL',0,'NULL','NULL',1)") or die(pg_errormessage());
+        $register_orders = pg_exec($dbconn, "INSERT INTO orders(userID,typeID,countryID  ,nVisit ,nDay ,totalPrice ,dStart ,dEnd ,dActive)VALUES('{$user}',0,'{$countryID}','NULL','NULL',0,'NULL','NULL',0)") or die(pg_errormessage());
         // $update_sequentsteps = pg_exec($dbconn, "UPDATE sequentsteps SET  seqcode = '{$seqcode}', nextseqcode = '{$nextseqcode}' WHERE sender_id = '{$user}' ") or die(pg_errormessage());  
         return $register_orders;
     }
