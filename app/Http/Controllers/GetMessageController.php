@@ -521,8 +521,8 @@ if(!is_null($events)){
                             $case = 1;
                             $userMessage = 'ยกเลิกการเลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
                             }elseif($userMessage =='ประวัติการเดินทาง'){
-                            $case = 1;
-                            $userMessage = 'ยกเลิกการเลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
+                            $case = 7;
+                            $userMessage = 'ค่ะ';
                                 
                             
                         }else{
