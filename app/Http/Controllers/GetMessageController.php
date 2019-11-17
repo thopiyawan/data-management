@@ -156,6 +156,7 @@ class GetMessageController extends Controller
         $startdate = $this->order_select($user);
     
         $startd = $startdate->dstart;  
+        $startd = json_encode($startd);
         $val = '2019-11-15';
         $datediff = $val - $startd;
         $val1 = round($datediff / (60 * 60 * 24));
