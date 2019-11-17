@@ -520,6 +520,9 @@ if(!is_null($events)){
                             }elseif($userMessage =='Cancal'){
                             $case = 1;
                             $userMessage = 'ยกเลิกการเลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
+                            }elseif($userMessage =='ประวัติการเดินทาง'){
+                            $case = 1;
+                            $userMessage = 'ยกเลิกการเลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
                                 
                             
                         }else{
@@ -1026,6 +1029,37 @@ if(!is_null($events)){
 
                     break;
 
+                    case 7 :
+
+                    $foodmenus = (new SqlController)->foodmenu($userMessage);
+                    $order10 = $this->order_select_10;
+
+                    $columnTemplateBuilders = array();
+                    foreach ($order10 as $order10s) {
+    
+                        $columnTemplateBuilder = new CarouselColumnTemplateBuilder(
+                                      $order10s['nvisit'], 
+                                      $order10s['nvisit'],
+                                      'https://data-manage.herokuapp.com/plan/plan1.JPG',
+                                      [
+                                                new PostbackTemplateActionBuilder(
+                                                'คำแนะนำ', // ข้อความแสดงในปุ่ม
+                                                http_build_query(array(
+                                                    'action'=>'foodmenu',
+                                                    'item'=> 'MENUfood '.$order10s['id']
+                                                )) //,// ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
+                                               //'คำแนะนำ'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                            ),      
+                                      ]
+                        );
+                        array_push($columnTemplateBuilders, $columnTemplateBuilder);
+                    }
+    
+                    $carouselTemplateBuilder = new CarouselTemplateBuilder($columnTemplateBuilders);
+                    $textMessageBuilder = new TemplateMessageBuilder('รายการอาหาร', $carouselTemplateBuilder);
+    
+                    break;
+
 
 
         
@@ -1053,6 +1087,15 @@ if(!is_null($events)){
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
         $result = pg_query($dbconn,"SELECT * FROM orders WHERE userid = '{$user}' ORDER BY id DESC limit 1");
+                while ($row = pg_fetch_object($result)) {
+                   return $row;
+                } 
+    }
+    public function order_select_10($user)
+    {
+        $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string);
+        $result = pg_query($dbconn,"SELECT * FROM orders WHERE userid = '{$user}' and dactive = 1 ORDER BY id DESC limit 10");
                 while ($row = pg_fetch_object($result)) {
                    return $row;
                 } 
