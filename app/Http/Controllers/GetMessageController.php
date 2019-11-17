@@ -492,9 +492,11 @@ if(!is_null($events)){
                             
 
                                 $se = $this->order_select($user);
-                                $nVisit = $se->nVisit;  
-                                $planid = $val;
+                                $nVisit = $se->nvisit;  
+                                $nVisit = (int)$nVisit;
+                                $planid = 1;
                                 $price = $this->plan_select($planid);
+                                $price = (int)$price;
                                 $val = $price*$nVisit;
                                 $seqcode = '012';
                                 $this->register_update($user,$val,$seqcode);
