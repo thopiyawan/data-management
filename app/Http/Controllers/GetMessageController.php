@@ -518,11 +518,11 @@ if(!is_null($events)){
                         }
 
 
-                        return $this->replymessage($replyToken,$userMessage,$case);
+                        return $this->replymessage($replyToken,$userMessage,$case,$user);
 
                         
     }
-    public function replymessage($replyToken,$userMessage,$case)
+    public function replymessage($replyToken,$userMessage,$case,$user)
     {
         $httpClient = new CurlHTTPClient('+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=');
         $bot = new LINEBot($httpClient, array('channelSecret' => '572a7adea7a0959295e21cb626dae011'));
@@ -784,6 +784,10 @@ if(!is_null($events)){
 
                     break;
                     case 6:
+
+                    $order = $this->order_select($user);
+                    $country_id = $order->countryid; 
+                    $country = $this->country_select_name($country_id);
                     $textMessageBuilder = array (
                         'type' => 'flex',
                         'altText' => 'Flex Message',
@@ -812,32 +816,8 @@ if(!is_null($events)){
                                 'margin' => 'lg',
                                 'contents' => 
                                 array (
+                                  
                                   0 => 
-                                  array (
-                                    'type' => 'box',
-                                    'layout' => 'baseline',
-                                    'contents' => 
-                                    array (
-                                      0 => 
-                                      array (
-                                        'type' => 'text',
-                                        'text' => 'name',
-                                        'flex' => 1,
-                                        'size' => 'sm',
-                                        'color' => '#AAAAAA',
-                                      ),
-                                      1 => 
-                                      array (
-                                        'type' => 'text',
-                                        'text' => 'XXX XXX',
-                                        'flex' => 5,
-                                        'size' => 'sm',
-                                        'color' => '#666666',
-                                        'wrap' => true,
-                                      ),
-                                    ),
-                                  ),
-                                  1 => 
                                   array (
                                     'type' => 'box',
                                     'layout' => 'baseline',
@@ -855,7 +835,7 @@ if(!is_null($events)){
                                       1 => 
                                       array (
                                         'type' => 'text',
-                                        'text' => 'Taiwan',
+                                        'text' => $country,
                                         'flex' => 5,
                                         'size' => 'sm',
                                         'color' => '#666666',
@@ -863,7 +843,7 @@ if(!is_null($events)){
                                       ),
                                     ),
                                   ),
-                                  2 => 
+                                  1 => 
                                   array (
                                     'type' => 'box',
                                     'layout' => 'baseline',
@@ -890,7 +870,7 @@ if(!is_null($events)){
                                       ),
                                     ),
                                   ),
-                                  3 => 
+                                  2 => 
                                   array (
                                     'type' => 'box',
                                     'layout' => 'horizontal',
@@ -913,7 +893,7 @@ if(!is_null($events)){
                                       ),
                                     ),
                                   ),
-                                  4 => 
+                                  3 => 
                                   array (
                                     'type' => 'box',
                                     'layout' => 'horizontal',
@@ -933,7 +913,7 @@ if(!is_null($events)){
                                       ),
                                     ),
                                   ),
-                                  5 => 
+                                  4 => 
                                   array (
                                     'type' => 'box',
                                     'layout' => 'horizontal',
@@ -1078,6 +1058,16 @@ if(!is_null($events)){
 
         while ($row = pg_fetch_object($result)) {
             return  $row->countryid;
+        }  
+    }
+    public function country_select_name($country_id)
+    {
+        $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string);
+        $result = pg_query($dbconn,"SELECT countryname FROM country WHERE countryid ='{$country_id}'");
+
+        while ($row = pg_fetch_object($result)) {
+            return  $row->countryname;
         }  
     }
     public function update_sequentsteps($user,$seqcode,$nextseqcode)
