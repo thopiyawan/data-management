@@ -831,7 +831,8 @@ if(!is_null($events)){
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
      
-        $orderid = $this->order_select($user);
+        $orderid1 = $this->order_select($user);
+        $orderid = $orderid1->id;
         switch ($seqcode) {
 
             case '001':
