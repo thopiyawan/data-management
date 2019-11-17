@@ -729,6 +729,37 @@ if(!is_null($events)){
                     curl_close($ch);
                                        
                         break;
+
+                        case 5:
+                        $replyData = new TemplateMessageBuilder('Image Carousel',
+                        new ImageCarouselTemplateBuilder(
+                            array(
+                                new ImageCarouselColumnTemplateBuilder(
+                                    'https://data-manage.herokuapp.com/plan/plan1.JPG',
+                                    new MessageTemplateActionBuilder(
+                                        'แผน 1', // ข้อความแสดงในปุ่ม
+                                        '1'
+                                    )
+                                ),
+                                new ImageCarouselColumnTemplateBuilder(
+                                    'https://data-manage.herokuapp.com/plan/plan2.JPG',
+                                    new MessageTemplateActionBuilder(
+                                        'แผน 2', // ข้อความแสดงในปุ่ม
+                                        '2'
+                                    )
+                                ),
+                                new ImageCarouselColumnTemplateBuilder(
+                                    'https://data-manage.herokuapp.com/plan/plan3.JPG',
+                                    new MessageTemplateActionBuilder(
+                                        'แผน 3', // ข้อความแสดงในปุ่ม
+                                        '3'
+                                    )
+                                )                                          
+                            )
+                        )
+                    );
+
+                    break;
         
             }
             $response = $bot->replyMessage($replyToken,$textMessageBuilder); 
