@@ -158,7 +158,8 @@ class GetMessageController extends Controller
         $startd = $startdate->dstart;  
         $val = '2019-11-15';
         $datediff = $val - $startd;
-        $val = round($datediff / (60 * 60 * 24));
+        $val1 = round($datediff / (60 * 60 * 24));
+        print($val1);
         // $re = pg_fetch_all($result);
         //  $result ;
         // $seqcode ='001';
