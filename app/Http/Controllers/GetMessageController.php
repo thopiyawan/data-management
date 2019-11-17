@@ -450,7 +450,7 @@ if(!is_null($events)){
                             $this->register_update($user,$val,$seqcode);
                             
                             $case = 1;
-                            $fullname = $userMessage;
+                            // $fullname = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
                             // $this->register_insert($user,$fullname);
                             $seqcode = '009';
@@ -462,6 +462,8 @@ if(!is_null($events)){
                         }elseif(is_string($userMessage) !== false &&  $seqcode == '009'){
                             if(is_numeric($userMessage) !== false){
                                 $case = 1;
+                                $val = $userMessage;
+                                $this->register_update($user,$val,$seqcode);
                                 // $fullname = $userMessage;
                                 // $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
                                 // $this->register_insert($user,$fullname);
