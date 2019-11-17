@@ -411,6 +411,7 @@ if(!is_null($events)){
                     //ขอทราบวันออกเดินทางจากประเทศไทยค่ะ?
                         }elseif(strpos($userMessage, 'Params=') !== false ){
                             //is_string($userMessage) !== false &&  $seqcode == '007' ||
+                            // $seqcode = '007';
                             $pieces = explode("=", $userMessage);
                             $val  = str_replace("","",$pieces[1]);
                             $case = 4;
