@@ -731,28 +731,28 @@ if(!is_null($events)){
                         break;
 
                         case 5:
-                        $replyData = new TemplateMessageBuilder('Image Carousel',
+                        $textMessageBuilder = new TemplateMessageBuilder('Image Carousel',
                         new ImageCarouselTemplateBuilder(
                             array(
                                 new ImageCarouselColumnTemplateBuilder(
                                     'https://data-manage.herokuapp.com/plan/plan1.JPG',
                                     new MessageTemplateActionBuilder(
-                                        'Uri Template', // ข้อความแสดงในปุ่ม
-                                        'https://www.ninenik.com'
+                                        'แผน 1', // ข้อความแสดงในปุ่ม
+                                        '1'
                                     )
                                 ),
                                 new ImageCarouselColumnTemplateBuilder(
                                     'https://data-manage.herokuapp.com/plan/plan2.JPG',
                                     new MessageTemplateActionBuilder(
-                                        'Uri Template', // ข้อความแสดงในปุ่ม
-                                        'https://www.ninenik.com'
+                                        'แผน 2', // ข้อความแสดงในปุ่ม
+                                        '2'
                                     )
                                 ),
                                 new ImageCarouselColumnTemplateBuilder(
                                     'https://data-manage.herokuapp.com/plan/plan3.JPG',
                                     new MessageTemplateActionBuilder(
-                                        'Uri Template', // ข้อความแสดงในปุ่ม
-                                        'https://www.ninenik.com'
+                                        'แผน 3', // ข้อความแสดงในปุ่ม
+                                        '3'
                                     )
                                 )                                          
                             )
