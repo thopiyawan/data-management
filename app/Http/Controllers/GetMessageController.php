@@ -790,10 +790,12 @@ if(!is_null($events)){
                     $country = $this->country_select_name($country_id);
 
                     //
-                    $date = $order->dstart.'-'. $order->dend;
-                    $date = json_encode($date);
+                    $date = $order->dstart.' TO '. $order->dend;
+                    // $date = json_encode($date);
                     /////
-                    $nvisit = $order->nvisit ;
+                    $nvisit = $order->nvisit;
+                    $nday = $order->nday;
+                    $totalprice  = $order->totalprice ;
                     $textMessageBuilder = array (
                         'type' => 'flex',
                         'altText' => 'Flex Message',
@@ -892,7 +894,7 @@ if(!is_null($events)){
                                       1 => 
                                       array (
                                         'type' => 'text',
-                                        'text' => $nvisit.'วัน',
+                                        'text' => $nday.'วัน',
                                         'size' => 'sm',
                                         'color' => '#666666',
                                         'wrap' => true,
@@ -914,7 +916,7 @@ if(!is_null($events)){
                                       1 => 
                                       array (
                                         'type' => 'text',
-                                        'text' =>  $nvisit.'คน',
+                                        'text' =>  $nvisit.' คน',
                                         'color' => '#666666',
                                       ),
                                     ),
@@ -936,7 +938,7 @@ if(!is_null($events)){
                                       1 => 
                                       array (
                                         'type' => 'text',
-                                        'text' => '1,355 บาท',
+                                        'text' =>  $totalprice.' บาท',
                                         'flex' => 5,
                                         'size' => 'sm',
                                         'color' => '#666666',
