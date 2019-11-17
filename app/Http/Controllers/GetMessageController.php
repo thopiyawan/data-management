@@ -155,7 +155,7 @@ class GetMessageController extends Controller
         //$register_update = pg_exec($dbconn, "UPDATE orders SET  dStart = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
         $startdate = $this->order_select($user);
     
-        print($startdate);  
+        print($startdate->dstart);  
         // $re = pg_fetch_all($result);
         //  $result ;
         // $seqcode ='001';
@@ -747,9 +747,9 @@ if(!is_null($events)){
     {
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-        $result = pg_query($dbconn,"SELECT * FROM orders WHERE userid = '{$user} ORDER BY id DESC limit 1'");
+        $result = pg_query($dbconn,"SELECT * FROM orders WHERE userid = '{$user}' ORDER BY id DESC limit 1");
                 while ($row = pg_fetch_object($result)) {
-                   return $row->dStart;
+                   return $row;
                 } 
     }
     public function country_select()
