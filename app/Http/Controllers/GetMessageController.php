@@ -482,12 +482,24 @@ if(!is_null($events)){
                                 $case = 1;
                                 $val = $userMessage;
                                 $this->register_update($user,$val,$seqcode);
+                            
+
+                                $startdate = $this->order_select($user);
+                                $nVisit = $startdate->nVisit;  
+                                $planid = $val;
+                                $price = $this->plan_select($planid);
+                                $val = $price*$nVisit;
+                                $seqcode = '012';
+                                $this->register_update($user,$val,$seqcode);
                                 // $fullname = $userMessage;
                                 $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
                                 // $this->register_insert($user,$fullname);
                                 $seqcode = '000';
                                 $nextseqcode = '000';
                                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                                $seqcode = '013';
+                                $val = 1;
+                                $this->register_update($user,$val,$seqcode);
                                 // $question = $this->sequents_question($seqcode);
                                 // $userMessage =  $question;
                             
@@ -859,6 +871,18 @@ if(!is_null($events)){
     //     $update_sequentsteps = pg_exec($dbconn, "UPDATE users SET  seqcode = '{$seqcode}', nextseqcode = '{$nextseqcode}' WHERE sender_id = '{$user}' ") or die(pg_errormessage());  
     //     return $update_sequentsteps;
     // }
+    public function plan_select($planid)
+    {
+        $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string);
+        $result = pg_query($dbconn,"SELECT price FROM typeTravel WHERE id = '{$planid}' ");
+        while ($row = pg_fetch_object($result)) {
+            return  $row->price;
+         }  
+                // while ($row = pg_fetch_object($result)) {
+                //    return $row->seqcode;
+                // } 
+    }
     public function register_update($user,$val,$seqcode)
     {          
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
@@ -919,6 +943,10 @@ if(!is_null($events)){
                     return $register_update;
             case '012':
                     $register_update = pg_exec($dbconn, "UPDATE orders SET  totalPrice = '{$val}' WHERE userID = '{$user}' and  id =  '{$orderid}' ") or die(pg_errormessage());  
+                    return $register_update;
+            break;
+            case '013':
+                    $register_update = pg_exec($dbconn, "UPDATE orders SET  dActive  = '{$val}' WHERE userID = '{$user}' and  id =  '{$orderid}' ") or die(pg_errormessage());  
                     return $register_update;
             break;
 
