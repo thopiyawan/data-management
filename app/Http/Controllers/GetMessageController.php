@@ -441,8 +441,10 @@ if(!is_null($events)){
                             
                             $startdate = $this->order_select($user);
                             $startd = $startdate->dstart;  
-                            $datediff = $val - $startd;
-                            $val = round($datediff / (60 * 60 * 24));
+                            $startd1 = strtotime($startd);
+                            $endd = strtotime($val);
+                            $datediff = $endd - $startd1;
+                            $val = round(($datediff / (60 * 60 * 24))+1);
                             $case = 4;
                             $seqcode = '011';
                             $this->register_update($user,$val,$seqcode);
