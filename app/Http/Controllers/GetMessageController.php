@@ -749,7 +749,7 @@ if(!is_null($events)){
         $dbconn = pg_pconnect($conn_string);
         $result = pg_query($dbconn,"SELECT * FROM orders WHERE userid = '{$user} ORDER BY id DESC limit 1'");
                 while ($row = pg_fetch_object($result)) {
-                   return $row->dstart;
+                   return $row->dStart;
                 } 
     }
     public function country_select()
