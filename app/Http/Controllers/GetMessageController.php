@@ -153,14 +153,19 @@ class GetMessageController extends Controller
         $user = 'U2dc636d2cd052e82c29f5284e00f69b9';
        // $val = '12';
         //$register_update = pg_exec($dbconn, "UPDATE orders SET  dStart = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
-        $startdate = $this->order_select($user);
+        // $startdate = $this->order_select($user);
     
-        $startd = $startdate->dstart;  
-        $startd1 = strtotime($startd);
-        $val = strtotime("2019-11-20");
-        $datediff = $val - $startd1;
-        $val1 = round(($datediff / (60 * 60 * 24))+1);
-        print($val1);
+        // $startd = $startdate->dstart;  
+        // $startd1 = strtotime($startd);
+        // $val = strtotime("2019-11-20");
+        // $datediff = $val - $startd1;
+        // $val1 = round(($datediff / (60 * 60 * 24))+1);
+        $se = $this->order_select($user);
+        $nVisit = $se->nVisit;  
+        $planid = $val;
+        $price = $this->plan_select($planid);
+        $val = $price*$nVisit;
+        print($val);
         // $re = pg_fetch_all($result);
         //  $result ;
         // $seqcode ='001';
@@ -484,8 +489,8 @@ if(!is_null($events)){
                                 $this->register_update($user,$val,$seqcode);
                             
 
-                                $startdate = $this->order_select($user);
-                                $nVisit = $startdate->nVisit;  
+                                $se = $this->order_select($user);
+                                $nVisit = $se->nVisit;  
                                 $planid = $val;
                                 $price = $this->plan_select($planid);
                                 $val = $price*$nVisit;
