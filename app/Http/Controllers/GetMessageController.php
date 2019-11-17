@@ -151,9 +151,11 @@ class GetMessageController extends Controller
         //     print  $row->countryid;
         // }  
         $user = 'U2dc636d2cd052e82c29f5284e00f69b9';
-        $val = '12';
-        $register_update = pg_exec($dbconn, "UPDATE orders SET  dStart = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
-                  
+       // $val = '12';
+        //$register_update = pg_exec($dbconn, "UPDATE orders SET  dStart = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
+        $startdate = $this->order_select($user);
+        $startd =$startdate->dStart; 
+        print($startd);  
         // $re = pg_fetch_all($result);
         //  $result ;
         // $seqcode ='001';
