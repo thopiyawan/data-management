@@ -435,16 +435,13 @@ if(!is_null($events)){
                             $this->register_update($user,$val,$seqcode);
                             
                             $startdate = $this->order_select($user);
-                            $startd =$startdate->dStart;
+                            $startd = $startdate->dstart;  
                             $datediff = $val - $startd;
                             $val = round($datediff / (60 * 60 * 24));
                             $case = 4;
                             $seqcode = '011';
                             $this->register_update($user,$val,$seqcode);
                             
-
-
-
                             $case = 1;
                             $fullname = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
