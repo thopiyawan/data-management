@@ -155,7 +155,7 @@ class GetMessageController extends Controller
         //$register_update = pg_exec($dbconn, "UPDATE orders SET  dStart = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
         $startdate = $this->order_select($user);
     
-        print($startdate);  
+        dd($startdate);  
         // $re = pg_fetch_all($result);
         //  $result ;
         // $seqcode ='001';
