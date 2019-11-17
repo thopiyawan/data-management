@@ -790,8 +790,7 @@ if(!is_null($events)){
                     $country = $this->country_select_name($country_id);
 
                     //
-                    $date = $order->coudstart.'-'. $order->dend;
-                    $date  = json_encode($date);
+                    $date = $order->coudstart;
                     /////
                     $nvisit = $order->nvisit ;
                     $textMessageBuilder = array (
@@ -867,7 +866,7 @@ if(!is_null($events)){
                                       1 => 
                                       array (
                                         'type' => 'text',
-                                        'text' => '$date',
+                                        'text' => $date,
                                         'flex' => 5,
                                         'size' => 'sm',
                                         'align' => 'start',
