@@ -461,7 +461,7 @@ if(!is_null($events)){
                     //ขอทราบจำนวนผู้โดยสารค่ะ'
                         }elseif(is_string($userMessage) !== false &&  $seqcode == '009'){
                             if(is_numeric($userMessage) !== false){
-                                $case = 1;
+                                $case = 5;
                                 $val = $userMessage;
                                 $this->register_update($user,$val,$seqcode);
                                 // $fullname = $userMessage;
