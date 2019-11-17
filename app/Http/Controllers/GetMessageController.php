@@ -486,7 +486,7 @@ if(!is_null($events)){
 
                         }elseif(is_string($userMessage) !== false &&  $seqcode == '010'){
                             // if(is_numeric($userMessage) !== false){
-                                $case = 1;
+                                $case = 6;
                                 $val = $userMessage;
                                 $this->register_update($user,$val,$seqcode);
                             
@@ -1012,8 +1012,8 @@ if(!is_null($events)){
                      'replyToken' => $replyToken,
                      'messages' => [$textMessageBuilder],
                     ];
-                    $access_token = '9tw2+DpBM3qfhPIGCs+eXDbZs1BPXQMUpWguIvIz7/cTz7dC8brS7HePUqb6lHq9oaDzmp1AY5CfsgFTIinxzxIYViz+chHSXWsxZdQb5AzwkeuPVfaozL+6kcgGEem5C6tkChIjDC0Pp3idEwIBEAdB04t89/1O/w1cDnyilFU=';
-                    
+                    $access_token = '+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=';
+        
                     $post = json_encode($data);
                     $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
                     $ch = curl_init($url);
@@ -1025,17 +1025,6 @@ if(!is_null($events)){
                     $result = curl_exec($ch);
                     curl_close($ch);
                     echo $result . "\r\n";
-
-
-
-
-
-
-
-
-
-
-
 
                     break;
 
