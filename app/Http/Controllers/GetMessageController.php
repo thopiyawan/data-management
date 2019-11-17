@@ -162,7 +162,7 @@ class GetMessageController extends Controller
         // $val1 = round(($datediff / (60 * 60 * 24))+1);
         $se = $this->order_select($user);
         $nVisit = $se->nVisit;  
-        $planid = $val;
+        $planid = 1;
         $price = $this->plan_select($planid);
         $val = $price*$nVisit;
         print($val);
