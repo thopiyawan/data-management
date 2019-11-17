@@ -942,6 +942,7 @@ if(!is_null($events)){
                     $register_update = pg_exec($dbconn, "UPDATE orders SET  nDay  = '{$val}' WHERE userID = '{$user}'  and  id =  '{$orderid}' ") or die(pg_errormessage());  
                     return $register_update;
             case '012':
+                    $int = (float)$val;
                     $register_update = pg_exec($dbconn, "UPDATE orders SET  totalPrice = '{$val}' WHERE userID = '{$user}' and  id =  '{$orderid}' ") or die(pg_errormessage());  
                     return $register_update;
             break;
