@@ -792,6 +792,7 @@ if(!is_null($events)){
                     //
                     $date = $order->coudstart.'-'. $order->dend ;
                     /////
+                    $nvisit = $order->nvisit ;
                     $textMessageBuilder = array (
                         'type' => 'flex',
                         'altText' => 'Flex Message',
@@ -865,7 +866,7 @@ if(!is_null($events)){
                                       1 => 
                                       array (
                                         'type' => 'text',
-                                        'text' => $date,
+                                        'text' => '$date',
                                         'flex' => 5,
                                         'size' => 'sm',
                                         'align' => 'start',
@@ -912,7 +913,7 @@ if(!is_null($events)){
                                       1 => 
                                       array (
                                         'type' => 'text',
-                                        'text' => '1 คน',
+                                        'text' =>  $nvisit.'คน',
                                         'color' => '#666666',
                                       ),
                                     ),
