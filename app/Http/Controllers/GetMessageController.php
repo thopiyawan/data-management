@@ -158,7 +158,6 @@ class GetMessageController extends Controller
         $startd = $startdate->dstart;  
         $startd1 = strtotime($startd);
         $val = strtotime("2019-11-15");
-        $val = '2019-11-15';
         $datediff = $val - $startd1;
         $val1 = round($datediff / (60 * 60 * 24));
         print($val1);
