@@ -431,8 +431,18 @@ if(!is_null($events)){
                             $val  = str_replace("","",$pieces[1]);
                             $case = 4;
                             $this->register_update($user,$val,$seqcode);
-
                             
+                            $startdate = $this->order_select($user);
+                            $startd =$startdate->dStart;
+                            $datediff = $val - $startd;
+                            $val = round($datediff / (60 * 60 * 24));
+                            $case = 4;
+                            $seqcode = '011';
+                            $this->register_update($user,$val,$seqcode);
+                            
+
+
+
                             $case = 1;
                             $fullname = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
@@ -731,6 +741,15 @@ if(!is_null($events)){
                    return $row->seqcode;
                 } 
     }
+    public function order_select($user)
+    {
+        $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string);
+        $result = pg_query($dbconn,"SELECT * FROM orders WHERE sender_id = '{$user} ORDER BY id DESC limit 1'");
+                while ($row = pg_fetch_object($result)) {
+                   return $row;
+                } 
+    }
     public function country_select()
     {
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
@@ -852,10 +871,11 @@ if(!is_null($events)){
                     return $register_update;
             break;
             case '011':
-                    $register_update = pg_exec($dbconn, "UPDATE orders SET  typeID = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
+                    $int = (int)$val;
+                    $register_update = pg_exec($dbconn, "UPDATE orders SET  nDay  = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
                     return $register_update;
             case '012':
-                    $register_update = pg_exec($dbconn, "UPDATE orders SET  typeID = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
+                    $register_update = pg_exec($dbconn, "UPDATE orders SET  totalPrice = '{$val}' WHERE userID = '{$user}' ") or die(pg_errormessage());  
                     return $register_update;
             break;
 
