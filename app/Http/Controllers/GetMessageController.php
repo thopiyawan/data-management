@@ -788,6 +788,10 @@ if(!is_null($events)){
                     $order = $this->order_select($user);
                     $country_id = $order->countryid; 
                     $country = $this->country_select_name($country_id);
+
+                    //
+                    $date = $order->coudstart.'-'. $order->dend ;
+                    /////
                     $textMessageBuilder = array (
                         'type' => 'flex',
                         'altText' => 'Flex Message',
@@ -861,7 +865,7 @@ if(!is_null($events)){
                                       1 => 
                                       array (
                                         'type' => 'text',
-                                        'text' => '23/10/2019 - 30/10/2019',
+                                        'text' => $date,
                                         'flex' => 5,
                                         'size' => 'sm',
                                         'align' => 'start',
