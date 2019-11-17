@@ -159,7 +159,7 @@ class GetMessageController extends Controller
         $startd1 = strtotime($startd);
         $val = strtotime("2019-11-20");
         $datediff = $val - $startd1;
-        $val1 = round($datediff / (60 * 60 * 24));
+        $val1 = round(($datediff / (60 * 60 * 24))+1);
         print($val1);
         // $re = pg_fetch_all($result);
         //  $result ;
