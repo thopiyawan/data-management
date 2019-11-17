@@ -501,16 +501,26 @@ if(!is_null($events)){
                                 $seqcode = '012';
                                 $this->register_update($user,$val,$seqcode);
                                 // $fullname = $userMessage;
-                                $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
+                          
                                 // $this->register_insert($user,$fullname);
                                 $seqcode = '000';
                                 $nextseqcode = '000';
                                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                                $seqcode = '013';
-                                $val = 1;
-                                $this->register_update($user,$val,$seqcode);
                                 // $question = $this->sequents_question($seqcode);
                                 // $userMessage =  $question;
+                            }elseif(userMessage =='confirm'){
+                                // if(is_numeric($userMessage) !== false){
+                                    $case = 1;
+                                    $userMessage = 'เลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
+                                    $seqcode = '013';
+                                    $val = 1;
+                                    $this->register_update($user,$val,$seqcode);
+                                    // $question = $this->sequents_question($seqcode);
+                                    // $userMessage =  $question;
+                            }elseif(userMessage =='cancal'){
+                            $case = 1;
+                            $userMessage = 'ยกเลิกการเลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
+                                
                             
                         }else{
                             $case = 1;
@@ -894,7 +904,7 @@ if(!is_null($events)){
                                       1 => 
                                       array (
                                         'type' => 'text',
-                                        'text' => $nday.'วัน',
+                                        'text' => $nday.' วัน',
                                         'size' => 'sm',
                                         'color' => '#666666',
                                         'wrap' => true,
