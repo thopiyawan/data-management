@@ -737,22 +737,22 @@ if(!is_null($events)){
                                 new ImageCarouselColumnTemplateBuilder(
                                     'https://data-manage.herokuapp.com/plan/plan1.JPG',
                                     new MessageTemplateActionBuilder(
-                                        'แผน 1', // ข้อความแสดงในปุ่ม
-                                        '1'
+                                        'Uri Template', // ข้อความแสดงในปุ่ม
+                                        'https://www.ninenik.com'
                                     )
                                 ),
                                 new ImageCarouselColumnTemplateBuilder(
                                     'https://data-manage.herokuapp.com/plan/plan2.JPG',
                                     new MessageTemplateActionBuilder(
-                                        'แผน 2', // ข้อความแสดงในปุ่ม
-                                        '2'
+                                        'Uri Template', // ข้อความแสดงในปุ่ม
+                                        'https://www.ninenik.com'
                                     )
                                 ),
                                 new ImageCarouselColumnTemplateBuilder(
                                     'https://data-manage.herokuapp.com/plan/plan3.JPG',
                                     new MessageTemplateActionBuilder(
-                                        'แผน 3', // ข้อความแสดงในปุ่ม
-                                        '3'
+                                        'Uri Template', // ข้อความแสดงในปุ่ม
+                                        'https://www.ninenik.com'
                                     )
                                 )                                          
                             )
