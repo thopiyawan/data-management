@@ -156,9 +156,10 @@ class GetMessageController extends Controller
         $startdate = $this->order_select($user);
     
         $startd = $startdate->dstart;  
-        $startd = json_encode($startd);
+        $startd1 = strtotime($startd);
+        $val = strtotime("2019-11-15");
         $val = '2019-11-15';
-        $datediff = $val - $startd;
+        $datediff = $val - $startd1;
         $val1 = round($datediff / (60 * 60 * 24));
         print($val1);
         // $re = pg_fetch_all($result);
