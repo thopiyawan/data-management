@@ -427,10 +427,12 @@ if(!is_null($events)){
                     //ขอทราบวันกลับค่ะ?
                         }elseif(strpos($userMessage, 'Params1=') !== false ){
                             //is_string($userMessage) !== false &&  $seqcode == '008' ||
-                            $arr = explode("=", $userMessage, 2);
-                            $val = $arr[2];
+                            $pieces = explode("=", $userMessage);
+                            $val  = str_replace("","",$pieces[1]);
+                            $case = 4;
                             $this->register_update($user,$val,$seqcode);
 
+                            
                             $case = 1;
                             $fullname = $userMessage;
                             // $userMessage = 'ขอทราบEmailค่ะ';
