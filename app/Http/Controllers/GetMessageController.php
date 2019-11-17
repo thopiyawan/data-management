@@ -790,8 +790,8 @@ if(!is_null($events)){
                     $country = $this->country_select_name($country_id);
 
                     //
-                    $date = $order->coudstart.'-'. $order->dend
-                    $date  = json_encode($date); ;
+                    $date = $order->coudstart.'-'. $order->dend;
+                    $date  = json_encode($date);
                     /////
                     $nvisit = $order->nvisit ;
                     $textMessageBuilder = array (
