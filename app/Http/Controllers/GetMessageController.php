@@ -1050,10 +1050,10 @@ if(!is_null($events)){
                     break;
 
                     case 7 :
-                        $order10 = $this->order_select_10;
-                        $columnTemplateBuilders = [];
+                        // $order10 = $this->order_select_10;
+                        // $columnTemplateBuilders = [];
 
-                        foreach ($order10 as $order1) {
+                        // foreach ($order10 as $order1) {
                        $columnTemplateBuilder =  array (
                                 0 => 
                                 array (
@@ -1275,26 +1275,26 @@ if(!is_null($events)){
                                   ),
                                 ),
                               );
-                            array_push($columnTemplateBuilders, $columnTemplateBuilder);
-                        }
+                        //     array_push($columnTemplateBuilders, $columnTemplateBuilder);
+                        // }
 
-                        $c = count($columnTemplateBuilders);
+                        // $c = count($columnTemplateBuilders);
 
-                        for ($i=0; $i < $c ; $i++) { 
+                        // for ($i=0; $i < $c ; $i++) { 
 
-                        $array[]= $columnTemplateBuilders[$i];
+                        // $array[]= $columnTemplateBuilders[$i];
                         $textMessageBuilder = array (
                             'type' => 'flex',
                             'altText' => 'Flex Message',
                             'contents' => 
                             array (
                               'type' => 'carousel',
-                              'contents' => $array
+                              'contents' => $columnTemplateBuilder
                              
                             ),
                         );
 
-                    }
+                    // }
 
                         $url = 'https://api.line.me/v2/bot/message/reply';
                         $data = [
