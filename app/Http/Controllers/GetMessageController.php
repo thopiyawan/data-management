@@ -1029,7 +1029,7 @@ if(!is_null($events)){
 
                     break;
 
-                    case 7 :
+                    case 8 :
 
                     $order10 = $this->order_select_10;
 
