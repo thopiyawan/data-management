@@ -1030,6 +1030,7 @@ if(!is_null($events)){
                     break;
 
                     case 7 :
+
                     $order10 = $this->order_select_10;
 
                     $columnTemplateBuilders = array();
@@ -1040,11 +1041,10 @@ if(!is_null($events)){
                                       $order10s['id'],
                                       'https://data-manage.herokuapp.com/plan/plan1.JPG',
                                       [
-                                      
-                                            new MessageTemplateActionBuilder(
-                                                'เลือก',// ข้อความแสดงในปุ่ม
-                                                'เลือก' // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                                            )
+                                        new MessageTemplateActionBuilder(
+                                            'เลือก',// ข้อความแสดงในปุ่ม
+                                            '1'// ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                        ),            
                                       ]
                         );
                         array_push($columnTemplateBuilders, $columnTemplateBuilder);
