@@ -1055,6 +1055,248 @@ if(!is_null($events)){
     
                     break;
 
+                    case 7 :
+
+                        $textMessageBuilder = array (
+                            'type' => 'flex',
+                            'altText' => 'Flex Message',
+                            'contents' => 
+                            array (
+                              'type' => 'carousel',
+                              'contents' => 
+                              array (
+                                0 => 
+                                array (
+                                  'type' => 'text',
+                                  'text' => 'แผนการเดินทางของท่าน',
+                                  'size' => 'md',
+                                  'weight' => 'bold',
+                                  'color' => '#221919',
+                                ),
+                                1 => 
+                                array (
+                                  'type' => 'box',
+                                  'layout' => 'vertical',
+                                  'spacing' => 'sm',
+                                  'margin' => 'lg',
+                                  'contents' => 
+                                  array (
+                                    0 => 
+                                    array (
+                                      'type' => 'box',
+                                      'layout' => 'baseline',
+                                      'contents' => 
+                                      array (
+                                        0 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => 'name',
+                                          'flex' => 1,
+                                          'size' => 'sm',
+                                          'color' => '#AAAAAA',
+                                        ),
+                                        1 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => 'XXX XXX',
+                                          'flex' => 5,
+                                          'size' => 'sm',
+                                          'color' => '#666666',
+                                          'wrap' => true,
+                                        ),
+                                      ),
+                                    ),
+                                    1 => 
+                                    array (
+                                      'type' => 'box',
+                                      'layout' => 'baseline',
+                                      'spacing' => 'sm',
+                                      'contents' => 
+                                      array (
+                                        0 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => 'Place',
+                                          'flex' => 1,
+                                          'size' => 'sm',
+                                          'color' => '#AAAAAA',
+                                        ),
+                                        1 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => 'Taiwan',
+                                          'flex' => 5,
+                                          'size' => 'sm',
+                                          'color' => '#666666',
+                                          'wrap' => true,
+                                        ),
+                                      ),
+                                    ),
+                                    2 => 
+                                    array (
+                                      'type' => 'box',
+                                      'layout' => 'baseline',
+                                      'spacing' => 'sm',
+                                      'contents' => 
+                                      array (
+                                        0 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => 'Date',
+                                          'flex' => 1,
+                                          'size' => 'sm',
+                                          'color' => '#AAAAAA',
+                                        ),
+                                        1 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => '23/10/2019 - 30/10/2019',
+                                          'flex' => 5,
+                                          'size' => 'sm',
+                                          'align' => 'start',
+                                          'color' => '#666666',
+                                          'wrap' => true,
+                                        ),
+                                      ),
+                                    ),
+                                    3 => 
+                                    array (
+                                      'type' => 'box',
+                                      'layout' => 'horizontal',
+                                      'contents' => 
+                                      array (
+                                        0 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => 'จำนวนวันเดินทาง',
+                                          'size' => 'sm',
+                                          'color' => '#AAAAAA',
+                                        ),
+                                        1 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => '8 วัน',
+                                          'size' => 'sm',
+                                          'color' => '#666666',
+                                          'wrap' => true,
+                                        ),
+                                      ),
+                                    ),
+                                    4 => 
+                                    array (
+                                      'type' => 'box',
+                                      'layout' => 'horizontal',
+                                      'contents' => 
+                                      array (
+                                        0 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => 'จำนวนผู้เดินทาง',
+                                          'color' => '#AAAAAA',
+                                        ),
+                                        1 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => '1 คน',
+                                          'color' => '#666666',
+                                        ),
+                                      ),
+                                    ),
+                                    5 => 
+                                    array (
+                                      'type' => 'box',
+                                      'layout' => 'horizontal',
+                                      'contents' => 
+                                      array (
+                                        0 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => 'price',
+                                          'flex' => 1,
+                                          'size' => 'sm',
+                                          'color' => '#AAAAAA',
+                                        ),
+                                        1 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => '1,355 บาท',
+                                          'flex' => 5,
+                                          'size' => 'sm',
+                                          'color' => '#666666',
+                                          'wrap' => true,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                2 => 
+                                array (
+                                  'type' => 'image',
+                                  'url' => 'https://th.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/basic_market/generator/dist/generator/assets/images/websiteQRCode_noFrame.png',
+                                ),
+                                3 => 
+                                array (
+                                  'type' => 'separator',
+                                ),
+                              ),
+                            ),
+                            'footer' => 
+                            array (
+                              'type' => 'box',
+                              'layout' => 'horizontal',
+                              'flex' => 0,
+                              'spacing' => 'sm',
+                              'contents' => 
+                              array (
+                                0 => 
+                                array (
+                                  'type' => 'button',
+                                  'action' => 
+                                  array (
+                                    'type' => 'message',
+                                    'label' => 'confirm',
+                                    'text' => 'confirm',
+                                  ),
+                                  'height' => 'sm',
+                                  'style' => 'link',
+                                ),
+                                1 => 
+                                array (
+                                  'type' => 'button',
+                                  'action' => 
+                                  array (
+                                    'type' => 'message',
+                                    'label' => 'Cancel',
+                                    'text' => 'Cancel',
+                                  ),
+                                  'height' => 'sm',
+                                  'style' => 'link',
+                                ),
+                              ),
+                            ),
+                          );
+
+                        $url = 'https://api.line.me/v2/bot/message/reply';
+                        $data = [
+                         'replyToken' => $replyToken,
+                         'messages' => [$textMessageBuilder],
+                        ];
+                        $access_token = '+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=';
+            
+                        $post = json_encode($data);
+                        $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+                        $ch = curl_init($url);
+                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                        $result = curl_exec($ch);
+                        curl_close($ch);
+                        echo $result . "\r\n";
+        
+                        break;
+
 
 
         
