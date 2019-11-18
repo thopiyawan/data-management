@@ -1030,16 +1030,14 @@ if(!is_null($events)){
                     break;
 
                     case 7 :
-
-                    $foodmenus = (new SqlController)->foodmenu($userMessage);
                     $order10 = $this->order_select_10;
 
                     $columnTemplateBuilders = array();
                     foreach ($order10 as $order10s) {
     
                         $columnTemplateBuilder = new CarouselColumnTemplateBuilder(
-                                      $order10s['nvisit'], 
-                                      $order10s['nvisit'],
+                                      $order10s['id'], 
+                                      $order10s['id'],
                                       'https://data-manage.herokuapp.com/plan/plan1.JPG',
                                       [
                                                 new PostbackTemplateActionBuilder(
