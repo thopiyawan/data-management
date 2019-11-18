@@ -160,14 +160,8 @@ class GetMessageController extends Controller
         // $val = strtotime("2019-11-20");
         // $datediff = $val - $startd1;
         // $val1 = round(($datediff / (60 * 60 * 24))+1);
-        $se = $this->order_select($user);
-        $nVisit = $se->nvisit;  
-        $nVisit = (int)$nVisit;
-        $planid = 1;
-        $price = $this->plan_select($planid);
-        $price = (int)$price;
-        $val = $price*$nVisit;
-        print($val);
+        $a = order_select_10($user);
+        dd($a);
         // $re = pg_fetch_all($result);
         //  $result ;
         // $seqcode ='001';
