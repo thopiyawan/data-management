@@ -1040,14 +1040,11 @@ if(!is_null($events)){
                                       $order10s['id'],
                                       'https://data-manage.herokuapp.com/plan/plan1.JPG',
                                       [
-                                                new PostbackTemplateActionBuilder(
-                                                'คำแนะนำ', // ข้อความแสดงในปุ่ม
-                                                http_build_query(array(
-                                                    'action'=>'foodmenu',
-                                                    'item'=> 'MENUfood '.$order10s['id']
-                                                )) //,// ข้อมูลที่จะส่งไปใน webhook ผ่าน postback event
-                                               //'คำแนะนำ'  // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                                            ),      
+                                      
+                                            new MessageTemplateActionBuilder(
+                                                'เลือก',// ข้อความแสดงในปุ่ม
+                                                $var[5]['countryname'] // ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
+                                            )
                                       ]
                         );
                         array_push($columnTemplateBuilders, $columnTemplateBuilder);
