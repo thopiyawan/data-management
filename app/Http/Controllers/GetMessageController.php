@@ -1054,7 +1054,7 @@ if(!is_null($events)){
                         // $columnTemplateBuilders = [];
 
                         // foreach ($order10 as $order1) {
-                       $columnTemplateBuilder =  array (
+                       $columnTemplateBuilder =  [
                                 0 => 
                                 array (
                                   'type' => 'bubble',
@@ -1274,7 +1274,7 @@ if(!is_null($events)){
                                     ),
                                   ),
                                 ),
-                              );
+                            ];
                         //     array_push($columnTemplateBuilders, $columnTemplateBuilder);
                         // }
 
