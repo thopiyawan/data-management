@@ -1289,7 +1289,7 @@ if(!is_null($events)){
                             'contents' => 
                             array (
                               'type' => 'carousel',
-                              'contents' => $columnTemplateBuilder
+                              'contents' => $columnTemplateBuilder,
                              
                             ),
                         );
