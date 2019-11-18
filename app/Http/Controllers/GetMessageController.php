@@ -1054,7 +1054,7 @@ if(!is_null($events)){
                         $columnTemplateBuilders = [];
 
                         foreach ($order10 as $order1) {
-                       $array =  array (
+                       $columnTemplateBuilder =  array (
                                 0 => 
                                 array (
                                   'type' => 'bubble',
