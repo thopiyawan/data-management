@@ -160,7 +160,7 @@ class GetMessageController extends Controller
         // $val = strtotime("2019-11-20");
         // $datediff = $val - $startd1;
         // $val1 = round(($datediff / (60 * 60 * 24))+1);
-        $a = order_select_10($user);
+        $a = $this->order_select_10($user);
         dd($a);
         // $re = pg_fetch_all($result);
         //  $result ;
