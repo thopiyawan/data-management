@@ -1067,163 +1067,182 @@ if(!is_null($events)){
                               array (
                                 0 => 
                                 array (
-                                  'type' => 'text',
-                                  'text' => 'แผนการเดินทางของท่าน',
-                                  'size' => 'md',
-                                  'weight' => 'bold',
-                                  'color' => '#221919',
+                                  'type' => 'bubble',
+                                  'hero' => 
+                                  array (
+                                    'type' => 'image',
+                                    'url' => 'https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_5_carousel.png',
+                                    'size' => 'full',
+                                    'aspectRatio' => '20:13',
+                                    'aspectMode' => 'cover',
+                                  ),
+                                  'body' => 
+                                  array (
+                                    'type' => 'box',
+                                    'layout' => 'vertical',
+                                    'spacing' => 'sm',
+                                    'contents' => 
+                                    array (
+                                      0 => 
+                                      array (
+                                        'type' => 'text',
+                                        'text' => 'Arm Chair, White',
+                                        'size' => 'xl',
+                                        'weight' => 'bold',
+                                        'wrap' => true,
+                                      ),
+                                      1 => 
+                                      array (
+                                        'type' => 'box',
+                                        'layout' => 'baseline',
+                                        'contents' => 
+                                        array (
+                                          0 => 
+                                          array (
+                                            'type' => 'text',
+                                            'text' => '$49',
+                                            'flex' => 0,
+                                            'size' => 'xl',
+                                            'weight' => 'bold',
+                                            'wrap' => true,
+                                          ),
+                                          1 => 
+                                          array (
+                                            'type' => 'text',
+                                            'text' => '.99',
+                                            'flex' => 0,
+                                            'size' => 'sm',
+                                            'weight' => 'bold',
+                                            'wrap' => true,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  'footer' => 
+                                  array (
+                                    'type' => 'box',
+                                    'layout' => 'vertical',
+                                    'spacing' => 'sm',
+                                    'contents' => 
+                                    array (
+                                      0 => 
+                                      array (
+                                        'type' => 'button',
+                                        'action' => 
+                                        array (
+                                          'type' => 'uri',
+                                          'label' => 'Add to Cart',
+                                          'uri' => 'https://linecorp.com',
+                                        ),
+                                        'style' => 'primary',
+                                      ),
+                                      1 => 
+                                      array (
+                                        'type' => 'button',
+                                        'action' => 
+                                        array (
+                                          'type' => 'uri',
+                                          'label' => 'Add to whishlist',
+                                          'uri' => 'https://linecorp.com',
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                                 1 => 
                                 array (
-                                  'type' => 'box',
-                                  'layout' => 'vertical',
-                                  'spacing' => 'sm',
-                                  'margin' => 'lg',
-                                  'contents' => 
+                                  'type' => 'bubble',
+                                  'hero' => 
                                   array (
-                                    0 => 
+                                    'type' => 'image',
+                                    'url' => 'https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_6_carousel.png',
+                                    'size' => 'full',
+                                    'aspectRatio' => '20:13',
+                                    'aspectMode' => 'cover',
+                                  ),
+                                  'body' => 
+                                  array (
+                                    'type' => 'box',
+                                    'layout' => 'vertical',
+                                    'spacing' => 'sm',
+                                    'contents' => 
                                     array (
-                                      'type' => 'box',
-                                      'layout' => 'baseline',
-                                      'contents' => 
+                                      0 => 
                                       array (
-                                        0 => 
+                                        'type' => 'text',
+                                        'text' => 'Metal Desk Lamp',
+                                        'size' => 'xl',
+                                        'weight' => 'bold',
+                                        'wrap' => true,
+                                      ),
+                                      1 => 
+                                      array (
+                                        'type' => 'box',
+                                        'layout' => 'baseline',
+                                        'flex' => 1,
+                                        'contents' => 
                                         array (
-                                          'type' => 'text',
-                                          'text' => 'name',
-                                          'flex' => 1,
-                                          'size' => 'sm',
-                                          'color' => '#AAAAAA',
-                                        ),
-                                        1 => 
-                                        array (
-                                          'type' => 'text',
-                                          'text' => 'XXX XXX',
-                                          'flex' => 5,
-                                          'size' => 'sm',
-                                          'color' => '#666666',
-                                          'wrap' => true,
+                                          0 => 
+                                          array (
+                                            'type' => 'text',
+                                            'text' => '$11',
+                                            'flex' => 0,
+                                            'size' => 'xl',
+                                            'weight' => 'bold',
+                                            'wrap' => true,
+                                          ),
+                                          1 => 
+                                          array (
+                                            'type' => 'text',
+                                            'text' => '.99',
+                                            'flex' => 0,
+                                            'size' => 'sm',
+                                            'weight' => 'bold',
+                                            'wrap' => true,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    1 => 
-                                    array (
-                                      'type' => 'box',
-                                      'layout' => 'baseline',
-                                      'spacing' => 'sm',
-                                      'contents' => 
+                                      2 => 
                                       array (
-                                        0 => 
-                                        array (
-                                          'type' => 'text',
-                                          'text' => 'Place',
-                                          'flex' => 1,
-                                          'size' => 'sm',
-                                          'color' => '#AAAAAA',
-                                        ),
-                                        1 => 
-                                        array (
-                                          'type' => 'text',
-                                          'text' => 'Taiwan',
-                                          'flex' => 5,
-                                          'size' => 'sm',
-                                          'color' => '#666666',
-                                          'wrap' => true,
-                                        ),
+                                        'type' => 'text',
+                                        'text' => 'Temporarily out of stock',
+                                        'flex' => 0,
+                                        'margin' => 'md',
+                                        'size' => 'xxs',
+                                        'color' => '#FF5551',
+                                        'wrap' => true,
                                       ),
                                     ),
-                                    2 => 
+                                  ),
+                                  'footer' => 
+                                  array (
+                                    'type' => 'box',
+                                    'layout' => 'vertical',
+                                    'spacing' => 'sm',
+                                    'contents' => 
                                     array (
-                                      'type' => 'box',
-                                      'layout' => 'baseline',
-                                      'spacing' => 'sm',
-                                      'contents' => 
+                                      0 => 
                                       array (
-                                        0 => 
+                                        'type' => 'button',
+                                        'action' => 
                                         array (
-                                          'type' => 'text',
-                                          'text' => 'Date',
-                                          'flex' => 1,
-                                          'size' => 'sm',
-                                          'color' => '#AAAAAA',
+                                          'type' => 'uri',
+                                          'label' => 'Add to Cart',
+                                          'uri' => 'https://linecorp.com',
                                         ),
-                                        1 => 
-                                        array (
-                                          'type' => 'text',
-                                          'text' => '23/10/2019 - 30/10/2019',
-                                          'flex' => 5,
-                                          'size' => 'sm',
-                                          'align' => 'start',
-                                          'color' => '#666666',
-                                          'wrap' => true,
-                                        ),
+                                        'flex' => 2,
+                                        'color' => '#AAAAAA',
+                                        'style' => 'primary',
                                       ),
-                                    ),
-                                    3 => 
-                                    array (
-                                      'type' => 'box',
-                                      'layout' => 'horizontal',
-                                      'contents' => 
+                                      1 => 
                                       array (
-                                        0 => 
+                                        'type' => 'button',
+                                        'action' => 
                                         array (
-                                          'type' => 'text',
-                                          'text' => 'จำนวนวันเดินทาง',
-                                          'size' => 'sm',
-                                          'color' => '#AAAAAA',
-                                        ),
-                                        1 => 
-                                        array (
-                                          'type' => 'text',
-                                          'text' => '8 วัน',
-                                          'size' => 'sm',
-                                          'color' => '#666666',
-                                          'wrap' => true,
-                                        ),
-                                      ),
-                                    ),
-                                    4 => 
-                                    array (
-                                      'type' => 'box',
-                                      'layout' => 'horizontal',
-                                      'contents' => 
-                                      array (
-                                        0 => 
-                                        array (
-                                          'type' => 'text',
-                                          'text' => 'จำนวนผู้เดินทาง',
-                                          'color' => '#AAAAAA',
-                                        ),
-                                        1 => 
-                                        array (
-                                          'type' => 'text',
-                                          'text' => '1 คน',
-                                          'color' => '#666666',
-                                        ),
-                                      ),
-                                    ),
-                                    5 => 
-                                    array (
-                                      'type' => 'box',
-                                      'layout' => 'horizontal',
-                                      'contents' => 
-                                      array (
-                                        0 => 
-                                        array (
-                                          'type' => 'text',
-                                          'text' => 'price',
-                                          'flex' => 1,
-                                          'size' => 'sm',
-                                          'color' => '#AAAAAA',
-                                        ),
-                                        1 => 
-                                        array (
-                                          'type' => 'text',
-                                          'text' => '1,355 บาท',
-                                          'flex' => 5,
-                                          'size' => 'sm',
-                                          'color' => '#666666',
-                                          'wrap' => true,
+                                          'type' => 'uri',
+                                          'label' => 'Add to wish list',
+                                          'uri' => 'https://linecorp.com',
                                         ),
                                       ),
                                     ),
@@ -1231,50 +1250,32 @@ if(!is_null($events)){
                                 ),
                                 2 => 
                                 array (
-                                  'type' => 'image',
-                                  'url' => 'https://th.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/basic_market/generator/dist/generator/assets/images/websiteQRCode_noFrame.png',
-                                ),
-                                3 => 
-                                array (
-                                  'type' => 'separator',
+                                  'type' => 'bubble',
+                                  'body' => 
+                                  array (
+                                    'type' => 'box',
+                                    'layout' => 'vertical',
+                                    'spacing' => 'sm',
+                                    'contents' => 
+                                    array (
+                                      0 => 
+                                      array (
+                                        'type' => 'button',
+                                        'action' => 
+                                        array (
+                                          'type' => 'uri',
+                                          'label' => 'See more',
+                                          'uri' => 'https://linecorp.com',
+                                        ),
+                                        'flex' => 1,
+                                        'gravity' => 'center',
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                            'footer' => 
-                            array (
-                              'type' => 'box',
-                              'layout' => 'horizontal',
-                              'flex' => 0,
-                              'spacing' => 'sm',
-                              'contents' => 
-                              array (
-                                0 => 
-                                array (
-                                  'type' => 'button',
-                                  'action' => 
-                                  array (
-                                    'type' => 'message',
-                                    'label' => 'confirm',
-                                    'text' => 'confirm',
-                                  ),
-                                  'height' => 'sm',
-                                  'style' => 'link',
-                                ),
-                                1 => 
-                                array (
-                                  'type' => 'button',
-                                  'action' => 
-                                  array (
-                                    'type' => 'message',
-                                    'label' => 'Cancel',
-                                    'text' => 'Cancel',
-                                  ),
-                                  'height' => 'sm',
-                                  'style' => 'link',
-                                ),
-                              ),
-                            ),
-                          );
+                        );
 
                         $url = 'https://api.line.me/v2/bot/message/reply';
                         $data = [
