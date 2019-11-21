@@ -479,7 +479,7 @@ if(!is_null($events)){
                             }
 
                         }elseif(is_string($userMessage) !== false &&  $seqcode == '010'){
-                            // if(is_numeric($userMessage) !== false){
+                              if(is_numeric($userMessage) !== false){
                                 $case = 6;
                                 $val = $userMessage;
                                 $this->register_update($user,$val,$seqcode);
@@ -488,7 +488,7 @@ if(!is_null($events)){
                                 $se = $this->order_select($user);
                                 $nVisit = $se->nvisit;  
                                 $nVisit = (int)$nVisit;
-                                $planid = 1;
+                                $planid = $userMessage;
                                 $price = $this->plan_select($planid);
                                 $price = (int)$price;
                                 $val = $price*$nVisit;
@@ -500,6 +500,11 @@ if(!is_null($events)){
                                 $seqcode = '000';
                                 $nextseqcode = '000';
                                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                              }else{
+                                $case = 1;
+                                $userMessage = 'กรุณาเลือกแผนการเดินทาค่ะ';
+                               
+                              }
                                 // $question = $this->sequents_question($seqcode);
                                 // $userMessage =  $question;
                             }elseif($userMessage =='confirm'){
@@ -1055,225 +1060,7 @@ if(!is_null($events)){
 
                         // foreach ($order10 as $order1) {
                        $columnTemplateBuilder =  [
-                                0 => 
-                                array (
-                                  'type' => 'bubble',
-                                  'body' => 
-                                  array (
-                                    'type' => 'box',
-                                    'layout' => 'vertical',
-                                    'contents' => 
-                                    array (
-                                      0 => 
-                                      array (
-                                        'type' => 'text',
-                                        'text' => 'แผนการเดินทางของท่าน',
-                                        'size' => 'md',
-                                        'weight' => 'bold',
-                                        'color' => '#221919',
-                                      ),
-                                      1 => 
-                                      array (
-                                        'type' => 'box',
-                                        'layout' => 'vertical',
-                                        'spacing' => 'sm',
-                                        'margin' => 'lg',
-                                        'contents' => 
-                                        array (
-                                          0 => 
-                                          array (
-                                            'type' => 'box',
-                                            'layout' => 'baseline',
-                                            'contents' => 
-                                            array (
-                                              0 => 
-                                              array (
-                                                'type' => 'text',
-                                                'text' => 'name',
-                                                'flex' => 1,
-                                                'size' => 'sm',
-                                                'color' => '#AAAAAA',
-                                              ),
-                                              1 => 
-                                              array (
-                                                'type' => 'text',
-                                                'text' => 'XXX XXX',
-                                                'flex' => 5,
-                                                'size' => 'sm',
-                                                'color' => '#666666',
-                                                'wrap' => true,
-                                              ),
-                                            ),
-                                          ),
-                                          1 => 
-                                          array (
-                                            'type' => 'box',
-                                            'layout' => 'baseline',
-                                            'spacing' => 'sm',
-                                            'contents' => 
-                                            array (
-                                              0 => 
-                                              array (
-                                                'type' => 'text',
-                                                'text' => 'Place',
-                                                'flex' => 1,
-                                                'size' => 'sm',
-                                                'color' => '#AAAAAA',
-                                              ),
-                                              1 => 
-                                              array (
-                                                'type' => 'text',
-                                                'text' => 'Taiwan',
-                                                'flex' => 5,
-                                                'size' => 'sm',
-                                                'color' => '#666666',
-                                                'wrap' => true,
-                                              ),
-                                            ),
-                                          ),
-                                          2 => 
-                                          array (
-                                            'type' => 'box',
-                                            'layout' => 'baseline',
-                                            'spacing' => 'sm',
-                                            'contents' => 
-                                            array (
-                                              0 => 
-                                              array (
-                                                'type' => 'text',
-                                                'text' => 'Date',
-                                                'flex' => 1,
-                                                'size' => 'sm',
-                                                'color' => '#AAAAAA',
-                                              ),
-                                              1 => 
-                                              array (
-                                                'type' => 'text',
-                                                'text' => '23/10/2019 - 30/10/2019',
-                                                'flex' => 5,
-                                                'size' => 'sm',
-                                                'align' => 'start',
-                                                'color' => '#666666',
-                                                'wrap' => true,
-                                              ),
-                                            ),
-                                          ),
-                                          3 => 
-                                          array (
-                                            'type' => 'box',
-                                            'layout' => 'horizontal',
-                                            'contents' => 
-                                            array (
-                                              0 => 
-                                              array (
-                                                'type' => 'text',
-                                                'text' => 'จำนวนวันเดินทาง',
-                                                'size' => 'sm',
-                                                'color' => '#AAAAAA',
-                                              ),
-                                              1 => 
-                                              array (
-                                                'type' => 'text',
-                                                'text' => '8 วัน',
-                                                'size' => 'sm',
-                                                'color' => '#666666',
-                                                'wrap' => true,
-                                              ),
-                                            ),
-                                          ),
-                                          4 => 
-                                          array (
-                                            'type' => 'box',
-                                            'layout' => 'horizontal',
-                                            'contents' => 
-                                            array (
-                                              0 => 
-                                              array (
-                                                'type' => 'text',
-                                                'text' => 'จำนวนผู้เดินทาง',
-                                                'color' => '#AAAAAA',
-                                              ),
-                                              1 => 
-                                              array (
-                                                'type' => 'text',
-                                                'text' => '1 คน',
-                                                'color' => '#666666',
-                                              ),
-                                            ),
-                                          ),
-                                          5 => 
-                                          array (
-                                            'type' => 'box',
-                                            'layout' => 'horizontal',
-                                            'contents' => 
-                                            array (
-                                              0 => 
-                                              array (
-                                                'type' => 'text',
-                                                'text' => 'price',
-                                                'flex' => 1,
-                                                'size' => 'sm',
-                                                'color' => '#AAAAAA',
-                                              ),
-                                              1 => 
-                                              array (
-                                                'type' => 'text',
-                                                'text' => '1,355 บาท',
-                                                'flex' => 5,
-                                                'size' => 'sm',
-                                                'color' => '#666666',
-                                                'wrap' => true,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      2 => 
-                                      array (
-                                        'type' => 'image',
-                                        'url' => 'https://th.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/basic_market/generator/dist/generator/assets/images/websiteQRCode_noFrame.png',
-                                      ),
-                                      3 => 
-                                      array (
-                                        'type' => 'separator',
-                                      ),
-                                    ),
-                                  ),
-                                  'footer' => 
-                                  array (
-                                    'type' => 'box',
-                                    'layout' => 'horizontal',
-                                    'flex' => 0,
-                                    'spacing' => 'sm',
-                                    'contents' => 
-                                    array (
-                                      0 => 
-                                      array (
-                                        'type' => 'button',
-                                        'action' => 
-                                        array (
-                                          'type' => 'message',
-                                          'label' => 'confirm',
-                                          'text' => 'confirm',
-                                        ),
-                                        'height' => 'sm',
-                                        'style' => 'link',
-                                      ),
-                                      1 => 
-                                      array (
-                                        'type' => 'button',
-                                        'action' => 
-                                        array (
-                                          'type' => 'message',
-                                          'label' => 'Cancel',
-                                          'text' => 'Cancel',
-                                        ),
-                                        'height' => 'sm',
-                                        'style' => 'link',
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                          
                             ];
                         //     array_push($columnTemplateBuilders, $columnTemplateBuilder);
                         // }
@@ -1289,7 +1076,7 @@ if(!is_null($events)){
                             'contents' => 
                             array (
                               'type' => 'carousel',
-                              'contents' => $columnTemplateBuilder,
+                              'contents' => $columnTemplateBuilder
                              
                             ),
                         );
