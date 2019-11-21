@@ -516,7 +516,7 @@ if(!is_null($events)){
                                     $this->register_update($user,$val,$seqcode);
                                     // $question = $this->sequents_question($seqcode);
                                     // $userMessage =  $question;
-                            }elseif($userMessage =='Cancal'){
+                            }elseif($userMessage =='Cancel'){
                             $case = 1;
                             $userMessage = 'ยกเลิกการเลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
                             }elseif($userMessage =='ประวัติการเดินทาง'){
