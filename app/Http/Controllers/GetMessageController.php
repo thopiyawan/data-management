@@ -248,9 +248,9 @@ if(!is_null($events)){
         }
     }   
     if(isset($events['events'][0]) && array_key_exists('follow',$events['events'][0])){
-        $case = 1;
-        $userMessage= "ดีจ้า";
-        return $this->replymessage($replyToken,$userMessage,$case,$user); 
+           $textReplyMessage = 'ไงง';
+           $replyData = new TextMessageBuilder($textReplyMessage);   
+           $response = $bot->replyMessage($replyToken,$replyData);   
     }
     /////////////////////////
     $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
