@@ -525,6 +525,8 @@ if(!is_null($events)){
                             }elseif($userMessage =='Cancel'){
                             $case = 1;
                             $userMessage = 'ยกเลิกการเลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
+
+                            
                             }elseif($userMessage =='ประวัติการเดินทาง'){
                             $case = 7;
                             $userMessage = 'ค่ะ';
@@ -1061,34 +1063,133 @@ if(!is_null($events)){
                     break;
 
                     case 7 :
-                        // $order10 = $this->order_select_10;
-                        // $columnTemplateBuilders = [];
 
-                        // foreach ($order10 as $order1) {
-                       $columnTemplateBuilder =  [
-                          
-                            ];
-                        //     array_push($columnTemplateBuilders, $columnTemplateBuilder);
-                        // }
-
-                        // $c = count($columnTemplateBuilders);
-
-                        // for ($i=0; $i < $c ; $i++) { 
-
-                        // $array[]= $columnTemplateBuilders[$i];
-                        $textMessageBuilder = array (
-                            'type' => 'flex',
-                            'altText' => 'Flex Message',
+                        $order10s = $this->order_select_10;
+                        $columnTemplateBuilders = [];
+                        foreach ($order10s as $order10) {
+        
+                              if ($order10->id == '0'){
+                                $a = 'ไม่ได้ทาน';
+                              }elseif ($order10->id  == '1'){
+                                $a = 'ทาน';
+                              }else{
+                                $a = 'ไม่มีการบันทึก';
+                              }
+                            $columnTemplateBuilder =  
+                                [
+                                  // $record->created_at
+                                      'type' => 'box',
+                                      'layout' => 'horizontal',
+                                      'margin' => 'xxl',
+                                      'spacing' => 'sm',
+                                      'contents' => 
+                                      array (
+                                        0 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' =>  date('d-m-Y', strtotime($order10->id)),
+                                          'size' => 'sm',
+                                          'color' => '#555555',
+                                          'wrap' => true,
+                                        ),
+                                        1 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => $a,
+                                          'size' => 'md',
+                                          'color' => '#FFA000',
+                                          'align' => 'center',
+                                          'wrap' => true,
+                                          'flex' => 2,
+                                        ),
+                                        2 => 
+                                        array (
+                                          'type' => 'button',
+                                          'style' => 'primary',
+                                          'color' => '#FFECB3',
+                                          'height' => 'sm',
+                                          'flex' => 0,
+                                          'action' => 
+                                          array (
+                                           'type' => 'message',
+                                           'label' => '✏',
+                                           'text' => 'บันทึกวิตามิน:'.date('d-m-Y', strtotime($order10->id)),
+                                          ),
+                                        ),
+                                      ),
+                                    ]
+                                    ;
+                            array_push($columnTemplateBuilders, $columnTemplateBuilder);
+                        } 
+        
+                      $c = count($columnTemplateBuilders);
+        //dd($columnTemplateBuilders);
+               for ($i=0; $i < $c ; $i++) { 
+        
+                $y[]= $columnTemplateBuilders[$i];
+        
+                         $textMessageBuilder = 
+                          [
+                          'type' => 'flex',
+                          'altText' => 'this is a flex message',
+                          'contents' => 
+                          array (
+                            'type' => 'carousel',
                             'contents' => 
                             array (
-                              'type' => 'carousel',
-                              'contents' => $columnTemplateBuilder
-                             
+                              0 => 
+                              array (
+                                'type' => 'bubble',
+                                'styles' => 
+                                array (
+                                  'footer' => 
+                                  array (
+                                    'separator' => true,
+                                  ),
+                                ),
+                            
+                                'header' => 
+                                array (
+                                  'type' => 'box',
+                                  'layout' => 'vertical',
+                                  'contents' => 
+                                  array (
+                                      0 => 
+                                  array (
+                                    'type' => 'text',
+                                    'text' => 'การทานวิตามิน',
+                                    'weight' => 'bold',
+                                    'color' => '#EF6C00',
+                                    'size' => 'xl',
+                                    'wrap' => true,
+                                  ),
+                                    1 => 
+                                    array (
+                                      'type' => 'text',
+                                      'text' => 'หากต้องการแก้ไขข้อมูลให้กดที่ ✏',
+                                      'wrap' => true,
+                                      'color' => '#aaaaaa',
+                                      'size' => 'xs',
+                                    ),
+                                  ),
+                                ),
+                      
+                              'body' => 
+                                array (
+                                  'type' => 'box',
+                                  'layout' => 'vertical',
+                                  'contents' => 
+                                 
+                                        $y,
+                                  
+                                ),
+                              ),
                             ),
-                        );
-
-                    // }
-
+                          ),
+                          ];
+        
+        
+             }
                         $url = 'https://api.line.me/v2/bot/message/reply';
                         $data = [
                          'replyToken' => $replyToken,
