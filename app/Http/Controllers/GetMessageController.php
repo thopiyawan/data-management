@@ -223,6 +223,7 @@ if(!is_null($events)){
     $sourceType = $events['events'][0]['source']['type'];        
     $is_postback = NULL;
     $is_message = NULL;
+    $eventFollow = NULL;
     if(isset($events['events'][0]) && array_key_exists('message',$events['events'][0])){
         $is_message = true;
         $typeMessage = $events['events'][0]['message']['type'];
@@ -246,6 +247,9 @@ if(!is_null($events)){
             }                       
         }
     }   
+    if(isset($events['events'][0]) && array_key_exists('follow',$events['events'][0])){
+        $eventFollow = true;         
+    }
     /////////////////////////
     $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
     $dbconn = pg_pconnect($conn_string);
@@ -277,6 +281,11 @@ if(!is_null($events)){
             $this->checkmessage($replyToken,$userMessage,$seqcode,$user);
 
 
+        }
+        if(!is_null($eventFollow)){
+            $case = 1;
+            $userMessage= "ดีจ้า";
+            return $this->replymessage($replyToken,$userMessage,$case,$user);
         }
 
         //  //return $this->replymessage($replyToken,$userMessage,$case);
