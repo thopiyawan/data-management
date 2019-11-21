@@ -1068,13 +1068,13 @@ if(!is_null($events)){
                         $columnTemplateBuilders = [];
                         foreach ($order10s as $order10) {
         
-                              if ($order10->id == '0'){
-                                $a = 'ไม่ได้ทาน';
-                              }elseif ($order10->id  == '1'){
-                                $a = 'ทาน';
-                              }else{
-                                $a = 'ไม่มีการบันทึก';
-                              }
+                            //   if ($order10->id == '0'){
+                            //     $a = 'ไม่ได้ทาน';
+                            //   }elseif ($order10->id  == '1'){
+                            //     $a = 'ทาน';
+                            //   }else{
+                            //     $a = 'ไม่มีการบันทึก';
+                            //   }
                             $columnTemplateBuilder =  
                                 [
                                   // $record->created_at
@@ -1087,7 +1087,7 @@ if(!is_null($events)){
                                         0 => 
                                         array (
                                           'type' => 'text',
-                                          'text' =>  date('d-m-Y', strtotime($order10->id)),
+                                          'text' =>  $order10->id,
                                           'size' => 'sm',
                                           'color' => '#555555',
                                           'wrap' => true,
@@ -1095,7 +1095,7 @@ if(!is_null($events)){
                                         1 => 
                                         array (
                                           'type' => 'text',
-                                          'text' => $a,
+                                          'text' => $order10->id,
                                           'size' => 'md',
                                           'color' => '#FFA000',
                                           'align' => 'center',
@@ -1113,7 +1113,7 @@ if(!is_null($events)){
                                           array (
                                            'type' => 'message',
                                            'label' => '✏',
-                                           'text' => 'บันทึกวิตามิน:'.date('d-m-Y', strtotime($order10->id)),
+                                           'text' => $order10->id,
                                           ),
                                         ),
                                       ),
