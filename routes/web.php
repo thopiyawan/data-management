@@ -20,3 +20,6 @@ Route::get('pp','GetMessageController@index');
 
 
 Route::get('gg','GetMessageController@getmessage');
+
+Route::post('/hislig','GetMessageController@hislog');
+
