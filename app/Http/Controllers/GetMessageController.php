@@ -163,65 +163,9 @@ class GetMessageController extends Controller
         // $datediff = $val - $startd1;
         // $val1 = round(($datediff / (60 * 60 * 24))+1);
         // $a = $this->order_select_10($user);
-        $rows = $this->order_select_10_count($user);
+         $rows = $this->order_select_10_count($user);
       
-         $order10s = $this->order_select_10($user);
-                   
-                        $columnTemplateBuilders = [];
-
-                        foreach ($order10s as $record) {
-        
-                      
-                            $columnTemplateBuilder =  
-                                [
-                                  // $record->created_at
-                                      'type' => 'box',
-                                      'layout' => 'horizontal',
-                                      'margin' => 'xxl',
-                                      'spacing' => 'sm',
-                                      'contents' => 
-                                      array (
-                                        0 => 
-                                        array (
-                                          'type' => 'text',
-                                          'text' => $record['id'],
-                                          'size' => 'sm',
-                                          'color' => '#555555',
-                                          'wrap' => true,
-                                        ),
-                                        1 => 
-                                        array (
-                                          'type' => 'text',
-                                          'text' => $record['id'],
-                                          'size' => 'md',
-                                          'color' => '#2E7D32',
-                                          'align' => 'center',
-                                          'wrap' => true,
-                                          'flex' => 2,
-                                        ),
-                                        2 => 
-                                        array (
-                                          'type' => 'button',
-                                          'style' => 'primary',
-                                          'color' => '#B2EBF2',
-                                          'height' => 'sm',
-                                          'flex' => 0,
-                                          'action' => 
-                                          array (
-                                           'type' => 'message',
-                                           'label' => '✏',
-                                           'text' => $record['id'],
-                                          ),
-                                        ),
-                                      ),
-                                    ]
-                                    ;
-                            array_push($columnTemplateBuilders, $columnTemplateBuilder);
-                        } 
-        
-                      $c = count($columnTemplateBuilders);
-
-                      dd($columnTemplateBuilders);
+  
         // foreach($a as $array)
         //     {
         //         $array['id'];
@@ -1165,7 +1109,129 @@ if(!is_null($events)){
         
                       $c = count($columnTemplateBuilders);
 
-                      dd($c);
+                      for ($i=0; $i < $c ; $i++) { 
+
+                        $y[]= $columnTemplateBuilders[$i];
+                
+                                 $textMessageBuilder = 
+                                  [
+                                  'type' => 'flex',
+                                  'altText' => 'this is a flex message',
+                                  'contents' => 
+                                  array (
+                                    'type' => 'carousel',
+                                    'contents' => 
+                                    array (
+                                      0 => 
+                                      array (
+                                        'type' => 'bubble',
+                                        'styles' => 
+                                        array (
+                                          'footer' => 
+                                          array (
+                                            'separator' => true,
+                                          ),
+                                        ),
+                                    
+                                        'header' => 
+                                        array (
+                                          'type' => 'box',
+                                          'layout' => 'vertical',
+                                          'contents' => 
+                                          array (
+                                              0 => 
+                                          array (
+                                            'type' => 'text',
+                                            'text' => 'น้ำหนักระหว่างตั้งครรภ์',
+                                            'weight' => 'bold',
+                                            'color' => '#039BE5',
+                                            'size' => 'xl',
+                                            'wrap' => true,
+                                          ),
+                                            1 => 
+                                            array (
+                                               'type' => 'box',
+                                                'layout' => 'horizontal',
+                                                'margin' => 'sm',
+                                                'spacing' => 'sm',
+                                                'contents' =>  array (
+                                                          0 => 
+                                                          array (
+                                                            'type' => 'text',
+                                                            'text' => 'สัปดาห์',
+                                                            'size' => 'xs',
+                                                            'color' => '#aaaaaa',
+                                                            'align' => 'center',
+                                                            'wrap' => true,
+                                                            'flex' => 1,
+                                                          ),
+                                                          1 => 
+                                                          array (
+                                                            'type' => 'separator',
+                                                          ),
+                                                          2 => 
+                                                          array (
+                                                            'type' => 'text',
+                                                            'text' => 'น้ำหนัก',
+                                                            'size' => 'xs',
+                                                            'color' => '#aaaaaa',
+                                                            'align' => 'center',
+                                                            'wrap' => true,
+                                                            'flex' => 1,
+                                                          ),
+                                                          3 => 
+                                                          array (
+                                                            'type' => 'separator',
+                                                          ),
+                                                          4 => 
+                                                          array (
+                                                            'type' => 'text',
+                                                            'text' => 'แก้ไข',
+                                                            'size' => 'xs',
+                                                            'color' => '#aaaaaa',
+                                                            'align' => 'center',
+                                                            'wrap' => true,
+                                                            'flex' => 1,
+                                                          ),
+                                                        ),
+                                            ),
+                                          ),
+                                        ),
+                              
+                                      'body' => 
+                                        array (
+                                          'type' => 'box',
+                                          'layout' => 'vertical',
+                                          'contents' => 
+                                         
+                                                $y,
+                                          
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  ];
+                     }
+                   $url = 'https://api.line.me/v2/bot/message/reply';
+                   $data = [
+                    'replyToken' => $replyToken,
+                    'messages' => [$textMessageBuilder],
+                   ];
+                
+                  
+                   $access_token =  '+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=';
+                   
+                   $post = json_encode($data);
+                   $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+                   $ch = curl_init($url);
+                   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                   curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+                   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                   curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                   $result = curl_exec($ch);
+                   curl_close($ch);
+                   echo $result . "\r\n";
 
              
 
