@@ -1049,43 +1049,65 @@ if(!is_null($events)){
                     echo $result . "\r\n";
 
                     break;
-
-                    case 8 :
-                    
-                    $order10 = $this->order_select_10;
-
-                    $columnTemplateBuilders = array();
-                    foreach ($order10 as $order10s) {
-    
-                        $columnTemplateBuilder = new CarouselColumnTemplateBuilder(
-                                      $order10s['id'], 
-                                      $order10s['id'],
-                                      'https://data-manage.herokuapp.com/plan/plan1.JPG',
-                                      [
-                                        new MessageTemplateActionBuilder(
-                                            'เลือก',// ข้อความแสดงในปุ่ม
-                                            '1'// ข้อความที่จะแสดงฝั่งผู้ใช้ เมื่อคลิกเลือก
-                                        ),            
-                                      ]
-                        );
-                        array_push($columnTemplateBuilders, $columnTemplateBuilder);
-                    }
-    
-                    $carouselTemplateBuilder = new CarouselTemplateBuilder($columnTemplateBuilders);
-                    $textMessageBuilder = new TemplateMessageBuilder('รายการอาหาร', $carouselTemplateBuilder);
-    
-                    break;
-
                     case 7 :
                         
                         $order10s = $this->order_select_10;
                    
-                        foreach($order10s as $array)
-                        {
-                            $array['id'];
-                            $array['nvisit'];
-            
-                        }
+                        $columnTemplateBuilders = [];
+
+                        foreach ($order10s as $record) {
+        
+                      
+                            $columnTemplateBuilder =  
+                                [
+                                  // $record->created_at
+                                      'type' => 'box',
+                                      'layout' => 'horizontal',
+                                      'margin' => 'xxl',
+                                      'spacing' => 'sm',
+                                      'contents' => 
+                                      array (
+                                        0 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => $record['id'],
+                                          'size' => 'sm',
+                                          'color' => '#555555',
+                                          'wrap' => true,
+                                        ),
+                                        1 => 
+                                        array (
+                                          'type' => 'text',
+                                          'text' => $record['id'],
+                                          'size' => 'md',
+                                          'color' => '#2E7D32',
+                                          'align' => 'center',
+                                          'wrap' => true,
+                                          'flex' => 2,
+                                        ),
+                                        2 => 
+                                        array (
+                                          'type' => 'button',
+                                          'style' => 'primary',
+                                          'color' => '#B2EBF2',
+                                          'height' => 'sm',
+                                          'flex' => 0,
+                                          'action' => 
+                                          array (
+                                           'type' => 'message',
+                                           'label' => '✏',
+                                           'text' => $record['id'],
+                                          ),
+                                        ),
+                                      ),
+                                    ]
+                                    ;
+                            array_push($columnTemplateBuilders, $columnTemplateBuilder);
+                        } 
+        
+                      $c = count($columnTemplateBuilders);
+
+                      dd($c)
 
              
 
