@@ -1074,6 +1074,8 @@ if(!is_null($events)){
                    
                         $columnTemplateBuilders = [];
 
+                
+
                         foreach ($order10s as $record) {
                                
                            $country =   $this->country_select_name($record['countryid']);
@@ -1123,9 +1125,9 @@ if(!is_null($events)){
                                     ;
                             array_push($columnTemplateBuilders, $columnTemplateBuilder);
                         } 
-        
+      
                       $c = count($columnTemplateBuilders);
-
+                      if($c>=0){
                       for ($i=0; $i < $c ; $i++) { 
 
                         $y[]= $columnTemplateBuilders[$i];
@@ -1263,7 +1265,10 @@ if(!is_null($events)){
                    $result = curl_exec($ch);
                    curl_close($ch);
                    echo $result . "\r\n";
-
+        }else{
+            $userMessage = 'ไม่มีประวัติการเดินทาง';
+            $textMessageBuilder = new TextMessageBuilder($userMessage);
+        }
                 break;
                 case 8:
 
