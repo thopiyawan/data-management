@@ -549,7 +549,7 @@ if(!is_null($events)){
                                     // $userMessage =  $question;
                             }elseif($userMessage =='ดูข้อมูลส่วนตัว'){
                                     // if(is_numeric($userMessage) !== false){
-                                        $case = 1;
+                                        $case = 9;
                                         $userMessage = 'ดูข้อมูลส่วนตัว';
                                         // $question = $this->sequents_question($seqcode);
                                         // $userMessage =  $question;
