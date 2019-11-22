@@ -1074,8 +1074,6 @@ if(!is_null($events)){
                    
                         $columnTemplateBuilders = [];
 
-                    if(!is_null($order10s)){
-
                 
 
                         foreach ($order10s as $record) {
@@ -1129,7 +1127,7 @@ if(!is_null($events)){
                         } 
       
                       $c = count($columnTemplateBuilders);
-            
+   
                       for ($i=0; $i < $c ; $i++) { 
 
                         $y[]= $columnTemplateBuilders[$i];
@@ -1267,10 +1265,7 @@ if(!is_null($events)){
                    $result = curl_exec($ch);
                    curl_close($ch);
                    echo $result . "\r\n";
-        }else{
-            $userMessage = 'ไม่มีประวัติการเดินทาง';
-            $textMessageBuilder = new TextMessageBuilder($userMessage);
-        }
+      
                 break;
                 case 8:
 
