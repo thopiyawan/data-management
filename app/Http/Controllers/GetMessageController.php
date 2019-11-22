@@ -1080,7 +1080,7 @@ if(!is_null($events)){
                                         1 => 
                                         array (
                                           'type' => 'text',
-                                          'text' => $record['id'],
+                                          'text' => $record['dstart'].'to'.$record['dend'],
                                           'size' => 'md',
                                           'color' => '#2E7D32',
                                           'align' => 'center',
@@ -1091,13 +1091,13 @@ if(!is_null($events)){
                                         array (
                                           'type' => 'button',
                                           'style' => 'primary',
-                                          'color' => '#B2EBF2',
+                                          'color' => '#AAAAAA',
                                           'height' => 'sm',
                                           'flex' => 0,
                                           'action' => 
                                           array (
                                            'type' => 'message',
-                                           'label' => '✏',
+                                           'label' => '✈',
                                            'text' => $record['id'],
                                           ),
                                         ),
