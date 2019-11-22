@@ -832,6 +832,7 @@ if(!is_null($events)){
                     $nvisit = $order->nvisit;
                     $nday = $order->nday;
                     $totalprice  = $order->totalprice ;
+                    $plan  = $order->typeid ;
                     $textMessageBuilder = array (
                         'type' => 'flex',
                         'altText' => 'Flex Message',
@@ -847,7 +848,7 @@ if(!is_null($events)){
                               0 => 
                               array (
                                 'type' => 'text',
-                                'text' => 'แผนการเดินทางของท่าน',
+                                'text' => 'แผนการเดินทางของท่าน แผน'.$plan,
                                 'size' => 'md',
                                 'weight' => 'bold',
                                 'color' => '#221919',
