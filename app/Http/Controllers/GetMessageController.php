@@ -161,7 +161,15 @@ class GetMessageController extends Controller
         // $datediff = $val - $startd1;
         // $val1 = round(($datediff / (60 * 60 * 24))+1);
         $a = $this->order_select_10($user);
-        print($a[0]['id']);
+        foreach($a as $array)
+            {
+                echo '<tr>
+                        <td>'. $array['id'].'</td>
+                        <td>'. $array['nvisit'].'</td>
+                    </tr>';
+            }
+            echo '</table>';
+        // print($a[0]['id']);
         // $b = json_encode($a);
         // print($b->id);
         // print($a[0]);
