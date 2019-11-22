@@ -1144,8 +1144,8 @@ if(!is_null($events)){
                                             'type' => 'text',
                                             'text' => $users->fullname,
                                             'weight' => 'bold',
-                                            'color' => '#039BE5',
-                                            'size' => 'xs',
+                                            'color' => '#AAAAAA',
+                                            'size' => 'sm',
                                             'wrap' => true,
                                           ),
                                             1 => 
@@ -1158,7 +1158,7 @@ if(!is_null($events)){
                                                           0 => 
                                                           array (
                                                             'type' => 'text',
-                                                            'text' => 'สัปดาห์',
+                                                            'text' => 'ประเทศ',
                                                             'size' => 'xs',
                                                             'color' => '#aaaaaa',
                                                             'align' => 'center',
@@ -1172,7 +1172,7 @@ if(!is_null($events)){
                                                           2 => 
                                                           array (
                                                             'type' => 'text',
-                                                            'text' => 'น้ำหนัก',
+                                                            'text' => 'วันเดินทาง',
                                                             'size' => 'xs',
                                                             'color' => '#aaaaaa',
                                                             'align' => 'center',
@@ -1186,7 +1186,7 @@ if(!is_null($events)){
                                                           4 => 
                                                           array (
                                                             'type' => 'text',
-                                                            'text' => 'แก้ไข',
+                                                            'text' => 'detail',
                                                             'size' => 'xs',
                                                             'color' => '#aaaaaa',
                                                             'align' => 'center',
