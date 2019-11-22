@@ -1081,7 +1081,7 @@ if(!is_null($events)){
                                         1 => 
                                         array (
                                           'type' => 'text',
-                                          'text' => $record['dstart'].'to'.$record['dend'],
+                                          'text' => $record['dstart'].' to             '.$record['dend'],
                                           'size' => 'xs',
                                           'color' => '#2E7D32',
                                           'align' => 'center',
