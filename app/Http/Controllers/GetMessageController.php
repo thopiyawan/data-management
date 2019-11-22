@@ -125,8 +125,8 @@ class GetMessageController extends Controller
         $user = 'U2dc636d2cd052e82c29f5284e00f69b9';
         $val = '24';
         $int = (int)$val;
-        $register_update = pg_exec($dbconn, "UPDATE users SET  age = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
-
+        $seqcode='002';
+        $this->register_update($user,$val,$seqcode);
 
         
         // $fullname = 'ploy';
