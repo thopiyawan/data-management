@@ -350,6 +350,15 @@ if(!is_null($events)){
                                 // $userMessage = 'ขอทราบEmailค่ะ';
                                 $this->delete_state($user);
                                 $userMessage =  'ลบแล้วจ้า';
+                        }elseif($userMessage =='Cancel'){
+                                $case = 1;
+                                $userMessage = 'ยกเลิกการเลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
+    
+                                
+                                }elseif($userMessage =='ประวัติการเดินทาง'){
+                                $case = 7;
+                                $userMessage = 'ค่ะ';
+                                
                     //ชื่อ-นามสกุล
                         }elseif(is_string($userMessage) !== false &&  $seqcode == '001'){
                                 $case = 1;
@@ -538,23 +547,14 @@ if(!is_null($events)){
                                     $this->register_update($user,$val,$seqcode);
                                     // $question = $this->sequents_question($seqcode);
                                     // $userMessage =  $question;
-                            }elseif($userMessage =='Cancel'){
-                            $case = 1;
-                            $userMessage = 'ยกเลิกการเลือกแผนการเดินทางเรียบร้อยแล้วค่ะ';
-
                             
-                            }elseif($userMessage =='ประวัติการเดินทาง'){
-                            $case = 7;
-                            $userMessage = 'ค่ะ';
-                            
-                            
-                        }elseif(strpos($userMessage, 'detail:') !== false ){
+                        }elseif(strpos($userMessage, '  detail:') !== false ){
                             //is_string($userMessage) !== false &&  $seqcode == '008' ||
                             $pieces = explode(":", $userMessage);
                             $val  = str_replace("","",$pieces[1]);
                             
-                            $case = 1;
-                            $userMessage =  $val;
+                            $case = 8;
+                            $userMessage =  $question;
                     //ขอทราบจำนวนผู้โดยสารค่ะ'                     
                             
                         }else{
@@ -1243,9 +1243,243 @@ if(!is_null($events)){
                    curl_close($ch);
                    echo $result . "\r\n";
 
-             
+                break;
+                case 8:
 
+                    $id = $userMessage; 
+                    $order = $this->order_select_detail($user,$id);
+                    $country_id = $order->countryid; 
+                    $country = $this->country_select_name($country_id);
 
+                    //
+                    $date = $order->dstart.' TO '. $order->dend;
+                    // $date = json_encode($date);
+                    /////
+                    $nvisit = $order->nvisit;
+                    $nday = $order->nday;
+                    $totalprice  = $order->totalprice ;
+                    $plan  = $order->typeid ;
+                    $textMessageBuilder = array (
+                        'type' => 'flex',
+                        'altText' => 'Flex Message',
+                        'contents' => 
+                        array (
+                          'type' => 'bubble',
+                          'body' => 
+                          array (
+                            'type' => 'box',
+                            'layout' => 'vertical',
+                            'contents' => 
+                            array (
+                              0 => 
+                              array (
+                                'type' => 'text',
+                                'text' => 'แผนการเดินทางของท่าน แผน'.$plan,
+                                'size' => 'md',
+                                'weight' => 'bold',
+                                'color' => '#221919',
+                              ),
+                              1 => 
+                              array (
+                                'type' => 'box',
+                                'layout' => 'vertical',
+                                'spacing' => 'sm',
+                                'margin' => 'lg',
+                                'contents' => 
+                                array (
+                                  
+                                  0 => 
+                                  array (
+                                    'type' => 'box',
+                                    'layout' => 'baseline',
+                                    'spacing' => 'sm',
+                                    'contents' => 
+                                    array (
+                                      0 => 
+                                      array (
+                                        'type' => 'text',
+                                        'text' => 'Place',
+                                        'flex' => 1,
+                                        'size' => 'sm',
+                                        'color' => '#AAAAAA',
+                                      ),
+                                      1 => 
+                                      array (
+                                        'type' => 'text',
+                                        'text' => $country,
+                                        'flex' => 5,
+                                        'size' => 'sm',
+                                        'color' => '#666666',
+                                        'wrap' => true,
+                                      ),
+                                    ),
+                                  ),
+                                  1 => 
+                                  array (
+                                    'type' => 'box',
+                                    'layout' => 'baseline',
+                                    'spacing' => 'sm',
+                                    'contents' => 
+                                    array (
+                                      0 => 
+                                      array (
+                                        'type' => 'text',
+                                        'text' => 'Date',
+                                        'flex' => 1,
+                                        'size' => 'sm',
+                                        'color' => '#AAAAAA',
+                                      ),
+                                      1 => 
+                                      array (
+                                        'type' => 'text',
+                                        'text' => $date,
+                                        'flex' => 5,
+                                        'size' => 'sm',
+                                        'align' => 'start',
+                                        'color' => '#666666',
+                                        'wrap' => true,
+                                      ),
+                                    ),
+                                  ),
+                                  2 => 
+                                  array (
+                                    'type' => 'box',
+                                    'layout' => 'horizontal',
+                                    'contents' => 
+                                    array (
+                                      0 => 
+                                      array (
+                                        'type' => 'text',
+                                        'text' => 'จำนวนวันเดินทาง',
+                                        'size' => 'sm',
+                                        'color' => '#AAAAAA',
+                                      ),
+                                      1 => 
+                                      array (
+                                        'type' => 'text',
+                                        'text' => $nday.' วัน',
+                                        'size' => 'sm',
+                                        'color' => '#666666',
+                                        'wrap' => true,
+                                      ),
+                                    ),
+                                  ),
+                                  3 => 
+                                  array (
+                                    'type' => 'box',
+                                    'layout' => 'horizontal',
+                                    'contents' => 
+                                    array (
+                                      0 => 
+                                      array (
+                                        'type' => 'text',
+                                        'text' => 'จำนวนผู้เดินทาง',
+                                        'color' => '#AAAAAA',
+                                      ),
+                                      1 => 
+                                      array (
+                                        'type' => 'text',
+                                        'text' =>  $nvisit.' คน',
+                                        'color' => '#666666',
+                                      ),
+                                    ),
+                                  ),
+                                  4 => 
+                                  array (
+                                    'type' => 'box',
+                                    'layout' => 'horizontal',
+                                    'contents' => 
+                                    array (
+                                      0 => 
+                                      array (
+                                        'type' => 'text',
+                                        'text' => 'price',
+                                        'flex' => 1,
+                                        'size' => 'sm',
+                                        'color' => '#AAAAAA',
+                                      ),
+                                      1 => 
+                                      array (
+                                        'type' => 'text',
+                                        'text' =>  $totalprice.' บาท',
+                                        'flex' => 5,
+                                        'size' => 'sm',
+                                        'color' => '#666666',
+                                        'wrap' => true,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              2 => 
+                              array (
+                                'type' => 'image',
+                                'url' => 'https://th.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/basic_market/generator/dist/generator/assets/images/websiteQRCode_noFrame.png',
+                              ),
+                              3 => 
+                              array (
+                                'type' => 'separator',
+                              ),
+                            ),
+                          ),
+                          'footer' => 
+                          array (
+                            'type' => 'box',
+                            'layout' => 'horizontal',
+                            'flex' => 0,
+                            'spacing' => 'sm',
+                            'contents' => 
+                            array (
+                              0 => 
+                              array (
+                                'type' => 'button',
+                                'action' => 
+                                array (
+                                  'type' => 'message',
+                                  'label' => 'confirm',
+                                  'text' => 'confirm',
+                                ),
+                                'height' => 'sm',
+                                'style' => 'link',
+                              ),
+                              1 => 
+                              array (
+                                'type' => 'button',
+                                'action' => 
+                                array (
+                                  'type' => 'message',
+                                  'label' => 'Cancel',
+                                  'text' => 'Cancel',
+                                ),
+                                'height' => 'sm',
+                                'style' => 'link',
+                              ),
+                            ),
+                          ),
+                        ),
+                    );
+                    $url = 'https://api.line.me/v2/bot/message/reply';
+                    $data = [
+                     'replyToken' => $replyToken,
+                     'messages' => [$textMessageBuilder],
+                    ];
+                    $access_token = '+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=';
+        
+                    $post = json_encode($data);
+                    $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+                    $ch = curl_init($url);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                    $result = curl_exec($ch);
+                    curl_close($ch);
+                    echo $result . "\r\n";
+
+                    break;
+
+            
 
         
             }
@@ -1281,6 +1515,15 @@ if(!is_null($events)){
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
         $result = pg_query($dbconn,"SELECT * FROM orders WHERE userid = '{$user}' ORDER BY id DESC limit 1");
+                while ($row = pg_fetch_object($result)) {
+                   return $row;
+                } 
+    }
+    public function order_select_detail($user,$id)
+    {
+        $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string);
+        $result = pg_query($dbconn,"SELECT * FROM orders WHERE userid = '{$user}' and id = '{$id}' ");
                 while ($row = pg_fetch_object($result)) {
                    return $row;
                 } 
