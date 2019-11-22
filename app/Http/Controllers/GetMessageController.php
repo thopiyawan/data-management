@@ -1081,7 +1081,7 @@ if(!is_null($events)){
                                         array (
                                           'type' => 'text',
                                           'text' => $record['dstart'].'to'.$record['dend'],
-                                          'size' => 'md',
+                                          'size' => 'xs',
                                           'color' => '#2E7D32',
                                           'align' => 'center',
                                           'wrap' => true,
