@@ -1058,8 +1058,8 @@ if(!is_null($events)){
                         $columnTemplateBuilders = [];
 
                         foreach ($order10s as $record) {
-        
-                      
+                               
+                           $country =   $this->country_select_name($record['countryID']);
                             $columnTemplateBuilder =  
                                 [
                                   // $record->created_at
@@ -1072,7 +1072,7 @@ if(!is_null($events)){
                                         0 => 
                                         array (
                                           'type' => 'text',
-                                          'text' => $record['id'],
+                                          'text' => $country,
                                           'size' => 'sm',
                                           'color' => '#555555',
                                           'wrap' => true,
