@@ -1107,7 +1107,7 @@ if(!is_null($events)){
         
                       $c = count($columnTemplateBuilders);
 
-                      dd($c)
+                      dd($c);
 
              
 
