@@ -1413,46 +1413,7 @@ if(!is_null($events)){
                               ),
                               2 => 
                               array (
-                                'type' => 'image',
-                                'url' => 'https://th.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/basic_market/generator/dist/generator/assets/images/websiteQRCode_noFrame.png',
-                              ),
-                              3 => 
-                              array (
                                 'type' => 'separator',
-                              ),
-                            ),
-                          ),
-                          'footer' => 
-                          array (
-                            'type' => 'box',
-                            'layout' => 'horizontal',
-                            'flex' => 0,
-                            'spacing' => 'sm',
-                            'contents' => 
-                            array (
-                              0 => 
-                              array (
-                                'type' => 'button',
-                                'action' => 
-                                array (
-                                  'type' => 'message',
-                                  'label' => 'confirm',
-                                  'text' => 'confirm',
-                                ),
-                                'height' => 'sm',
-                                'style' => 'link',
-                              ),
-                              1 => 
-                              array (
-                                'type' => 'button',
-                                'action' => 
-                                array (
-                                  'type' => 'message',
-                                  'label' => 'Cancel',
-                                  'text' => 'Cancel',
-                                ),
-                                'height' => 'sm',
-                                'style' => 'link',
                               ),
                             ),
                           ),
