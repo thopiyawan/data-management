@@ -1572,7 +1572,7 @@ if(!is_null($events)){
                                           0 => 
                                           array (
                                             'type' => 'text',
-                                            'text' => 'Email',
+                                            'text' => 'Name',
                                             'flex' => 1,
                                             'size' => 'sm',
                                             'color' => '#AAAAAA',
@@ -1580,16 +1580,15 @@ if(!is_null($events)){
                                           1 => 
                                           array (
                                             'type' => 'text',
-                                            'text' => $val3,
+                                            'text' => $val1,
                                             'flex' => 5,
                                             'size' => 'sm',
-                                            'align' => 'start',
                                             'color' => '#666666',
                                             'wrap' => true,
                                           ),
                                         ),
                                       ),
-                                      3 => 
+                                      0 => 
                                       array (
                                         'type' => 'box',
                                         'layout' => 'baseline',
@@ -1599,7 +1598,7 @@ if(!is_null($events)){
                                           0 => 
                                           array (
                                             'type' => 'text',
-                                            'text' => 'Tel',
+                                            'text' => 'Name',
                                             'flex' => 1,
                                             'size' => 'sm',
                                             'color' => '#AAAAAA',
@@ -1607,15 +1606,17 @@ if(!is_null($events)){
                                           1 => 
                                           array (
                                             'type' => 'text',
-                                            'text' => $val4,
+                                            'text' => $val1,
                                             'flex' => 5,
                                             'size' => 'sm',
-                                            'align' => 'start',
                                             'color' => '#666666',
                                             'wrap' => true,
                                           ),
                                         ),
                                       ),
+                                    
+                                    ),
+                                  ),
                                   2 => 
                                   array (
                                     'type' => 'separator',
