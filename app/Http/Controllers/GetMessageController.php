@@ -221,7 +221,7 @@ class GetMessageController extends Controller
         
                       $c = count($columnTemplateBuilders);
 
-                      dd($c);
+                      dd($columnTemplateBuilders);
         // foreach($a as $array)
         //     {
         //         $array['id'];
@@ -1109,7 +1109,7 @@ if(!is_null($events)){
                     break;
                     case 7 :
                         
-                        $order10s = $this->order_select_10;
+                        $order10s = $this->order_select_10($user);
                    
                         $columnTemplateBuilders = [];
 
