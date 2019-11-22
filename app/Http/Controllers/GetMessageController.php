@@ -162,7 +162,7 @@ class GetMessageController extends Controller
         // $val1 = round(($datediff / (60 * 60 * 24))+1);
         $a = $this->order_select_10($user);
         $b = json_encode($a);
-        print($b);
+        print($b['id']);
         // print($a[0]);
         //dd($a);
         // $re = pg_fetch_all($result);
