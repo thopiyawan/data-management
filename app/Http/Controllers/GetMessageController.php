@@ -381,11 +381,11 @@ if(!is_null($events)){
                                 $this->register_update($user,$val,$seqcode);
                                 $case = 1;   
                             
-                                $seqcode = '003';
-                                $nextseqcode = '004';
-                                $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
-                                $question = $this->sequents_question($seqcode);
-                                $userMessage =  $question;
+                                // $seqcode = '003';
+                                // $nextseqcode = '004';
+                                // $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
+                                // $question = $this->sequents_question($seqcode);
+                                // $userMessage =  $question;
                             }else{
                                 $case = 1;
                                 $userMessage = 'ฉันคิดว่าคุณพิมพ์อายุผิดนะ กรุณาพิมพ์ใหม่';
@@ -1825,7 +1825,7 @@ if(!is_null($events)){
             case '002':
 
                     $int = (int)$val;
-                    $register_update = pg_exec($dbconn, "UPDATE users SET  age = '{$int}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    $register_update = pg_exec($dbconn, "UPDATE users SET  age = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
                     return $register_update;
                 break;
             case '003':
