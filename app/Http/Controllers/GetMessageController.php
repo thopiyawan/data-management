@@ -161,14 +161,15 @@ class GetMessageController extends Controller
         // $datediff = $val - $startd1;
         // $val1 = round(($datediff / (60 * 60 * 24))+1);
         $a = $this->order_select_10($user);
-        foreach($a as $array)
-            {
-                echo '<tr>
-                        <td>'. $array['id'].'</td>
-                        <td>'. $array['nvisit'].'</td>
-                    </tr>';
-            }
-            echo '</table>';
+        $rows = pg_num_rows($a);
+        print($rows);
+        // foreach($a as $array)
+        //     {
+        //         $array['id'];
+        //         $array['nvisit'];
+
+        //     }
+
         // print($a[0]['id']);
         // $b = json_encode($a);
         // print($b->id);
@@ -1049,7 +1050,7 @@ if(!is_null($events)){
                     break;
 
                     case 8 :
-
+                    
                     $order10 = $this->order_select_10;
 
                     $columnTemplateBuilders = array();
@@ -1075,153 +1076,17 @@ if(!is_null($events)){
                     break;
 
                     case 7 :
-
+                        
                         $order10s = $this->order_select_10;
-                        $columnTemplateBuilders = [];
-                        foreach ($order10s as $order10) {
-        
-                            //   if ($order10->id == '0'){
-                            //     $a = 'ไม่ได้ทาน';
-                            //   }elseif ($order10->id  == '1'){
-                            //     $a = 'ทาน';
-                            //   }else{
-                            //     $a = 'ไม่มีการบันทึก';
-                            //   }
-                            $columnTemplateBuilder =  
-                                [
-                                  // $record->created_at
-                                      'type' => 'box',
-                                      'layout' => 'horizontal',
-                                      'margin' => 'xxl',
-                                      'spacing' => 'sm',
-                                      'contents' => 
-                                      array (
-                                        0 => 
-                                        array (
-                                          'type' => 'text',
-                                          'text' =>  $order10->id,
-                                          'size' => 'sm',
-                                          'color' => '#555555',
-                                          'wrap' => true,
-                                        ),
-                                        1 => 
-                                        array (
-                                          'type' => 'text',
-                                          'text' => $order10->id,
-                                          'size' => 'md',
-                                          'color' => '#FFA000',
-                                          'align' => 'center',
-                                          'wrap' => true,
-                                          'flex' => 2,
-                                        ),
-                                        2 => 
-                                        array (
-                                          'type' => 'button',
-                                          'style' => 'primary',
-                                          'color' => '#FFECB3',
-                                          'height' => 'sm',
-                                          'flex' => 0,
-                                          'action' => 
-                                          array (
-                                           'type' => 'message',
-                                           'label' => '✏',
-                                           'text' => $order10->id,
-                                          ),
-                                        ),
-                                      ),
-                                    ]
-                                    ;
-                            array_push($columnTemplateBuilders, $columnTemplateBuilder);
-                        } 
-        
-                      $c = count($columnTemplateBuilders);
-        //dd($columnTemplateBuilders);
-               for ($i=0; $i < $c ; $i++) { 
-        
-                $y[]= $columnTemplateBuilders[$i];
-        
-                         $textMessageBuilder = 
-                          [
-                          'type' => 'flex',
-                          'altText' => 'this is a flex message',
-                          'contents' => 
-                          array (
-                            'type' => 'carousel',
-                            'contents' => 
-                            array (
-                              0 => 
-                              array (
-                                'type' => 'bubble',
-                                'styles' => 
-                                array (
-                                  'footer' => 
-                                  array (
-                                    'separator' => true,
-                                  ),
-                                ),
-                            
-                                'header' => 
-                                array (
-                                  'type' => 'box',
-                                  'layout' => 'vertical',
-                                  'contents' => 
-                                  array (
-                                      0 => 
-                                  array (
-                                    'type' => 'text',
-                                    'text' => 'การทานวิตามิน',
-                                    'weight' => 'bold',
-                                    'color' => '#EF6C00',
-                                    'size' => 'xl',
-                                    'wrap' => true,
-                                  ),
-                                    1 => 
-                                    array (
-                                      'type' => 'text',
-                                      'text' => 'หากต้องการแก้ไขข้อมูลให้กดที่ ✏',
-                                      'wrap' => true,
-                                      'color' => '#aaaaaa',
-                                      'size' => 'xs',
-                                    ),
-                                  ),
-                                ),
-                      
-                              'body' => 
-                                array (
-                                  'type' => 'box',
-                                  'layout' => 'vertical',
-                                  'contents' => 
-                                 
-                                        $y,
-                                  
-                                ),
-                              ),
-                            ),
-                          ),
-                          ];
-        
-        
-             }
-                        $url = 'https://api.line.me/v2/bot/message/reply';
-                        $data = [
-                         'replyToken' => $replyToken,
-                         'messages' => [$textMessageBuilder],
-                        ];
-                        $access_token = '+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=';
+                        $rows = pg_num_rows($order10s);
+                        foreach($order10s as $array)
+                        {
+                            $array['id'];
+                            $array['nvisit'];
             
-                        $post = json_encode($data);
-                        $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
-                        $ch = curl_init($url);
-                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-                        $result = curl_exec($ch);
-                        curl_close($ch);
-                        echo $result . "\r\n";
-        
-                        break;
+                        }
+
+             
 
 
 
