@@ -1823,9 +1823,8 @@ if(!is_null($events)){
                     return $register_update;
                 break;
             case '002':
-
                     $int = (int)$val;
-                    $register_update = pg_exec($dbconn, "UPDATE users SET  age = '{$val}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
+                    $register_update = pg_exec($dbconn, "UPDATE users SET  age = '{$int}' WHERE lineid = '{$user}' ") or die(pg_errormessage());  
                     return $register_update;
                 break;
             case '003':
