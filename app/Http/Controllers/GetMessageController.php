@@ -1052,7 +1052,7 @@ if(!is_null($events)){
 
                     break;
                     case 7 :
-                        
+                        $users = $this->user_select($user);
                         $order10s = $this->order_select_10($user);
                    
                         $columnTemplateBuilders = [];
@@ -1142,10 +1142,10 @@ if(!is_null($events)){
                                               0 => 
                                           array (
                                             'type' => 'text',
-                                            'text' => 'น้ำหนักระหว่างตั้งครรภ์',
+                                            'text' => $users->fullname,
                                             'weight' => 'bold',
                                             'color' => '#039BE5',
-                                            'size' => 'xl',
+                                            'size' => 'xs',
                                             'wrap' => true,
                                           ),
                                             1 => 
@@ -1240,6 +1240,15 @@ if(!is_null($events)){
         
             }
             $response = $bot->replyMessage($replyToken,$textMessageBuilder); 
+    }
+    public function user_select($user)
+    {          
+        $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
+        $dbconn = pg_pconnect($conn_string);
+        $result = pg_query($dbconn,"SELECT * FROM users WHERE sender_id = '{$user}'");
+                while ($row = pg_fetch_object($result)) {
+                   return $row;
+                } 
     }
     public function insert_sequentsteps($user,$seqcode,$nextseqcode)
     {          
