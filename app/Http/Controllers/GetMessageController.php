@@ -547,6 +547,13 @@ if(!is_null($events)){
                                     $this->register_update($user,$val,$seqcode);
                                     // $question = $this->sequents_question($seqcode);
                                     // $userMessage =  $question;
+                            }elseif($userMessage =='ดูข้อมูลส่วนตัว'){
+                                    // if(is_numeric($userMessage) !== false){
+                                        $case = 1;
+                                        $userMessage = 'ดูข้อมูลส่วนตัว';
+                                        // $question = $this->sequents_question($seqcode);
+                                        // $userMessage =  $question;
+                                
                             
                         }elseif(strpos($userMessage, 'detail:') !== false ){
                             //is_string($userMessage) !== false &&  $seqcode == '008' ||
@@ -1160,7 +1167,7 @@ if(!is_null($events)){
                                                 array (
                                                  'type' => 'message',
                                                  'label' => $users->fullname,
-                                                 'text' => 'detail:'.$record['id'],
+                                                 'text' => 'ดูข้อมูลส่วนตัว',
                                                 ),
                                               ),
                                         //   array (
@@ -1453,6 +1460,179 @@ if(!is_null($events)){
                     echo $result . "\r\n";
 
                     break;
+                    case 9:
+
+                        // CREATE TABLE users (
+                        //     id serial,
+                        //     lineid VARCHAR(100) NOT NULL,
+                        //     fullname VARCHAR(100) NOT NULL,
+                        //     age integer NOT NULL,
+                        //     email VARCHAR(100) NOT NULL,
+                        //     tel VARCHAR(10) NOT NULL,
+                        //     dActive integer NOT NULL,
+                        //     dCreated timestamp default current_timestamp,
+                        //     PRIMARY KEY (id,lineid)
+                        // );
+                        
+                        $users = $this->user_select($user);
+                        $val1 = $users ->fullname;
+                        $val2 = $users ->age;
+                        $val3 = $users ->email;
+                        $val4 = $users ->tel;
+        
+                        $textMessageBuilder = array (
+                            'type' => 'flex',
+                            'altText' => 'Flex Message',
+                            'contents' => 
+                            array (
+                              'type' => 'bubble',
+                              'body' => 
+                              array (
+                                'type' => 'box',
+                                'layout' => 'vertical',
+                                'contents' => 
+                                array (
+                                  0 => 
+                                  array (
+                                    'type' => 'text',
+                                    'text' => 'ข้อมูลส่วนตัว',
+                                    'size' => 'md',
+                                    'weight' => 'bold',
+                                    'color' => '#221919',
+                                  ),
+                                  1 => 
+                                  array (
+                                    'type' => 'box',
+                                    'layout' => 'vertical',
+                                    'spacing' => 'sm',
+                                    'margin' => 'lg',
+                                    'contents' => 
+                                    array (
+                                      
+                                      0 => 
+                                      array (
+                                        'type' => 'box',
+                                        'layout' => 'baseline',
+                                        'spacing' => 'sm',
+                                        'contents' => 
+                                        array (
+                                          0 => 
+                                          array (
+                                            'type' => 'text',
+                                            'text' => 'Name',
+                                            'flex' => 1,
+                                            'size' => 'sm',
+                                            'color' => '#AAAAAA',
+                                          ),
+                                          1 => 
+                                          array (
+                                            'type' => 'text',
+                                            'text' => $val1,
+                                            'flex' => 5,
+                                            'size' => 'sm',
+                                            'color' => '#666666',
+                                            'wrap' => true,
+                                          ),
+                                        ),
+                                      ),
+                                      1 => 
+                                      array (
+                                        'type' => 'box',
+                                        'layout' => 'baseline',
+                                        'spacing' => 'sm',
+                                        'contents' => 
+                                        array (
+                                          0 => 
+                                          array (
+                                            'type' => 'text',
+                                            'text' => 'Age',
+                                            'flex' => 1,
+                                            'size' => 'sm',
+                                            'color' => '#AAAAAA',
+                                          ),
+                                          1 => 
+                                          array (
+                                            'type' => 'text',
+                                            'text' => $val2,
+                                            'flex' => 5,
+                                            'size' => 'sm',
+                                            'align' => 'start',
+                                            'color' => '#666666',
+                                            'wrap' => true,
+                                          ),
+                                        ),
+                                      ),
+                                      2 => 
+                                      array (
+                                        'type' => 'box',
+                                        'layout' => 'horizontal',
+                                        'contents' => 
+                                        array (
+                                          0 => 
+                                          array (
+                                            'type' => 'text',
+                                            'text' => 'Email',
+                                            'size' => 'sm',
+                                            'color' => '#AAAAAA',
+                                          ),
+                                          1 => 
+                                          array (
+                                            'type' => 'text',
+                                            'text' => $val3,
+                                            'size' => 'sm',
+                                            'color' => '#666666',
+                                            'wrap' => true,
+                                          ),
+                                        ),
+                                      ),
+                                      3 => 
+                                      array (
+                                        'type' => 'box',
+                                        'layout' => 'horizontal',
+                                        'contents' => 
+                                        array (
+                                          0 => 
+                                          array (
+                                            'type' => 'text',
+                                            'text' => 'Trel',
+                                            'color' => '#AAAAAA',
+                                          ),
+                                          1 => 
+                                          array (
+                                            'type' => 'text',
+                                            'text' =>  $val4,
+                                    
+                                    ),
+                                  ),
+                                  2 => 
+                                  array (
+                                    'type' => 'separator',
+                                  ),
+                                ),
+                              ),
+                            ),
+                        );
+                        $url = 'https://api.line.me/v2/bot/message/reply';
+                        $data = [
+                         'replyToken' => $replyToken,
+                         'messages' => [$textMessageBuilder],
+                        ];
+                        $access_token = '+IjrIOkZicoc0yD2SDmkSjB0pJliCCtwvMlKzjgYmMSzsTE5hiofD9FPmdZCLgFQtLA952UKN+WigumQWopa81HhPgeoreDOyw+MOjdcQi5UrRAq9YypzFKH5yeVEkkkyC1mLeB0G4W2z5INBjyHgQdB04t89/1O/w1cDnyilFU=';
+            
+                        $post = json_encode($data);
+                        $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
+                        $ch = curl_init($url);
+                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+                        $result = curl_exec($ch);
+                        curl_close($ch);
+                        echo $result . "\r\n";
+    
+                        break;
+    
 
             
 
