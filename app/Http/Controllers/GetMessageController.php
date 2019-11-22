@@ -1099,7 +1099,7 @@ if(!is_null($events)){
                                           array (
                                            'type' => 'message',
                                            'label' => '✈',
-                                           'text' => $record['id'],
+                                           'text' => 'detail:'.$record['id'],
                                           ),
                                         ),
                                       ),
