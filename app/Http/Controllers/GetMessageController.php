@@ -161,7 +161,7 @@ class GetMessageController extends Controller
         // $datediff = $val - $startd1;
         // $val1 = round(($datediff / (60 * 60 * 24))+1);
         $a = $this->order_select_10($user);
-        print($a['id']);
+        print($a);
         //dd($a);
         // $re = pg_fetch_all($result);
         //  $result ;
