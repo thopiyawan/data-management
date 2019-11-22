@@ -1150,27 +1150,28 @@ if(!is_null($events)){
                                           'contents' => 
                                           array (
                                               0 => 
-                                          array (
-                                            'type' => 'text',
-                                            'text' => $users->fullname,
-                                            'weight' => 'bold',
-                                            'color' => '#AAAAAA',
-                                            'size' => 'sm',
-                                            'wrap' => true,
-                                          ), 1 => 
-                                          array (
-                                            'type' => 'button',
-                                            'style' => 'primary',
-                                            'color' => '#AAAAAA',
-                                            'height' => 'sm',
-                                            'flex' => 0,
-                                            'action' => 
-                                            array (
-                                             'type' => 'message',
-                                             'label' => '✈',
-                                             'text' => 'detail:'.$record['id'],
-                                            ),
-                                          ),
+                                              array (
+                                                'type' => 'button',
+                                                'style' => 'primary',
+                                                'color' => '#AAAAAA',
+                                                'height' => 'sm',
+                                                'flex' => 0,
+                                                'action' => 
+                                                array (
+                                                 'type' => 'message',
+                                                 'label' => $users->fullname,
+                                                 'text' => 'detail:'.$record['id'],
+                                                ),
+                                              ),
+                                        //   array (
+                                        //     // 'type' => 'text',
+                                        //     // 'text' => $users->fullname,
+                                        //     // 'weight' => 'bold',
+                                        //     // 'color' => '#AAAAAA',
+                                        //     // 'size' => 'sm',
+                                        //     // 'wrap' => true,
+                                            
+                                        //   ),
                                             1 => 
                                             array (
                                                'type' => 'box',
