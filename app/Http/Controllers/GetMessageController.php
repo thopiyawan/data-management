@@ -1572,7 +1572,7 @@ if(!is_null($events)){
                                           0 => 
                                           array (
                                             'type' => 'text',
-                                            'text' => 'Name',
+                                            'text' => 'Email',
                                             'flex' => 1,
                                             'size' => 'sm',
                                             'color' => '#AAAAAA',
@@ -1580,7 +1580,7 @@ if(!is_null($events)){
                                           1 => 
                                           array (
                                             'type' => 'text',
-                                            'text' => $val1,
+                                            'text' => $val3,
                                             'flex' => 5,
                                             'size' => 'sm',
                                             'color' => '#666666',
@@ -1588,7 +1588,7 @@ if(!is_null($events)){
                                           ),
                                         ),
                                       ),
-                                      0 => 
+                                      3 => 
                                       array (
                                         'type' => 'box',
                                         'layout' => 'baseline',
@@ -1598,7 +1598,7 @@ if(!is_null($events)){
                                           0 => 
                                           array (
                                             'type' => 'text',
-                                            'text' => 'Name',
+                                            'text' => 'Tel',
                                             'flex' => 1,
                                             'size' => 'sm',
                                             'color' => '#AAAAAA',
@@ -1606,7 +1606,7 @@ if(!is_null($events)){
                                           1 => 
                                           array (
                                             'type' => 'text',
-                                            'text' => $val1,
+                                            'text' => $val4,
                                             'flex' => 5,
                                             'size' => 'sm',
                                             'color' => '#666666',
