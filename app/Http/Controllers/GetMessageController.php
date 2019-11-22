@@ -1059,7 +1059,7 @@ if(!is_null($events)){
 
                         foreach ($order10s as $record) {
                                
-                           $country =   $this->country_select_name($record['countryID']);
+                           $country =   $this->country_select_name($record['countryid']);
                             $columnTemplateBuilder =  
                                 [
                                   // $record->created_at
