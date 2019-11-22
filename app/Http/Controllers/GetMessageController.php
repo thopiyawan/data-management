@@ -546,7 +546,16 @@ if(!is_null($events)){
                             }elseif($userMessage =='ประวัติการเดินทาง'){
                             $case = 7;
                             $userMessage = 'ค่ะ';
-                                
+                            
+                            
+                        }elseif(strpos($userMessage, '  detail:') !== false ){
+                            //is_string($userMessage) !== false &&  $seqcode == '008' ||
+                            $pieces = explode(":", $userMessage);
+                            $val  = str_replace("","",$pieces[1]);
+                            
+                            $case = 1;
+                            $userMessage =  $val;
+                    //ขอทราบจำนวนผู้โดยสารค่ะ'                     
                             
                         }else{
                             $case = 1;
