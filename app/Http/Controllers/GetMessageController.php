@@ -165,7 +165,7 @@ class GetMessageController extends Controller
         // $a = $this->order_select_10($user);
         $rows = $this->order_select_10_count($user);
       
-         $order10s = $this->order_select_10;
+         $order10s = $this->order_select_10($user);
                    
                         $columnTemplateBuilders = [];
 
