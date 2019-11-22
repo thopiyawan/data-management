@@ -533,7 +533,7 @@ if(!is_null($events)){
                                 $update_sequentsteps = $this->update_sequentsteps($user,$seqcode,$nextseqcode);
                               }else{
                                 $case = 1;
-                                $userMessage = 'กรุณาเลือกแผนการเดินทาค่ะ';
+                                $userMessage = 'กรุณาเลือกแผนการเดินทางค่ะ';
                                
                               }
                                 // $question = $this->sequents_question($seqcode);
@@ -1157,6 +1157,19 @@ if(!is_null($events)){
                                             'color' => '#AAAAAA',
                                             'size' => 'sm',
                                             'wrap' => true,
+                                          ), 1 => 
+                                          array (
+                                            'type' => 'button',
+                                            'style' => 'primary',
+                                            'color' => '#AAAAAA',
+                                            'height' => 'sm',
+                                            'flex' => 0,
+                                            'action' => 
+                                            array (
+                                             'type' => 'message',
+                                             'label' => '✈',
+                                             'text' => 'detail:'.$record['id'],
+                                            ),
                                           ),
                                             1 => 
                                             array (
