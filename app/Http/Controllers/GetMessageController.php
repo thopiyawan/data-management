@@ -1159,7 +1159,7 @@ if(!is_null($events)){
                                                           array (
                                                             'type' => 'text',
                                                             'text' => 'ประเทศ',
-                                                            'size' => 'xs',
+                                                            'size' => 'xxs',
                                                             'color' => '#aaaaaa',
                                                             'align' => 'center',
                                                             'wrap' => true,
