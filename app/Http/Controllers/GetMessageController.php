@@ -162,7 +162,8 @@ class GetMessageController extends Controller
         // $val1 = round(($datediff / (60 * 60 * 24))+1);
         // $a = $this->order_select_10($user);
         $rows = $this->order_select_10_count($user);
-        print($rows);
+      
+        print(  $rows->num_rows());
         // foreach($a as $array)
         //     {
         //         $array['id'];
@@ -1131,7 +1132,7 @@ if(!is_null($events)){
     {
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-        $result = pg_query($dbconn,"SELECT COUNT(id)AS TOTAL FROM orders WHERE userid = '{$user}' and dactive = 1");
+        $result = pg_query($dbconn,"SELECT * AS TOTAL FROM orders WHERE userid = '{$user}' and dactive = 1");
         return $result;
     }
     public function country_select()
