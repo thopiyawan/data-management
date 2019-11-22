@@ -548,13 +548,13 @@ if(!is_null($events)){
                                     // $question = $this->sequents_question($seqcode);
                                     // $userMessage =  $question;
                             
-                        }elseif(strpos($userMessage, '  detail:') !== false ){
+                        }elseif(strpos($userMessage, 'detail:') !== false ){
                             //is_string($userMessage) !== false &&  $seqcode == '008' ||
                             $pieces = explode(":", $userMessage);
                             $val  = str_replace("","",$pieces[1]);
                             
                             $case = 8;
-                            $userMessage =  $question;
+                            $userMessage =  $val;
                     //ขอทราบจำนวนผู้โดยสารค่ะ'                     
                             
                         }else{
