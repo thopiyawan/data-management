@@ -1421,7 +1421,7 @@ if(!is_null($events)){
            $re = pg_fetch_all($result);
 
 
-        return View::make('hislog')->with('record',$re);
+        return View::make('hislog');
     }
 
 
