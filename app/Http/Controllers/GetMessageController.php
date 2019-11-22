@@ -1776,9 +1776,10 @@ if(!is_null($events)){
     {          
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-                $result = pg_query($dbconn,"DELETE FROM sequentsteps where sender_id = '{$user}' ");
-                $result = pg_query($dbconn,"DELETE FROM users where lineid = '{$user}' ");
-                return $result;
+                $result1 = pg_query($dbconn,"DELETE FROM sequentsteps where sender_id = '{$user}' ");
+                $result2 = pg_query($dbconn,"DELETE FROM users where lineid = '{$user}' ");
+                $result3 = pg_query($dbconn,"DELETE FROM orders where userid = '{$user}' ");
+                return $result1;
     }
     public function register_orders($user,$countryID)
     {          
