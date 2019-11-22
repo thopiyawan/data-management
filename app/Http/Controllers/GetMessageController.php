@@ -1125,9 +1125,9 @@ if(!is_null($events)){
                                     ;
                             array_push($columnTemplateBuilders, $columnTemplateBuilder);
                         } 
-      
+        
                       $c = count($columnTemplateBuilders);
-   
+
                       for ($i=0; $i < $c ; $i++) { 
 
                         $y[]= $columnTemplateBuilders[$i];
@@ -1265,7 +1265,7 @@ if(!is_null($events)){
                    $result = curl_exec($ch);
                    curl_close($ch);
                    echo $result . "\r\n";
-      
+
                 break;
                 case 8:
 
@@ -1775,7 +1775,6 @@ if(!is_null($events)){
         $dbconn = pg_pconnect($conn_string);
                 $result = pg_query($dbconn,"DELETE FROM sequentsteps where sender_id = '{$user}' ");
                 $result = pg_query($dbconn,"DELETE FROM users where lineid = '{$user}' ");
-                $result = pg_query($dbconn,"DELETE FROM orders where userid = '{$user}' ");
                 return $result;
     }
     public function register_orders($user,$countryID)
