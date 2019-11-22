@@ -1813,9 +1813,7 @@ if(!is_null($events)){
     {          
         $conn_string = "host=ec2-50-19-127-115.compute-1.amazonaws.com port=5432 dbname=d7g7emtks53g61 user=unzugplrlxhlus password=6c4119aeed2e68f47cb7f66d964e9d984471a6fc2bdabadba149f298eb40aa6b";
         $dbconn = pg_pconnect($conn_string);
-     
-        $orderid1 = $this->order_select($user);
-        $orderid = $orderid1->id;
+
         switch ($seqcode) {
 
             case '001':
@@ -1841,37 +1839,61 @@ if(!is_null($events)){
                 break;
 
             case '006':
+                     
+                    $orderid1 = $this->order_select($user);
+                    $orderid = $orderid1->id;
                     $int = (int)$val;
                     $register_update = pg_exec($dbconn, "UPDATE orders SET  countryID = '{$val}' WHERE userID = '{$user}' and  id =  '{$orderid}' ") or die(pg_errormessage());  
                     return $register_update;
                 break;
             case '007':
+                     
+                    $orderid1 = $this->order_select($user);
+                    $orderid = $orderid1->id;
                     $register_update = pg_exec($dbconn, "UPDATE orders SET  dStart = '{$val}' WHERE userID = '{$user}' and  id =  '{$orderid}' ") or die(pg_errormessage());  
                     return $register_update;
                 break;
             case '008':
+                     
+                    $orderid1 = $this->order_select($user);
+                    $orderid = $orderid1->id;
                     $register_update = pg_exec($dbconn, "UPDATE orders SET  dEnd = '{$val}' WHERE userID = '{$user}' and  id =  '{$orderid}' ") or die(pg_errormessage());  
                     return $register_update;
                 break;
             case '009':
+                     
+                    $orderid1 = $this->order_select($user);
+                    $orderid = $orderid1->id;
                     $register_update = pg_exec($dbconn, "UPDATE orders SET  nVisit = '{$val}' WHERE userID = '{$user}'  and  id =  '{$orderid}' ") or die(pg_errormessage());  
                     return $register_update;
                 break;
             case '010':
+                     
+                    $orderid1 = $this->order_select($user);
+                    $orderid = $orderid1->id;
                     $int = (int)$val;
                     $register_update = pg_exec($dbconn, "UPDATE orders SET  typeID = '{$val}' WHERE userID = '{$user}'  and  id =  '{$orderid}' ") or die(pg_errormessage());  
                     return $register_update;
             break;
             case '011':
+                     
+                    $orderid1 = $this->order_select($user);
+                    $orderid = $orderid1->id;
                     $int = (int)$val;
                     $register_update = pg_exec($dbconn, "UPDATE orders SET  nDay  = '{$val}' WHERE userID = '{$user}'  and  id =  '{$orderid}' ") or die(pg_errormessage());  
                     return $register_update;
             case '012':
+                     
+                    $orderid1 = $this->order_select($user);
+                    $orderid = $orderid1->id;
                     $int = (float)$val;
                     $register_update = pg_exec($dbconn, "UPDATE orders SET  totalPrice = '{$val}' WHERE userID = '{$user}' and  id =  '{$orderid}' ") or die(pg_errormessage());  
                     return $register_update;
             break;
             case '013':
+                     
+                    $orderid1 = $this->order_select($user);
+                    $orderid = $orderid1->id;
                     $register_update = pg_exec($dbconn, "UPDATE orders SET  dActive  = '{$val}' WHERE userID = '{$user}' and  id =  '{$orderid}' ") or die(pg_errormessage());  
                     return $register_update;
             break;
