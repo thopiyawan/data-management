@@ -548,7 +548,7 @@ if(!is_null($events)){
                             $userMessage = 'ค่ะ';
                             
                             
-                        }elseif(strpos($userMessage, '  detail:') !== false ){
+                        }elseif(strpos($userMessage, 'detail:') !== false ){
                             //is_string($userMessage) !== false &&  $seqcode == '008' ||
                             $pieces = explode(":", $userMessage);
                             $val  = str_replace("","",$pieces[1]);
