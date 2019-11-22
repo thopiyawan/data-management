@@ -21,5 +21,5 @@ Route::get('pp','GetMessageController@index');
 
 Route::get('gg','GetMessageController@getmessage');
 
-Route::post('/hislog','GetMessageController@hislog');
+Route::get('/hislog','GetMessageController@hislog');
 
