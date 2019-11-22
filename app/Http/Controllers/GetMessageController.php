@@ -1594,13 +1594,17 @@ if(!is_null($events)){
                                           0 => 
                                           array (
                                             'type' => 'text',
-                                            'text' => 'Trel',
+                                            'text' => 'Tel',
                                             'color' => '#AAAAAA',
                                           ),
                                           1 => 
                                           array (
                                             'type' => 'text',
                                             'text' =>  $val4,
+                                            'color' => '#666666',
+                                          ),
+                                        ),
+                                      ),
                                     
                                     ),
                                   ),
