@@ -1074,6 +1074,8 @@ if(!is_null($events)){
                    
                         $columnTemplateBuilders = [];
 
+                    if(!is_null($order10s)){
+
                 
 
                         foreach ($order10s as $record) {
@@ -1127,7 +1129,7 @@ if(!is_null($events)){
                         } 
       
                       $c = count($columnTemplateBuilders);
-                      if($c>=0){
+            
                       for ($i=0; $i < $c ; $i++) { 
 
                         $y[]= $columnTemplateBuilders[$i];
@@ -1778,6 +1780,7 @@ if(!is_null($events)){
         $dbconn = pg_pconnect($conn_string);
                 $result = pg_query($dbconn,"DELETE FROM sequentsteps where sender_id = '{$user}' ");
                 $result = pg_query($dbconn,"DELETE FROM users where lineid = '{$user}' ");
+                $result = pg_query($dbconn,"DELETE FROM orders where userid = '{$user}' ");
                 return $result;
     }
     public function register_orders($user,$countryID)
